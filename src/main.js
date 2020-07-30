@@ -90,6 +90,7 @@ const tripSort = () => {
           </form>`);
 };
 
+/*
 const firstEventForm = () => {
   return (`<form class="trip-events__item  event  event--edit" action="#" method="post" _lpchecked="1">
             <header class="event__header">
@@ -199,6 +200,7 @@ const firstEventForm = () => {
             </header>
           </form>`);
 };
+*/
 
 const tripEventForm = () => {
   return (`<form class="trip-events__item  event  event--edit" action="#" method="post">
