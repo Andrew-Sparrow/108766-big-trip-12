@@ -13,7 +13,7 @@ const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
-let tripInfoContainer = () => {
+const tripInfoContainer = () => {
   return (`<section class="trip-main__trip-info  trip-info">
             <div class="trip-info__main">
               <p class="trip-info__dates">Mar 18&nbsp;—&nbsp;20</p>
