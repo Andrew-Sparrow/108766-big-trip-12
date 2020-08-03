@@ -11,6 +11,8 @@ import {getEventOffersItemContainer} from `./view/event-offers-item.js`;
 import {getEventItemDestination} from `./view/event-item-destination.js`;
 import {getEventPhoto} from `./view/event-photo.js`;
 import {getTripDaysContainer} from `./view/trip-days.js`;
+import {getTripDaysItem} from `./view/trip-days-item.js`
+
 
 const headerElement = document.querySelector(`.page-header`);
 const tripMainElement = headerElement.querySelector(`.trip-main`);
@@ -22,21 +24,6 @@ const tripEventsElement = pageBodyContainerElement.querySelector(`.trip-events`)
 const tripEventsTitleElement = tripEventsElement.querySelector(`.trip-events-title`);
 
 
-
-
-
-
-const getTripDaysItem = () => {
-  return (`<li class="trip-days__item  day">
-              <div class="day__info">
-                <span class="day__counter">1</span>
-                <time class="day__date" datetime="2019-03-18">MAR 18</time>
-              </div>
-
-              <ul class="trip-events__list">
-              </ul>
-            </li>`);
-};
 
 const getTripEventItemContainerForTripDays = () => {
   return (`<li class="trip-events__item">
