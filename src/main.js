@@ -1,4 +1,4 @@
-'use strict';
+import {render} from `./view/render.js`;
 
 const headerElement = document.querySelector(`.page-header`);
 const tripMainElement = headerElement.querySelector(`.trip-main`);
