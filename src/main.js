@@ -11,7 +11,7 @@ import {getEventOffersItemContainer} from "./view/event-offers-item.js";
 import {getEventItemDestination} from "./view/event-item-destination.js";
 import {getEventPhoto} from "./view/event-photo.js";
 import {getTripDaysContainer} from "./view/trip-days.js";
-import {getTripDaysItem} from "./view/trip-days-item.js"
+import {getTripDaysItem} from "./view/trip-days-item.js";
 import {getTripEventItemContainerForTripDays} from "./view/trip-event-item-in-trip-days.js";
 import {getEventOffer} from "./view/event-offer-in-event-item.js";
 
