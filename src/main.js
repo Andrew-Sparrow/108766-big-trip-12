@@ -4,6 +4,7 @@ import {getHeaderElementTripInfoTitleContainer} from `./view/header-title.js`;
 import {getHeaderElementTripTabsContainer} from `./view/header-trip-tabs.js`;
 import {getHeaderFiltersContainer} from `./view/header-filters.js`;
 import {getTripSortContainer} from `./trip-sort.js`;
+import {getTripEventItemContainer} from `./view/trip-event-item.js`;
 
 const headerElement = document.querySelector(`.page-header`);
 const tripMainElement = headerElement.querySelector(`.trip-main`);
@@ -14,11 +15,6 @@ const pageBodyContainerElement = pageMainElement.querySelector(`.page-body__cont
 const tripEventsElement = pageBodyContainerElement.querySelector(`.trip-events`);
 const tripEventsTitleElement = tripEventsElement.querySelector(`.trip-events-title`);
 
-
-const getTripEventItemContainer = () => {
-  return (`<form class="trip-events__item  event  event--edit" action="#" method="post">
-          </form>`);
-};
 
 const getTripEventItemHeaderContainer = () => {
   return (`<header class="event__header">
