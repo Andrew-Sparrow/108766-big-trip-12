@@ -1,5 +1,5 @@
 import {render} from `./view/render.js`;
-import {getHeaderElementTripInfoContainer} from `./view/headerElementTripInfoContainer.js`;
+import {getHeaderElementTripInfoContainer} from `./view/header-info.js`;
 import {getHeaderElementTripInfoTitleContainer} from `./view/header-title.js`;
 
 const headerElement = document.querySelector(`.page-header`);
