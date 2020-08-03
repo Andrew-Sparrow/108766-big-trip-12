@@ -8,7 +8,7 @@ import {getTripEventItemContainer} from `./view/trip-event-item.js`;
 import {getTripEventItemHeaderContainer} from `./view/trip-event-item-header.js`;
 import {getEventOffersContainer} from `./view/event-offers.js`;
 import {getEventOffersItemContainer} from `./view/event-offers-item.js`;
-
+import {getEventItemDestination} from `./view/event-item-destination.js`;
 
 const headerElement = document.querySelector(`.page-header`);
 const tripMainElement = headerElement.querySelector(`.trip-main`);
@@ -19,18 +19,6 @@ const pageBodyContainerElement = pageMainElement.querySelector(`.page-body__cont
 const tripEventsElement = pageBodyContainerElement.querySelector(`.trip-events`);
 const tripEventsTitleElement = tripEventsElement.querySelector(`.trip-events-title`);
 
-
-const getEventItemDestination = () => {
-  return (`<section class="event__section  event__section--destination">
-              <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-              <p class="event__destination-description">Geneva is a city in Switzerland that lies at the southern tip of expansive Lac Léman (Lake Geneva). Surrounded by the Alps and Jura mountains, the city has views of dramatic Mont Blanc.</p>
-
-              <div class="event__photos-container">
-                <div class="event__photos-tape">
-                </div>
-              </div>
-            </section>`);
-};
 
 const getEventPhoto = () => {
   return (`<img class="event__photo" src="img/photos/1.jpg" alt="Event photo">`);
