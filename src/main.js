@@ -2,6 +2,7 @@ import {render} from `./view/render.js`;
 import {getHeaderElementTripInfoContainer} from `./view/header-info.js`;
 import {getHeaderElementTripInfoTitleContainer} from `./view/header-title.js`;
 import {getHeaderElementTripTabsContainer} from `./view/header-trip-tabs.js`;
+import {getHeaderFiltersContainer} from `./view/header-filters.js`;
 
 const headerElement = document.querySelector(`.page-header`);
 const tripMainElement = headerElement.querySelector(`.trip-main`);
@@ -11,27 +12,6 @@ const pageMainElement = document.querySelector(`.page-main`);
 const pageBodyContainerElement = pageMainElement.querySelector(`.page-body__container`);
 const tripEventsElement = pageBodyContainerElement.querySelector(`.trip-events`);
 const tripEventsTitleElement = tripEventsElement.querySelector(`.trip-events-title`);
-
-const getHeaderFiltersContainer = () => {
-  return (`<form class="trip-filters" action="#" method="get">
-              <div class="trip-filters__filter">
-                <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="everything" checked="">
-                <label class="trip-filters__filter-label" for="filter-everything">Everything</label>
-              </div>
-
-              <div class="trip-filters__filter">
-                <input id="filter-future" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="future">
-                <label class="trip-filters__filter-label" for="filter-future">Future</label>
-              </div>
-
-              <div class="trip-filters__filter">
-                <input id="filter-past" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="past">
-                <label class="trip-filters__filter-label" for="filter-past">Past</label>
-              </div>
-
-              <button class="visually-hidden" type="submit">Accept filter</button>
-            </form>`);
-};
 
 const getTripSortContainer = () => {
   return (`<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
