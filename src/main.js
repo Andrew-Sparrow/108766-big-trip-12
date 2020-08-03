@@ -9,22 +9,6 @@ const pageBodyContainerElement = pageMainElement.querySelector(`.page-body__cont
 const tripEventsElement = pageBodyContainerElement.querySelector(`.trip-events`);
 const tripEventsTitleElement = tripEventsElement.querySelector(`.trip-events-title`);
 
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
-
-const getHeaderElementTripInfoContainer = () => {
-  return (`<section class="trip-main__trip-info  trip-info">
-            <div class="trip-info__main">
-              <p class="trip-info__dates">Mar 18&nbsp;—&nbsp;20</p>
-            </div>
-
-            <p class="trip-info__cost">
-              Total: €&nbsp;<span class="trip-info__cost-value">1230</span>
-            </p>
-          </section>`);
-};
-
 const getHeaderElementTripInfoTitleContainer = () => {
   return (`<h1 class="trip-info__title">Amsterdam — Chamonix — Geneva</h1>`);
 };
