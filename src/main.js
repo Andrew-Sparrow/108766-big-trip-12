@@ -13,6 +13,7 @@ import {getEventPhoto} from `./view/event-photo.js`;
 import {getTripDaysContainer} from `./view/trip-days.js`;
 import {getTripDaysItem} from `./view/trip-days-item.js`
 import {getTripEventItemContainerForTripDays} from `./view/trip-event-item-in-trip-days.js`;
+import {getEventOffer} from `./view/event-offer-in-event-item.js`;
 
 const headerElement = document.querySelector(`.page-header`);
 const tripMainElement = headerElement.querySelector(`.trip-main`);
@@ -23,13 +24,6 @@ const pageBodyContainerElement = pageMainElement.querySelector(`.page-body__cont
 const tripEventsElement = pageBodyContainerElement.querySelector(`.trip-events`);
 const tripEventsTitleElement = tripEventsElement.querySelector(`.trip-events-title`);
 
-
-
-const getEventOffer = () => {
-  return (`<li class="event__offer">
-            <span class="event__offer-title">Order Uber</span>€&nbsp;<span class="event__offer-price">20</span>
-           </li>`);
-};
 
 render(tripMainElement, getHeaderElementTripInfoContainer(), `afterbegin`);
 
