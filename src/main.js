@@ -10,7 +10,7 @@ import {getEventOffersContainer} from `./view/event-offers.js`;
 import {getEventOffersItemContainer} from `./view/event-offers-item.js`;
 import {getEventItemDestination} from `./view/event-item-destination.js`;
 import {getEventPhoto} from `./view/event-photo.js`;
-
+import {getTripDaysContainer} from `./view/trip-days.js`;
 
 const headerElement = document.querySelector(`.page-header`);
 const tripMainElement = headerElement.querySelector(`.trip-main`);
@@ -24,10 +24,7 @@ const tripEventsTitleElement = tripEventsElement.querySelector(`.trip-events-tit
 
 
 
-const getTripDaysContainer = () => {
-  return (`<ul class="trip-days">
-           </ul>`);
-};
+
 
 const getTripDaysItem = () => {
   return (`<li class="trip-days__item  day">
