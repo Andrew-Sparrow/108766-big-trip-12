@@ -1,5 +1,6 @@
 import {render} from `./view/render.js`;
 import {getHeaderElementTripInfoContainer} from `./view/headerElementTripInfoContainer.js`;
+import {getHeaderElementTripInfoTitleContainer} from `./view/header-title.js`;
 
 const headerElement = document.querySelector(`.page-header`);
 const tripMainElement = headerElement.querySelector(`.trip-main`);
@@ -10,16 +11,13 @@ const pageBodyContainerElement = pageMainElement.querySelector(`.page-body__cont
 const tripEventsElement = pageBodyContainerElement.querySelector(`.trip-events`);
 const tripEventsTitleElement = tripEventsElement.querySelector(`.trip-events-title`);
 
-const getHeaderElementTripInfoTitleContainer = () => {
-  return (`<h1 class="trip-info__title">Amsterdam — Chamonix — Geneva</h1>`);
-};
-
 const getHeaderElementTripTabsContainer = () => {
   return (`<nav class="trip-controls__trip-tabs  trip-tabs">
               <a class="trip-tabs__btn  trip-tabs__btn--active" href="#">Table</a>
               <a class="trip-tabs__btn" href="#">Stats</a>
             </nav>`);
 };
+
 
 const getHeaderFiltersContainer = () => {
   return (`<form class="trip-filters" action="#" method="get">
