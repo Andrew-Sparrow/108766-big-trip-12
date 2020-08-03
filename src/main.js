@@ -7,6 +7,7 @@ import {getTripSortContainer} from `./view/trip-sort.js`;
 import {getTripEventItemContainer} from `./view/trip-event-item.js`;
 import {getTripEventItemHeaderContainer} from `./view/trip-event-item-header.js`;
 import {getEventOffersContainer} from `./view/event-offers.js`;
+import {getEventOffersItemContainer} from `./view/event-offers-item.js`;
 
 
 const headerElement = document.querySelector(`.page-header`);
@@ -18,18 +19,6 @@ const pageBodyContainerElement = pageMainElement.querySelector(`.page-body__cont
 const tripEventsElement = pageBodyContainerElement.querySelector(`.trip-events`);
 const tripEventsTitleElement = tripEventsElement.querySelector(`.trip-events-title`);
 
-
-
-const getEventOfferContainer = () => {
-  return `<div class="event__offer-selector">
-            <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" checked="">
-            <label class="event__offer-label" for="event-offer-luggage-1">
-              <span class="event__offer-title">Add luggage</span>
-              +
-              €&nbsp;<span class="event__offer-price">30</span>
-            </label>
-          </div>`;
-};
 
 const getEventItemDestination = () => {
   return (`<section class="event__section  event__section--destination">
@@ -122,7 +111,7 @@ render(tripEventsItemElement, getEventOffersContainer(), `beforeend`);
 const eventAvailableOffersElement = tripEventsItemElement.querySelector(`.event__available-offers`);
 
 for (let i = 0; i < 5; i++) {
-  render(eventAvailableOffersElement, getEventOfferContainer(), `beforeend`);
+  render(eventAvailableOffersElement, getEventOffersItemContainer(), `beforeend`);
 }
 
 const eventDetailsElement = tripEventsItemElement.querySelector(`.event__details`);
