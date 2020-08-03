@@ -3,9 +3,10 @@ import {getHeaderElementTripInfoContainer} from `./view/header-info.js`;
 import {getHeaderElementTripInfoTitleContainer} from `./view/header-title.js`;
 import {getHeaderElementTripTabsContainer} from `./view/header-trip-tabs.js`;
 import {getHeaderFiltersContainer} from `./view/header-filters.js`;
-import {getTripSortContainer} from `./trip-sort.js`;
+import {getTripSortContainer} from `./view/trip-sort.js`;
 import {getTripEventItemContainer} from `./view/trip-event-item.js`;
 import {getTripEventItemHeaderContainer} from `./view/trip-event-item-header.js`;
+import {getEventOffersContainer} from `./view/event-offers.js`;
 
 
 const headerElement = document.querySelector(`.page-header`);
@@ -18,16 +19,6 @@ const tripEventsElement = pageBodyContainerElement.querySelector(`.trip-events`)
 const tripEventsTitleElement = tripEventsElement.querySelector(`.trip-events-title`);
 
 
-
-const getEventOffersContainer = () => {
-  return (`<section class="event__details">
-              <section class="event__section  event__section--offers">
-                <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-                <div class="event__available-offers">
-                </div>
-              </section>
-            </section>`);
-};
 
 const getEventOfferContainer = () => {
   return `<div class="event__offer-selector">
