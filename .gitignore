@@ -15,3 +15,11 @@ node_modules/
 build/
 
 .idea/
+
+# Собранные JS-файлы (бандл) мой вариант
+public/js/bundle.js
+public/js/bundle.js.map
+
+# Собранные JS-файлы (бандл)
+public/bundle.js
+public/bundle.js.map
