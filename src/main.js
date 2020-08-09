@@ -1,4 +1,4 @@
-import {render} from "./view/util/render.js";
+import {render} from "./view/util/utils.js";
 import {getHeaderElementTripInfoContainer} from "./view/header-info.js";
 import {getHeaderElementTripInfoTitleContainer} from "./view/header-title.js";
 import {getHeaderElementTripTabsContainer} from "./view/header-trip-tabs.js";
