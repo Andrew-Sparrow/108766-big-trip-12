@@ -5,7 +5,7 @@ import {getHeaderElementTripTabsContainer} from "./view/header-trip-tabs.js";
 import {getHeaderFiltersContainer} from "./view/header-filters.js";
 import {getTripSortContainer} from "./view/trip-sort.js";
 import {getTripEventItemContainer} from "./view/trip-event-item.js";
-import {getTripEventItemHeaderContainer} from "./view/trip-event-item-header.js";
+import {getTripEventItemHeaderTemplate} from "./view/trip-event-item-header.js";
 import {getEventOffersContainer} from "./view/event-offers.js";
 import {getEventOffersItemContainer} from "./view/event-offers-item.js";
 import {getEventItemDestination} from "./view/event-item-destination.js";
@@ -40,7 +40,7 @@ render(tripEventsElement, getTripEventItemContainer(), `beforeend`);
 
 const tripEventsItemElement = tripEventsElement.querySelector(`form.trip-events__item`);
 
-render(tripEventsItemElement, getTripEventItemHeaderContainer(), `afterbegin`);
+render(tripEventsItemElement, getTripEventItemHeaderTemplate(events[0]), `afterbegin`);
 
 render(tripEventsItemElement, getEventOffersContainer(), `beforeend`);
 

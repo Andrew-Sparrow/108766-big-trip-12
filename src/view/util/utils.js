@@ -1,3 +1,5 @@
+import {ROUTE_POINT_TYPE, DESCRIPTIONS} from "../../const";
+
 export const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
@@ -7,6 +9,16 @@ export const getRandomInteger = (min = 0, max = 1) => {
   const upper = Math.floor(Math.max(min, max));
 
   return Math.floor(lower + Math.random() * (upper - lower + 1));
+};
+
+export const getRandomDescriptions = () => {
+  let sumStrings = [];
+
+  for (let i = 1; i < getRandomInteger(1, 5); i++) {
+    sumStrings.push(getRandomIndexOfArray(DESCRIPTIONS));
+  }
+
+  return sumStrings.join(` `);
 };
 
 export const isTaskExpired = (dueDate) => {
@@ -53,4 +65,11 @@ export const getRandomIndexOfArray = (array) => {
   let end = array.length - 1;
 
   return getRandomInteger(start, end);
+};
+
+export const includesItem = (item) => {
+  // get last three type of point destination
+  const typePointDestination = ROUTE_POINT_TYPE.slice(-3);
+
+  return typePointDestination.includes(item) ? `in` : `to`;
 };
