@@ -1,5 +1,5 @@
 import {
-  ROUTE_POINT_TYPE,
+  ROUTE_POINT_TYPES,
   CITIES
 } from "../const";
 
@@ -17,13 +17,13 @@ const generateDestination = () => {
 };
 
 const generateRoutPointType = () => {
-  return ROUTE_POINT_TYPE[getRandomIndexOfArray(ROUTE_POINT_TYPE)];
+  return ROUTE_POINT_TYPES[getRandomIndexOfArray(ROUTE_POINT_TYPES)];
 };
 
 export const generateEvent = () => {
-  let randomDestination = generateDestination();
-  let dataStart = getRandomDate();
-  let dataEnd = new Date();
+  const randomDestination = generateDestination();
+  const dataStart = getRandomDate();
+  const dataEnd = new Date();
   dataEnd.setDate(dataStart.getDate() + getRandomInteger(0, 2));
   dataEnd.setHours(dataStart.getHours() + getRandomInteger(0, 10));
   dataEnd.setMinutes(dataStart.getMinutes() + getRandomInteger(0, 60));

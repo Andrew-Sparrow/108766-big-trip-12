@@ -1,4 +1,4 @@
-import {ROUTE_POINT_TYPE, DESCRIPTIONS, ADDITIONAL_OFFERS} from "../../const";
+import {ROUTE_POINT_TYPES, DESCRIPTIONS, ADDITIONAL_OFFERS} from "../../const";
 
 export const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -69,7 +69,7 @@ export const getRandomIndexOfArray = (array) => {
 
 export const includesItem = (item) => {
   // get last three type of point destination
-  const typePointDestination = ROUTE_POINT_TYPE.slice(-3);
+  const typePointDestination = ROUTE_POINT_TYPES.slice(-3);
 
   return typePointDestination.includes(item) ? `in` : `to`;
 };

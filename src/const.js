@@ -17,7 +17,7 @@ export const DESCRIPTIONS = [
   `Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`
 ];
 
-export const ROUTE_POINT_TYPE = [
+export const ROUTE_POINT_TYPES = [
   `Taxi`,
   `Bus`,
   `Train`,

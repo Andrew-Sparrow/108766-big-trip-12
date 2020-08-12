@@ -1,18 +1,18 @@
 import {includesItem} from "./util/utils";
 
-export const getTripEventItemTemplateForTripDays = (event) => {
+export const getTripEventItemTemplateForTripDays = (travelEvent) => {
   return (`<li class="trip-events__item">
               <div class="event">
                 <div class="event__type">
-                  <img class="event__type-icon" width="42" height="42" src="img/icons/${event.routPointType}.png" alt="Event type icon">
+                  <img class="event__type-icon" width="42" height="42" src="img/icons/${travelEvent.routPointType}.png" alt="Event type icon">
                 </div>
-                <h3 class="event__title">${event.routPointType} ${includesItem(event.routPointType)} ${event.destination}</h3>
+                <h3 class="event__title">${travelEvent.routPointType} ${includesItem(travelEvent.routPointType)} ${travelEvent.destination}</h3>
 
                 <div class="event__schedule">
                   <p class="event__time">
-                    <time class="event__start-time" datetime="2019-03-18T10:30">${event.dataStart.getHours()}:${event.dataStart.getMinutes()}</time>
+                    <time class="event__start-time" datetime="2019-03-18T10:30">${travelEvent.dataStart.getHours()}:${travelEvent.dataStart.getMinutes()}</time>
                     —
-                    <time class="event__end-time" datetime="2019-03-18T11:00">${event.dataEnd.getHours()}:${event.dataEnd.getMinutes()}</time>
+                    <time class="event__end-time" datetime="2019-03-18T11:00">${travelEvent.dataEnd.getHours()}:${travelEvent.dataEnd.getMinutes()}</time>
                   </p>
                   <p class="event__duration">30M</p>
                 </div>
