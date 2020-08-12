@@ -12,7 +12,7 @@ export const getRandomInteger = (min = 0, max = 1) => {
 };
 
 export const getRandomDescriptions = () => {
-  let sumStrings = [];
+  const sumStrings = [];
 
   for (let i = 0; i < getRandomInteger(1, 5); i++) {
     sumStrings.push(DESCRIPTIONS[getRandomIndexOfArray(DESCRIPTIONS)]);
