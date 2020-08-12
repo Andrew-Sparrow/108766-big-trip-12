@@ -1,4 +1,4 @@
-import {ROUTE_POINT_TYPE, DESCRIPTIONS} from "../../const";
+import {ROUTE_POINT_TYPE, DESCRIPTIONS, ADDITIONAL_OFFERS} from "../../const";
 
 export const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -14,8 +14,8 @@ export const getRandomInteger = (min = 0, max = 1) => {
 export const getRandomDescriptions = () => {
   let sumStrings = [];
 
-  for (let i = 1; i < getRandomInteger(1, 5); i++) {
-    sumStrings.push(getRandomIndexOfArray(DESCRIPTIONS));
+  for (let i = 0; i < getRandomInteger(1, 5); i++) {
+    sumStrings.push(DESCRIPTIONS[getRandomIndexOfArray(DESCRIPTIONS)]);
   }
 
   return sumStrings.join(` `);
@@ -72,4 +72,35 @@ export const includesItem = (item) => {
   const typePointDestination = ROUTE_POINT_TYPE.slice(-3);
 
   return typePointDestination.includes(item) ? `in` : `to`;
+};
+
+export const getRandomOffers = () => {
+  let offers = [];
+
+  for (let i = 0; i < getRandomInteger(1, 5); i++) {
+    offers.push(ADDITIONAL_OFFERS[getRandomIndexOfArray(ADDITIONAL_OFFERS)]);
+  }
+
+  return offers;
+};
+
+export const getRandomPhotosSrc = () => {
+  let photos = [];
+
+  for (let i = 0; i < getRandomInteger(1, 5); i++) {
+    photos.push(`img/photos/${getRandomInteger(1, 5)}.jpg`);
+  }
+
+  return photos;
+};
+
+// get date randomly in past or in future or in present within period of two weeks
+export const getRandomDate = () => {
+  let randomInteger = getRandomInteger(-7, 7);
+  let newDate = new Date();
+  newDate.setDate(newDate.getDate() + randomInteger);
+  newDate.setHours(newDate.getHours() + getRandomInteger(0, 24));
+  newDate.setMinutes(newDate.getMinutes() + getRandomInteger(0, 60));
+
+  return newDate;
 };

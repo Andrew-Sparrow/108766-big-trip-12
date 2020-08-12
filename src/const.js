@@ -8,7 +8,8 @@ export const COLORS = [
 
 export const DESCRIPTIONS = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
-  `Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra.`,
+  `Cras aliquet varius magna, non porta ligula feugiat eget.`,
+  `Fusce tristique felis at fermentum pharetra.`,
   `Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`,
   `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.`,
   `Sed sed nisi sed augue convallis suscipit in sed felis.`,
@@ -36,37 +37,45 @@ export const CITIES = [
   `Paris`
 ];
 
-export const ADDITIONAL_OFFERS = {
-  luggage: {
-    name: `Add luggage`,
+export const ADDITIONAL_OFFERS = [
+  {
+    name: `luggage`,
+    title: `Add luggage`,
     price: 30
   },
-  coffee: {
-    name: `Make coffee`,
+  {
+    name: `coffee`,
+    title: `Make coffee`,
     price: 10
   },
-  dance: {
-    name: `Show dance`,
+  {
+    name: `dance`,
+    title: `Show dance`,
     price: 50
   },
-  orderUber: {
-    name: `Order uber`,
+  {
+    name: `uber`,
+    title: `Order uber`,
     price: 20
   },
-  switchToComfort: {
-    name: `Switch to comfort`,
+  {
+    name: `comfort`,
+    title: `Switch to comfort`,
     price: 80
   },
-  breakfast: {
-    name: `Add breakfast`,
+  {
+    name: `breakfast`,
+    title: `Add breakfast`,
     price: 50
   },
-  bookTickets: {
-    name: `Book tickets`,
+  {
+    name: `tickets`,
+    title: `Book tickets`,
     price: 40
   },
-  lunchInCity: {
-    name: `Lunch in city`,
+  {
+    name: `lunch`,
+    title: `Lunch in city`,
     price: 30
   }
-};
+];

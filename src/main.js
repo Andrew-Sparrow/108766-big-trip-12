@@ -6,8 +6,8 @@ import {getHeaderFiltersContainer} from "./view/header-filters.js";
 import {getTripSortContainer} from "./view/trip-sort.js";
 import {getTripEventItemContainer} from "./view/trip-event-item.js";
 import {getTripEventItemHeaderTemplate} from "./view/trip-event-item-header.js";
-import {getEventOffersContainer} from "./view/event-offers.js";
-import {getEventOffersItemContainer} from "./view/event-offers-item.js";
+import {getEventOffersTemplate} from "./view/event-offers.js";
+import {getEventOffersItemTemplate} from "./view/event-offers-item.js";
 import {getEventItemDestination} from "./view/event-item-destination.js";
 import {getEventPhoto} from "./view/event-photo.js";
 import {getTripDaysTemplate} from "./view/trip-days.js";
@@ -42,21 +42,21 @@ const tripEventsItemElement = tripEventsElement.querySelector(`form.trip-events_
 
 render(tripEventsItemElement, getTripEventItemHeaderTemplate(events[0]), `afterbegin`);
 
-render(tripEventsItemElement, getEventOffersContainer(), `beforeend`);
+render(tripEventsItemElement, getEventOffersTemplate(), `beforeend`);
 
 const eventAvailableOffersElement = tripEventsItemElement.querySelector(`.event__available-offers`);
 
-for (let i = 0; i < 5; i++) {
-  render(eventAvailableOffersElement, getEventOffersItemContainer(), `beforeend`);
+for (let i = 0; i < events[0].offers.length; i++) {
+  render(eventAvailableOffersElement, getEventOffersItemTemplate(events[0].offers[i]), `beforeend`);
 }
 
 const eventDetailsElement = tripEventsItemElement.querySelector(`.event__details`);
 
-render(eventDetailsElement, getEventItemDestination(), `beforeend`);
+render(eventDetailsElement, getEventItemDestination(events[0]), `beforeend`);
 
 const eventPhotosTape = tripEventsItemElement.querySelector(`.event__photos-tape`);
 
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < events[0].photos.length; i++) {
   render(eventPhotosTape, getEventPhoto(), `beforeend`);
 }
 

@@ -10,9 +10,9 @@ export const getTripEventItemTemplateForTripDays = (event) => {
 
                 <div class="event__schedule">
                   <p class="event__time">
-                    <time class="event__start-time" datetime="2019-03-18T10:30">10:30</time>
+                    <time class="event__start-time" datetime="2019-03-18T10:30">${event.dataStart.getHours()}:${event.dataStart.getMinutes()}</time>
                     —
-                    <time class="event__end-time" datetime="2019-03-18T11:00">11:00</time>
+                    <time class="event__end-time" datetime="2019-03-18T11:00">${event.dataEnd.getHours()}:${event.dataEnd.getMinutes()}</time>
                   </p>
                   <p class="event__duration">30M</p>
                 </div>
