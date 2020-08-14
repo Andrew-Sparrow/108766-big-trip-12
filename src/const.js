@@ -1,3 +1,5 @@
+// import {getRandomOffers} from "./view/util/utils";
+
 export const DESCRIPTIONS = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
   `Cras aliquet varius magna, non porta ligula feugiat eget.`,
@@ -6,9 +8,11 @@ export const DESCRIPTIONS = [
   `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.`,
   `Sed sed nisi sed augue convallis suscipit in sed felis.`,
   `Aliquam erat volutpat.`,
-  `Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`
+  `Nunc fermentum tortor ac porta dapibus.`,
+  `In rutrum ac purus sit amet tempus.`
 ];
 
+/*
 export const ROUTE_POINT_TYPES = [
   `Taxi`,
   `Bus`,
@@ -21,13 +25,7 @@ export const ROUTE_POINT_TYPES = [
   `Sightseeing`,
   `Restaurant`
 ];
-
-export const CITIES = [
-  `Amsterdam`,
-  `Chamonix`,
-  `Geneva`,
-  `Paris`
-];
+*/
 
 export const ADDITIONAL_OFFERS = [
   {
@@ -87,4 +85,21 @@ export const ADDITIONAL_OFFERS = [
     price: 200,
     routPointType: [`Drive`]
   }
+];
+
+export const ROUTE_POINT_TYPES = {
+  taxi: {
+    name: `Taxi`,
+    offers: [
+      ADDITIONAL_OFFERS[0],
+      ADDITIONAL_OFFERS[1]
+    ]
+  }
+};
+
+export const CITIES = [
+  `Amsterdam`,
+  `Chamonix`,
+  `Geneva`,
+  `Paris`
 ];

@@ -1,27 +1,18 @@
 import {
-  ROUTE_POINT_TYPES,
-  CITIES
-} from "../const";
-
-import {
-  getRandomIndexOfArray,
   getRandomDescriptions,
   getRandomOffers,
   getRandomPhotosSrc,
   getRandomDate,
-  getRandomInteger
+  getRandomInteger,
+  getRandomDestination,
+  getRandomRoutPointType,
+  getRandomPropertyOfObject,
 } from "../view/util/utils";
 
-const generateDestination = () => {
-  return CITIES[getRandomIndexOfArray(CITIES)];
-};
-
-const generateRoutPointType = () => {
-  return ROUTE_POINT_TYPES[getRandomIndexOfArray(ROUTE_POINT_TYPES)];
-};
+import {ROUTE_POINT_TYPES} from "../const";
 
 export const generateEvent = () => {
-  const randomDestination = generateDestination();
+  const randomDestination = getRandomDestination();
   const dataStart = getRandomDate();
   const dataEnd = new Date();
   dataEnd.setDate(dataStart.getDate() + getRandomInteger(0, 2));
@@ -34,7 +25,7 @@ export const generateEvent = () => {
       description: getRandomDescriptions(),
       photos: getRandomPhotosSrc(),
     },
-    routPointType: generateRoutPointType(),
+    routPointType: getRandomPropertyOfObject(ROUTE_POINT_TYPES),
     offers: getRandomOffers(),
     dataStart,
     dataEnd

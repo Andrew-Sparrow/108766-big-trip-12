@@ -1,4 +1,8 @@
-import {ROUTE_POINT_TYPES, DESCRIPTIONS, ADDITIONAL_OFFERS} from "../../const";
+import {
+  ROUTE_POINT_TYPES,
+  DESCRIPTIONS,
+  ADDITIONAL_OFFERS,
+  CITIES} from "../../const";
 
 export const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -67,12 +71,14 @@ export const getRandomIndexOfArray = (array) => {
   return getRandomInteger(start, end);
 };
 
+/*
 export const includesItem = (item) => {
   // get last three type of point destination
   const typePointDestination = ROUTE_POINT_TYPES.slice(-3);
 
   return typePointDestination.includes(item) ? `in` : `to`;
 };
+*/
 
 export const getRandomOffers = () => {
   let offers = [];
@@ -104,3 +110,25 @@ export const getRandomDate = () => {
 
   return newDate;
 };
+
+export const getRandomDestination = () => {
+  return CITIES[getRandomIndexOfArray(CITIES)];
+};
+
+/*
+export const getRandomRoutPointType = () => {
+  return ROUTE_POINT_TYPES[getRandomIndexOfArray(ROUTE_POINT_TYPES)];
+};
+*/
+
+export const getRandomRoutPointType = () => {
+  return ROUTE_POINT_TYPES.taxi.name;
+};
+
+export const getRandomPropertyOfObject = (obj) => {
+  const properties = Object.keys(obj);
+  const randomProperty = properties[getRandomIndexOfArray(properties)];
+  return randomProperty;
+};
+
+console.log(getRandomPropertyOfObject(ROUTE_POINT_TYPES));

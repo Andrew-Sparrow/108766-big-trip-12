@@ -1,4 +1,4 @@
-import {includesItem} from "./util/utils";
+// import {includesItem} from "./util/utils";
 
 const getEventOfferTemplateInTripDay = (offer) => {
   const {price, title} = offer;
@@ -21,7 +21,7 @@ export const getTripEventItemTemplateForTripDays = (travelEvent) => {
                 <div class="event__type">
                   <img class="event__type-icon" width="42" height="42" src="img/icons/${routPointType}.png" alt="Event type icon">
                 </div>
-                <h3 class="event__title">${routPointType} ${includesItem(routPointType)} ${destination.city}</h3>
+                <h3 class="event__title">${routPointType} ${destination.city}</h3>
 
                 <div class="event__schedule">
                   <p class="event__time">

@@ -7,7 +7,6 @@ import {getTripSortContainer} from "./view/trip-sort.js";
 import {getTripEventItemEditTemplate} from "./view/trip-event-item.js";
 import {getTripEventItemHeaderTemplate} from "./view/trip-event-item-header.js";
 import {getEventOffersTemplateInEditForm} from "./view/event-offers.js";
-import {getEventOffersItemTemplateInEditForm} from "./view/event-offers-item.js";
 import {getEventItemDestination} from "./view/event-item-destination.js";
 import {getEventPhoto} from "./view/event-photo.js";
 import {getTripDaysTemplate} from "./view/trip-days.js";
@@ -41,14 +40,14 @@ const tripEventsItemElement = tripEventsElement.querySelector(`form.trip-events_
 
 render(tripEventsItemElement, getTripEventItemHeaderTemplate(tripEvents[0]), `afterbegin`);
 
-render(tripEventsItemElement, getEventOffersTemplateInEditForm(), `beforeend`);
-
+render(tripEventsItemElement, getEventOffersTemplateInEditForm(tripEvents[0].offers), `beforeend`);
+/*
 const eventAvailableOffersElement = tripEventsItemElement.querySelector(`.event__available-offers`);
 
 for (let i = 0; i < tripEvents[0].offers.length; i++) {
   render(eventAvailableOffersElement, getEventOffersItemTemplateInEditForm(tripEvents[0].offers[i]), `beforeend`);
 }
-
+*/
 const eventDetailsElement = tripEventsItemElement.querySelector(`.event__details`);
 
 render(eventDetailsElement, getEventItemDestination(tripEvents[0]), `beforeend`);
@@ -72,4 +71,3 @@ const tripEventsInTripDay = tripDaysContainer.querySelector(`.trip-events__list`
 for (let i = 0; i < tripEvents.length; i++) {
   render(tripEventsInTripDay, getTripEventItemTemplateForTripDays(tripEvents[i]), `beforeend`);
 }
-
