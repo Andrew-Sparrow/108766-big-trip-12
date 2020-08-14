@@ -27,12 +27,15 @@ export const generateEvent = () => {
   dataEnd.setDate(dataStart.getDate() + getRandomInteger(0, 2));
   dataEnd.setHours(dataStart.getHours() + getRandomInteger(0, 10));
   dataEnd.setMinutes(dataStart.getMinutes() + getRandomInteger(0, 60));
+
   return {
-    destination: randomDestination,
-    description: getRandomDescriptions(),
+    destination: {
+      city: randomDestination,
+      description: getRandomDescriptions(),
+      photos: getRandomPhotosSrc(),
+    },
     routPointType: generateRoutPointType(),
     offers: getRandomOffers(),
-    photos: getRandomPhotosSrc(),
     dataStart,
     dataEnd
   };

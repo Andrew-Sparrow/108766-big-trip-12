@@ -1,11 +1,3 @@
-export const COLORS = [
-  `black`,
-  `yellow`,
-  `blue`,
-  `green`,
-  `pink`
-];
-
 export const DESCRIPTIONS = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
   `Cras aliquet varius magna, non porta ligula feugiat eget.`,
@@ -41,7 +33,8 @@ export const ADDITIONAL_OFFERS = [
   {
     name: `luggage`,
     title: `Add luggage`,
-    price: 30
+    price: 50,
+    routPointType: [`Flight`]
   },
   {
     name: `coffee`,
@@ -49,33 +42,49 @@ export const ADDITIONAL_OFFERS = [
     price: 10
   },
   {
-    name: `dance`,
-    title: `Show dance`,
-    price: 50
-  },
-  {
     name: `uber`,
     title: `Order uber`,
-    price: 20
+    price: 20,
+    routPointType: [`Taxi`]
   },
   {
     name: `comfort`,
-    title: `Switch to comfort`,
-    price: 80
+    title: `Switch to comfort class`,
+    price: 100,
+    routPointType: [`Flight`]
   },
   {
     name: `breakfast`,
     title: `Add breakfast`,
-    price: 50
+    price: 50,
+    routPointType: [`Check-in`]
   },
   {
     name: `tickets`,
     title: `Book tickets`,
-    price: 40
+    price: 40,
+    routPointType: [`Sightseeing`]
   },
   {
     name: `lunch`,
     title: `Lunch in city`,
-    price: 30
+    price: 30,
+    routPointType: [`Sightseeing`]
+  },
+  {
+    name: `meal`,
+    title: `Add meal`,
+    price: 15
+  },
+  {
+    name: `seats`,
+    title: `Choose seats`,
+    price: 5
+  },
+  {
+    name: `car`,
+    title: `Rent a car`,
+    price: 200,
+    routPointType: [`Drive`]
   }
 ];
