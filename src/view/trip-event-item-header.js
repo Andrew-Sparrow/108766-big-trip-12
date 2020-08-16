@@ -1,9 +1,22 @@
-export const getTripEventItemHeaderTemplate = (travelEvent) => {
+const destinationPointsTemplate = (city) => {
+  return `<option value="${city}"></option>`;
+};
+
+export const getTripEventItemHeaderTemplate = (travelEvent, destinationsPoints) => {
+  const {
+    routPointType,
+    routPointTypeGroupName,
+    dataStart,
+    dataEnd
+  } = travelEvent;
+
+  const destinationPointsValues = destinationsPoints.map((city) => destinationPointsTemplate(city)).join(``);
+
   return (`<header class="event__header">
               <div class="event__type-wrapper">
                 <label class="event__type  event__type-btn" for="event-type-toggle-1">
                   <span class="visually-hidden">Choose event type</span>
-                  <img class="event__type-icon" width="17" height="17" src="img/icons/${travelEvent.routPointType.name.toLowerCase()}.png" alt="Event type icon">
+                  <img class="event__type-icon" width="17" height="17" src="img/icons/${routPointType.name.toLowerCase()}.png" alt="Event type icon">
                 </label>
                 <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
@@ -70,14 +83,11 @@ export const getTripEventItemHeaderTemplate = (travelEvent) => {
 
               <div class="event__field-group  event__field-group--destination">
                 <label class="event__label  event__type-output" for="event-destination-1">
-                  ${travelEvent.routPointType.name} ${travelEvent.routPointTypeGroupName === `transfer` ? ` to` : ` in`}
+                  ${routPointType.name} ${routPointTypeGroupName === `transfer` ? ` to` : ` in`}
                 </label>
-                <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${travelEvent.destination.city}" list="destination-list-1" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+                <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" list="destination-list-1" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
                 <datalist id="destination-list-1">
-                  <option value="Amsterdam"></option>
-                  <option value="Geneva"></option>
-                  <option value="Chamonix"></option>
-                  <option value="Paris"></option>
+                  ${destinationPointsValues}
                 </datalist>
               </div>
 
@@ -85,12 +95,12 @@ export const getTripEventItemHeaderTemplate = (travelEvent) => {
                 <label class="visually-hidden" for="event-start-time-1">
                   From
                 </label>
-                <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${travelEvent.dataStart.getDate()}/${travelEvent.dataStart.getMonth()}/${travelEvent.dataStart.getFullYear()} ${travelEvent.dataStart.getHours()}:${travelEvent.dataStart.getMinutes()}">
+                <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${dataStart.getDate()}/${dataStart.getMonth()}/${dataStart.getFullYear()} ${dataStart.getHours()}:${dataStart.getMinutes()}">
                 —
                 <label class="visually-hidden" for="event-end-time-1">
                   To
                 </label>
-                <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${travelEvent.dataEnd.getDate()}/${travelEvent.dataEnd.getMonth()}/${travelEvent.dataEnd.getFullYear()} ${travelEvent.dataEnd.getHours()}:${travelEvent.dataEnd.getMinutes()}">
+                <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${dataEnd.getDate()}/${dataEnd.getMonth()}/${dataEnd.getFullYear()} ${dataEnd.getHours()}:${dataEnd.getMinutes()}">
               </div>
 
               <div class="event__field-group  event__field-group--price">

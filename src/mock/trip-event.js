@@ -25,6 +25,7 @@ export const generateEvent = () => {
     dataStart,
     dataEnd
   };
+  // console.log(dataStart.toLocaleDateString());
 
   travelEvent.destination.description = getRandomDescriptions();
   travelEvent.destination.photos = getRandomPhotosSrc();

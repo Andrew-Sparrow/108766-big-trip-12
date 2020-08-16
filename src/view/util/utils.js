@@ -1,5 +1,4 @@
 import {
-  ADDITIONAL_OFFERS,
   CITIES
 } from "../../const.js";
 

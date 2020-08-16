@@ -8,6 +8,7 @@ import {getTripDaysTemplate} from "./view/trip-days.js";
 import {getTripDaysItem} from "./view/trip-days-item.js";
 import {getTripEventItemTemplateForTripDays} from "./view/trip-event-item-in-trip-days.js";
 import {generateEvent} from "./mock/trip-event";
+import {DESTINATION_POINTS} from "./const";
 
 const headerElement = document.querySelector(`.page-header`);
 const tripMainElementInHeader = headerElement.querySelector(`.trip-main`);
@@ -26,7 +27,7 @@ render(tripViewElement, getHeaderElementTripTabsContainer(), `afterend`);
 render(filterEventsElement, getHeaderFiltersContainer(), `afterend`);
 render(tripEventsTitleElement, getTripSortContainer(), `afterend`);
 
-render(tripEventsElement, getTripEventItemEditTemplate(tripEvents[0]), `beforeend`);
+render(tripEventsElement, getTripEventItemEditTemplate(tripEvents[0], DESTINATION_POINTS), `beforeend`);
 
 render(tripEventsElement, getTripDaysTemplate(), `beforeend`);
 
