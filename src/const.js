@@ -10,40 +10,6 @@ export const DESCRIPTIONS = [
   `In rutrum ac purus sit amet tempus.`
 ];
 
-export const getRandomInteger = (min = 0, max = 1) => {
-  const lower = Math.ceil(Math.min(min, max));
-  const upper = Math.floor(Math.max(min, max));
-
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
-
-export const getRandomIndexOfArray = (array) => {
-  let start = 0;
-  let end = array.length - 1;
-
-  return getRandomInteger(start, end);
-};
-
-export const getRandomDescriptions = () => {
-  const sumStrings = [];
-
-  for (let i = 0; i < getRandomInteger(1, 5); i++) {
-    sumStrings.push(DESCRIPTIONS[getRandomIndexOfArray(DESCRIPTIONS)]);
-  }
-
-  return sumStrings.join(` `);
-};
-
-export const getRandomPhotosSrc = () => {
-  let photos = [];
-
-  for (let i = 0; i < getRandomInteger(1, 5); i++) {
-    photos.push(`img/photos/${getRandomInteger(1, 5)}.jpg`);
-  }
-
-  return photos;
-};
-
 export const ADDITIONAL_OFFERS = [
   {
     name: `luggage`,
@@ -102,7 +68,6 @@ export const ROUTE_POINT_TYPES = {
     taxi: {
       name: `Taxi`,
       offers: [
-        ADDITIONAL_OFFERS[1],
         ADDITIONAL_OFFERS[4]
       ]
     },
@@ -113,14 +78,14 @@ export const ROUTE_POINT_TYPES = {
     train: {
       name: `Train`,
       offers: [
-        ADDITIONAL_OFFERS[0],
-        ADDITIONAL_OFFERS[1]
+        ADDITIONAL_OFFERS[5],
+        ADDITIONAL_OFFERS[3]
       ]
     },
     ship: {
       name: `Ship`,
       offers: [
-        ADDITIONAL_OFFERS[0],
+        ADDITIONAL_OFFERS[7],
         ADDITIONAL_OFFERS[1]
       ]
     },
@@ -134,15 +99,16 @@ export const ROUTE_POINT_TYPES = {
     drive: {
       name: `Drive`,
       offers: [
-        ADDITIONAL_OFFERS[0],
-        ADDITIONAL_OFFERS[1]
+        ADDITIONAL_OFFERS[6],
       ]
     },
     flight: {
       name: `Flight`,
       offers: [
         ADDITIONAL_OFFERS[0],
-        ADDITIONAL_OFFERS[1]
+        ADDITIONAL_OFFERS[1],
+        ADDITIONAL_OFFERS[3],
+        ADDITIONAL_OFFERS[4]
       ]
     }
   },
@@ -171,22 +137,22 @@ export const ROUTE_POINT_TYPES = {
 export const CITIES = [
   {
     city: `Amsterdam`,
-    description: getRandomDescriptions(),
-    photos: getRandomPhotosSrc()
+    description: ``,
+    photos: null
   },
   {
     city: `Chamonix`,
-    description: getRandomDescriptions(),
-    photos: getRandomPhotosSrc()
+    description: ``,
+    photos: null
   },
   {
     city: `Geneva`,
-    description: getRandomDescriptions(),
-    photos: getRandomPhotosSrc()
+    description: ``,
+    photos: null
   },
   {
     city: `Paris`,
-    description: getRandomDescriptions(),
-    photos: getRandomPhotosSrc()
+    description: ``,
+    photos: null
   },
 ];
