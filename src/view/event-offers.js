@@ -11,6 +11,11 @@ const getEventOffersItemTemplateInEditForm = (offer) => {
           </div>`;
 };
 
+/**
+ * Returns a markup list of offers.
+ * @param {Object[]} offers - The offers in the trip event.
+ * @return {String} Returns markup block of offers
+ */
 export const getEventOffersTemplateInEditForm = (offers) => {
 
   const offersBlockInEditForm = offers.map((offer) => getEventOffersItemTemplateInEditForm(offer)).join(``);

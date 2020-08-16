@@ -8,7 +8,6 @@ import {getTripEventItemEditTemplate} from "./view/trip-event-item.js";
 import {getTripEventItemHeaderTemplate} from "./view/trip-event-item-header.js";
 import {getEventOffersTemplateInEditForm} from "./view/event-offers.js";
 import {getEventItemDestination} from "./view/event-item-destination.js";
-import {getEventPhoto} from "./view/event-photo.js";
 import {getTripDaysTemplate} from "./view/trip-days.js";
 import {getTripDaysItem} from "./view/trip-days-item.js";
 import {getTripEventItemTemplateForTripDays} from "./view/trip-event-item-in-trip-days.js";
@@ -40,23 +39,11 @@ const tripEventsItemElement = tripEventsElement.querySelector(`form.trip-events_
 
 render(tripEventsItemElement, getTripEventItemHeaderTemplate(tripEvents[0]), `afterbegin`);
 
-render(tripEventsItemElement, getEventOffersTemplateInEditForm(tripEvents[0].offers), `beforeend`);
-/*
-const eventAvailableOffersElement = tripEventsItemElement.querySelector(`.event__available-offers`);
+render(tripEventsItemElement, getEventOffersTemplateInEditForm(tripEvents[0].routPointType.offers), `beforeend`);
 
-for (let i = 0; i < tripEvents[0].offers.length; i++) {
-  render(eventAvailableOffersElement, getEventOffersItemTemplateInEditForm(tripEvents[0].offers[i]), `beforeend`);
-}
-*/
 const eventDetailsElement = tripEventsItemElement.querySelector(`.event__details`);
 
 render(eventDetailsElement, getEventItemDestination(tripEvents[0]), `beforeend`);
-
-const eventPhotosTape = tripEventsItemElement.querySelector(`.event__photos-tape`);
-
-for (let i = 0; i < tripEvents[0].destination.photos.length; i++) {
-  render(eventPhotosTape, getEventPhoto(), `beforeend`);
-}
 
 render(tripEventsElement, getTripDaysTemplate(), `beforeend`);
 

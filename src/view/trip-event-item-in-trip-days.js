@@ -1,5 +1,3 @@
-// import {includesItem} from "./util/utils";
-
 const getEventOfferTemplateInTripDay = (offer) => {
   const {price, title} = offer;
 
@@ -9,19 +7,18 @@ const getEventOfferTemplateInTripDay = (offer) => {
 };
 
 export const getTripEventItemTemplateForTripDays = (travelEvent) => {
-  // console.log(travelEvent);
-  const {dataStart, dataEnd, destination, offers, routPointType} = travelEvent;
+  const {dataStart, dataEnd, destination, routPointType} = travelEvent;
 
-  const offersBlockTemplate = offers
+  const offersBlockTemplate = routPointType.offers
     .map((offer) => getEventOfferTemplateInTripDay(offer))
     .join(``);
 
   return (`<li class="trip-events__item">
               <div class="event">
                 <div class="event__type">
-                  <img class="event__type-icon" width="42" height="42" src="img/icons/${routPointType}.png" alt="Event type icon">
+                  <img class="event__type-icon" width="42" height="42" src="img/icons/${travelEvent.routPointType.name.toLowerCase()}.png" alt="Event type icon">
                 </div>
-                <h3 class="event__title">${routPointType} ${destination.city}</h3>
+                <h3 class="event__title">${routPointType.name} ${travelEvent.routPointTypeGroupName === `transfer` ? ` to` : ` in`} ${destination.city}</h3>
 
                 <div class="event__schedule">
                   <p class="event__time">
