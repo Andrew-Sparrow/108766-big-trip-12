@@ -39,7 +39,7 @@ const defaultSortedDays = defaultSortEvents(groupsEventsByDay);
 
 // groupsEventsByDay.forEach((item) => console.log(item));
 
-render(tripMainElementInHeader, getHeaderElementTripInfoContainer(), `afterbegin`);
+render(tripMainElementInHeader, getHeaderElementTripInfoContainer(defaultSortedDays), `afterbegin`);
 
 render(tripViewElement, getHeaderElementTripTabsContainer(), `afterend`);
 render(filterEventsElement, getHeaderFiltersContainer(), `afterend`);

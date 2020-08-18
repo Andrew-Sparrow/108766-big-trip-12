@@ -94,3 +94,25 @@ export function defaultSortEvents(arr) {
   const items = new Array(...arr);
   return items.sort((first, second) => new Date(first[0]) - new Date(second[0]));
 }
+
+const getShortTitleMonth = (date) => {
+  const options = {
+    month: `short`,
+    day: `2-digit`
+  };
+
+  return new Intl.DateTimeFormat(`en-US`, options).format(date);
+};
+
+export const getDateStringForHeader = (tripEvents) => {
+  let dateStart = new Date(tripEvents[0][0]);
+  let dateEnd = new Date(tripEvents[tripEvents.length - 1][0]);
+
+  dateStart = getShortTitleMonth(dateStart);
+  dateEnd = getShortTitleMonth(dateEnd);
+
+  return {
+    startTrip: dateStart,
+    endTrip: dateEnd
+  };
+};
