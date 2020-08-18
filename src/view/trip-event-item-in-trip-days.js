@@ -7,7 +7,11 @@ const getEventOfferTemplateInTripDay = (offer) => {
 };
 
 export const getTripEventItemTemplateForTripDays = (travelEvent) => {
-  const {dataStart, dataEnd, destination, routPointType} = travelEvent;
+  const {
+    dateStart,
+    dateEnd,
+    destination,
+    routPointType} = travelEvent;
 
   const offersBlockTemplate = routPointType.offers
     .map((offer) => getEventOfferTemplateInTripDay(offer))
@@ -22,9 +26,9 @@ export const getTripEventItemTemplateForTripDays = (travelEvent) => {
 
                 <div class="event__schedule">
                   <p class="event__time">
-                    <time class="event__start-time" datetime="2019-03-18T10:30">${dataStart.getHours()}:${dataStart.getMinutes()}</time>
+                    <time class="event__start-time" datetime="2019-03-18T10:30">${dateStart.getHours()}:${dateStart.getMinutes()}</time>
                     —
-                    <time class="event__end-time" datetime="2019-03-18T11:00">${dataEnd.getHours()}:${dataEnd.getMinutes()}</time>
+                    <time class="event__end-time" datetime="2019-03-18T11:00">${dateEnd.getHours()}:${dateEnd.getMinutes()}</time>
                   </p>
                   <p class="event__duration">30M</p>
                 </div>

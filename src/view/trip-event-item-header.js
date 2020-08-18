@@ -6,8 +6,8 @@ export const getTripEventItemHeaderTemplate = (travelEvent, destinationsPoints) 
   const {
     routPointType,
     routPointTypeGroupName,
-    dataStart,
-    dataEnd
+    dateStart,
+    dateEnd
   } = travelEvent;
 
   const destinationPointsValues = destinationsPoints.map((city) => destinationPointsTemplate(city)).join(``);
@@ -95,12 +95,11 @@ export const getTripEventItemHeaderTemplate = (travelEvent, destinationsPoints) 
                 <label class="visually-hidden" for="event-start-time-1">
                   From
                 </label>
-                <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${dataStart.getDate()}/${dataStart.getMonth()}/${dataStart.getFullYear()} ${dataStart.getHours()}:${dataStart.getMinutes()}">
+                <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${dateStart.getDate()}/${dateStart.getMonth()}/${dateStart.getFullYear()} ${dateStart.getHours()}:${dateStart.getMinutes()}">
                 —
                 <label class="visually-hidden" for="event-end-time-1">
-                  To
-                </label>
-                <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${dataEnd.getDate()}/${dataEnd.getMonth()}/${dataEnd.getFullYear()} ${dataEnd.getHours()}:${dataEnd.getMinutes()}">
+                  Toe                </label>
+                <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${dateEnd.getDate()}/${dateEnd.getMonth()}/${dateEnd.getFullYear()} ${dateEnd.getHours()}:${dateEnd.getMinutes()}">
               </div>
 
               <div class="event__field-group  event__field-group--price">

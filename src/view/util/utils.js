@@ -72,3 +72,12 @@ export const getRandomPropertyOfObject = (obj) => {
   const properties = Object.keys(obj);
   return properties[getRandomIndexOfArray(properties)];
 };
+
+export const groupArrayOfObjects = (list, key) => {
+  return list.reduce(function (receiver, current) {
+    receiver[current[key].toDateString()] = receiver[current[key].toDateString()] || [];
+    receiver[current[key].toDateString()].push(current);
+
+    return receiver;
+  }, {});
+};
