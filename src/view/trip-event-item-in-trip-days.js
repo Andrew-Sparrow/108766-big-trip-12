@@ -6,7 +6,8 @@ const getEventOfferTemplateInTripDay = (offer) => {
            </li>`);
 };
 
-export const getTripEventItemTemplateForTripDays = (travelEvent) => {
+// get event item template in day
+export const getTripEventTemplateForDays = (travelEvent) => {
   const {
     dateStart,
     dateEnd,
@@ -26,9 +27,9 @@ export const getTripEventItemTemplateForTripDays = (travelEvent) => {
 
                 <div class="event__schedule">
                   <p class="event__time">
-                    <time class="event__start-time" datetime="2019-03-18T10:30">${dateStart.getHours()}:${dateStart.getMinutes()}</time>
+                    <time class="event__start-time" datetime="${dateStart.toISOString()}">${dateStart.getHours()}:${dateStart.getMinutes()}</time>
                     —
-                    <time class="event__end-time" datetime="2019-03-18T11:00">${dateEnd.getHours()}:${dateEnd.getMinutes()}</time>
+                    <time class="event__end-time" datetime="${dateEnd.toISOString()}">${dateEnd.getHours()}:${dateEnd.getMinutes()}</time>
                   </p>
                   <p class="event__duration">30M</p>
                 </div>

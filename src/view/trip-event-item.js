@@ -1,6 +1,6 @@
 import {getTripEventItemHeaderTemplate} from "./trip-event-item-header.js";
 import {getEventItemDestination} from "./event-item-destination.js";
-import {getEventOffersTemplateInEditForm} from "./event-offers";
+import {getEventOffersTemplateInEditForm} from "./event-offers-in-edit";
 
 export const getTripEventItemEditTemplate = (travelEvent, destinationPoints) => {
   const {

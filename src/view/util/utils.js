@@ -73,11 +73,19 @@ export const getRandomPropertyOfObject = (obj) => {
   return properties[getRandomIndexOfArray(properties)];
 };
 
+/**
+ * This function groups events by day.
+ * @param {Object[]} list - The array of events.
+ * @param {String} key - The key in the trip event.
+ * @return {Object[]} Returns array of entries of events
+ */
 export const groupArrayOfObjects = (list, key) => {
-  return list.reduce(function (receiver, current) {
+  const items = list.reduce(function (receiver, current) {
     receiver[current[key].toDateString()] = receiver[current[key].toDateString()] || [];
     receiver[current[key].toDateString()].push(current);
 
     return receiver;
   }, {});
+
+  return Object.entries(items);
 };

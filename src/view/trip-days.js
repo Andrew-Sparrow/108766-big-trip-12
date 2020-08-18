@@ -1,21 +1,24 @@
-import {getTripEventItemTemplateForTripDays} from "./trip-event-item-in-trip-days.js";
+import {getTripEventTemplateForDays} from "./trip-event-item-in-trip-days.js";
 
-const getTripDaysItem = (tripDaysItems) => {
-  const blockTripDaysItem = tripDaysItems;
+// get day template in list of days
+const getEventDayTemplate = (date, tripEventsInDay) => {
+  const blockEventsInTripDaysItem = tripEventsInDay.map((tripEvent) => getTripEventTemplateForDays(tripEvent));
+
   return (`<li class="trip-days__item  day">
               <div class="day__info">
-                <span class="day__counter">1</span>
-                <time class="day__date" datetime="2019-03-18">MAR 18</time>
+                <span class="day__counter">${date.split(` `)[2]}</span>
+                <time class="day__date" datetime="${tripEventsInDay[0].dateStart.toISOString()}">${date.split(` `)[1]}</time>
               </div>
 
               <ul class="trip-events__list">
-                ${blockTripDaysItem}
+                ${blockEventsInTripDaysItem}
               </ul>
             </li>`);
 };
 
+// get block of days
 export const getTripDaysTemplate = (tripDays) => {
-  const blockTripDaysItems = tripDays.map((tripDay) => getTripDaysItem(tripDay)).join(``);
+  const blockTripDaysItems = tripDays.map((tripDay) => getEventDayTemplate(tripDay[0], tripDay[1])).join(``);
 
   return (`<ul class="trip-days">
             ${blockTripDaysItems}

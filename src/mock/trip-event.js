@@ -23,7 +23,8 @@ export const generateEvent = () => {
     routPointTypeGroupName,
     routPointType: ROUTE_POINT_TYPES[routPointTypeGroupName][routPointTypeKey],
     dateStart,
-    dateEnd
+    dateEnd,
+    price: getRandomInteger(10, 500)
   };
   // console.log(dateStart.toLocaleDateString());
 
