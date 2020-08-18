@@ -1,6 +1,7 @@
 import {
   render,
   groupArrayOfObjects,
+  defaultSortEvents
 } from "./view/util/utils.js";
 import {getHeaderElementTripInfoContainer} from "./view/header-info.js";
 import {getHeaderElementTripTabsContainer} from "./view/header-trip-tabs.js";
@@ -21,14 +22,20 @@ const tripEventsElement = pageBodyContainerElement.querySelector(`.trip-events`)
 const tripEventsTitleElement = tripEventsElement.querySelector(`.trip-events-title`);
 
 const tripEvents = new Array(10).fill().map(generateEvent);
-console.log(tripEvents[0].dateStart.toLocaleString());
-console.log(tripEvents[0].dateStart.toLocaleTimeString());
-console.log(tripEvents[0].dateStart.toUTCString());
-console.log(tripEvents[0].dateStart.toTimeString());
-console.log(tripEvents[0].dateStart.toISOString());
-console.log(tripEvents[0].dateStart.toDateString());
+
+// console.log(tripEvents[0]);
+// console.log(tripEvents[0].dateStart.toLocaleString());
+// console.log(tripEvents[0].dateStart.toLocaleTimeString());
+// console.log(tripEvents[0].dateStart.toUTCString());
+// console.log(tripEvents[0].dateStart.toTimeString());
+// console.log(tripEvents[0].dateStart.toISOString());
+// console.log(tripEvents[0].dateStart.toDateString());
 
 const groupsEventsByDay = groupArrayOfObjects(tripEvents, `dateStart`);
+// console.log(groupsEventsByDay);
+
+const defaultSortedDays = defaultSortEvents(groupsEventsByDay);
+// console.log(defaultSortedDays);
 
 // groupsEventsByDay.forEach((item) => console.log(item));
 
@@ -40,4 +47,5 @@ render(tripEventsTitleElement, getTripSortContainer(), `afterend`);
 
 render(tripEventsElement, getTripEventItemEditTemplate(tripEvents[0], DESTINATION_POINTS), `beforeend`);
 
-render(tripEventsElement, getTripDaysTemplate(groupsEventsByDay), `beforeend`);
+// render(tripEventsElement, getTripDaysTemplate(groupsEventsByDay), `beforeend`);
+render(tripEventsElement, getTripDaysTemplate(defaultSortedDays), `beforeend`);

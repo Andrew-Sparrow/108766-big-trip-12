@@ -89,3 +89,8 @@ export const groupArrayOfObjects = (list, key) => {
 
   return Object.entries(items);
 };
+
+export function defaultSortEvents(arr) {
+  const items = new Array(...arr);
+  return items.sort((first, second) => new Date(first[0]) - new Date(second[0]));
+}

@@ -12,7 +12,8 @@ export const getTripEventTemplateForDays = (travelEvent) => {
     dateStart,
     dateEnd,
     destination,
-    routPointType} = travelEvent;
+    routPointType,
+    price} = travelEvent;
 
   const offersBlockTemplate = routPointType.offers
     .map((offer) => getEventOfferTemplateInTripDay(offer))
@@ -35,7 +36,7 @@ export const getTripEventTemplateForDays = (travelEvent) => {
                 </div>
 
                 <p class="event__price">
-                  €&nbsp;<span class="event__price-value">20</span>
+                  €&nbsp;<span class="event__price-value">${price}</span>
                 </p>
 
                 <h4 class="visually-hidden">Offers:</h4>
