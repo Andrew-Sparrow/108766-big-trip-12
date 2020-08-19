@@ -67,9 +67,7 @@ export const ROUTE_POINT_TYPES = {
   transfer: {
     taxi: {
       name: `Taxi`,
-      offers: [
-        ADDITIONAL_OFFERS[4]
-      ]
+      offers: []
     },
     bus: {
       name: `Bus`,
@@ -77,48 +75,29 @@ export const ROUTE_POINT_TYPES = {
     },
     train: {
       name: `Train`,
-      offers: [
-        ADDITIONAL_OFFERS[5],
-        ADDITIONAL_OFFERS[3]
-      ]
+      offers: []
     },
     ship: {
       name: `Ship`,
-      offers: [
-        ADDITIONAL_OFFERS[7],
-        ADDITIONAL_OFFERS[1]
-      ]
+      offers: []
     },
     transport: {
       name: `Transport`,
-      offers: [
-        ADDITIONAL_OFFERS[0],
-        ADDITIONAL_OFFERS[1]
-      ]
+      offers: []
     },
     drive: {
       name: `Drive`,
-      offers: [
-        ADDITIONAL_OFFERS[6],
-      ]
+      offers: []
     },
     flight: {
       name: `Flight`,
-      offers: [
-        ADDITIONAL_OFFERS[0],
-        ADDITIONAL_OFFERS[1],
-        ADDITIONAL_OFFERS[3],
-        ADDITIONAL_OFFERS[4]
-      ]
+      offers: []
     }
   },
   activity: {
     checkin: {
       name: `Check-in`,
-      offers: [
-        ADDITIONAL_OFFERS[2],
-        ADDITIONAL_OFFERS[3]
-      ]
+      offers: []
     },
     sightseeing: {
       name: `Sightseeing`,
@@ -126,10 +105,7 @@ export const ROUTE_POINT_TYPES = {
     },
     restaurant: {
       name: `Restaurant`,
-      offers: [
-        ADDITIONAL_OFFERS[5],
-        ADDITIONAL_OFFERS[6]
-      ]
+      offers: []
     },
   }
 };

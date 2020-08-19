@@ -1,6 +1,7 @@
 import {
   CITIES,
-  DESCRIPTIONS
+  DESCRIPTIONS,
+  ADDITIONAL_OFFERS
 } from "../../const.js";
 
 export const render = (container, template, place) => {
@@ -114,4 +115,14 @@ export const getDateStringForHeader = (tripEvents) => {
     startTrip: dateStart,
     endTrip: dateEnd
   };
+};
+
+export const getRandomOffers = () => {
+  let offers = [];
+
+  for (let i = 0; i < getRandomInteger(1, 5); i++) {
+    offers.push(ADDITIONAL_OFFERS[getRandomIndexOfArray(ADDITIONAL_OFFERS)]);
+  }
+
+  return offers;
 };

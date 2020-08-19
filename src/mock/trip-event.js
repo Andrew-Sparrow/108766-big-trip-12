@@ -4,19 +4,35 @@ import {
   getRandomPropertyOfObject,
   getRandomDescriptions,
   getRandomPhotosSrc,
-  getRandomInteger
+  getRandomInteger,
+  getRandomOffers
 } from "../view/util/utils";
 
 import {
   ROUTE_POINT_TYPES,
 } from "../const";
 
+const generateOffersInRoutPoints = () => {
+  const propertiesGroupsName = Object.keys(ROUTE_POINT_TYPES);
+  // console.log(propertiesGroupsName);
+
+  for (const nameGroupProperties of propertiesGroupsName) {
+    const properties = Object.keys(ROUTE_POINT_TYPES[nameGroupProperties]);
+    properties.forEach((property) => {
+      const generatedOffers = getRandomOffers();
+      ROUTE_POINT_TYPES[nameGroupProperties][property].offers.push(...generatedOffers);
+    });
+  }
+};
+
+generateOffersInRoutPoints();
+
 export const generateEvent = () => {
   const randomDestination = getRandomDestination();
   const dateStart = getRandomDate();
-  const dateEnd = new Date();
   const routPointTypeGroupName = getRandomPropertyOfObject(ROUTE_POINT_TYPES);
   const routPointTypeKey = getRandomPropertyOfObject(ROUTE_POINT_TYPES[routPointTypeGroupName]);
+  const dateEnd = new Date();
 
   const travelEvent = {
     destination: randomDestination,
