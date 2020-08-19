@@ -1,13 +1,14 @@
 import {getTripEventTemplateForDays} from "./trip-event-item-in-trip-days.js";
+let counter = 1;
 
 // get day template in list of days
 const getEventDayTemplate = (date, tripEventsInDay) => {
-  const blockEventsInTripDaysItem = tripEventsInDay.map((tripEvent) => getTripEventTemplateForDays(tripEvent));
+  const blockEventsInTripDaysItem = tripEventsInDay.map((tripEvent) => getTripEventTemplateForDays(tripEvent)).join(``);
 
   return (`<li class="trip-days__item  day">
               <div class="day__info">
-                <span class="day__counter">${date.split(` `)[2]}</span>
-                <time class="day__date" datetime="${tripEventsInDay[0].dateStart.toISOString()}">${date.split(` `)[1]}</time>
+                <span class="day__counter">${counter++}</span>
+                <time class="day__date" datetime="${tripEventsInDay[0].dateStart.toISOString()}">${date.split(` `)[1]} ${date.split(` `)[2]}</time>
               </div>
 
               <ul class="trip-events__list">

@@ -1,48 +1,41 @@
 import {
+  ROUTE_POINT_TYPES,
+} from "../const";
+
+import {
   getRandomDate,
-  getRandomDestination,
+  getRandomCities,
   getRandomPropertyOfObject,
   getRandomDescriptions,
   getRandomPhotosSrc,
   getRandomInteger,
-  getRandomOffers
+  generateOffersInRoutPoints,
+  generateDescriptionsInCities,
+  generatePhotosInCities,
+  getRandomAmountOfItems
 } from "../view/util/utils";
 
-import {
-  ROUTE_POINT_TYPES,
-} from "../const";
-
-const generateOffersInRoutPoints = () => {
-  const propertiesGroupsName = Object.keys(ROUTE_POINT_TYPES);
-  // console.log(propertiesGroupsName);
-
-  for (const nameGroupProperties of propertiesGroupsName) {
-    const properties = Object.keys(ROUTE_POINT_TYPES[nameGroupProperties]);
-    properties.forEach((property) => {
-      const generatedOffers = getRandomOffers();
-      ROUTE_POINT_TYPES[nameGroupProperties][property].offers.push(...generatedOffers);
-    });
-  }
-};
-
 generateOffersInRoutPoints();
+generateDescriptionsInCities();
+generatePhotosInCities();
 
 export const generateEvent = () => {
-  const randomDestination = getRandomDestination();
+  const randomDestination = getRandomCities();
   const dateStart = getRandomDate();
   const routPointTypeGroupName = getRandomPropertyOfObject(ROUTE_POINT_TYPES);
   const routPointTypeKey = getRandomPropertyOfObject(ROUTE_POINT_TYPES[routPointTypeGroupName]);
   const dateEnd = new Date();
+  const routPointTypeOfEvent = ROUTE_POINT_TYPES[routPointTypeGroupName][routPointTypeKey];
+  routPointTypeOfEvent.offers = getRandomAmountOfItems(routPointTypeOfEvent.offers);
 
   const travelEvent = {
     destination: randomDestination,
     routPointTypeGroupName,
-    routPointType: ROUTE_POINT_TYPES[routPointTypeGroupName][routPointTypeKey],
+    routPointType: routPointTypeOfEvent,
     dateStart,
     dateEnd,
     price: getRandomInteger(10, 500)
   };
-  // console.log(dateStart.toLocaleDateString());
 
   travelEvent.destination.description = getRandomDescriptions();
   travelEvent.destination.photos = getRandomPhotosSrc();

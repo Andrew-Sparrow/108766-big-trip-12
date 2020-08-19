@@ -1,7 +1,8 @@
 import {
   CITIES,
   DESCRIPTIONS,
-  ADDITIONAL_OFFERS
+  ADDITIONAL_OFFERS,
+  ROUTE_POINT_TYPES
 } from "../../const.js";
 
 export const render = (container, template, place) => {
@@ -26,11 +27,19 @@ export const getRandomInteger = (min = 0, max = 1) => {
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
-export const getRandomIndexOfArray = (array) => {
+export const getRandomIndexOfList = (array) => {
   let start = 0;
   let end = array.length - 1;
 
   return getRandomInteger(start, end);
+};
+
+export const getRandomAmountOfItems = (listItems) => {
+  const lengthOfListItems = listItems.length;
+  const start = getRandomIndexOfList(listItems);
+  const end = getRandomInteger(start, lengthOfListItems);
+
+  return listItems.slice(start, end);
 };
 
 // get date randomly in past or in future or in present within period of two weeks
@@ -48,7 +57,7 @@ export const getRandomDescriptions = () => {
   const sumStrings = [];
 
   for (let i = 0; i < getRandomInteger(1, 5); i++) {
-    sumStrings.push(DESCRIPTIONS[getRandomIndexOfArray(DESCRIPTIONS)]);
+    sumStrings.push(DESCRIPTIONS[getRandomIndexOfList(DESCRIPTIONS)]);
   }
 
   return sumStrings.join(` `);
@@ -64,13 +73,13 @@ export const getRandomPhotosSrc = () => {
   return photos;
 };
 
-export const getRandomDestination = () => {
-  return CITIES[getRandomIndexOfArray(CITIES)];
+export const getRandomCities = () => {
+  return CITIES[getRandomIndexOfList(CITIES)];
 };
 
 export const getRandomPropertyOfObject = (obj) => {
   const properties = Object.keys(obj);
-  return properties[getRandomIndexOfArray(properties)];
+  return properties[getRandomIndexOfList(properties)];
 };
 
 /**
@@ -118,11 +127,35 @@ export const getDateStringForHeader = (tripEvents) => {
 };
 
 export const getRandomOffers = () => {
-  let offers = [];
+  return getRandomAmountOfItems(ADDITIONAL_OFFERS);
+};
 
-  for (let i = 0; i < getRandomInteger(1, 5); i++) {
-    offers.push(ADDITIONAL_OFFERS[getRandomIndexOfArray(ADDITIONAL_OFFERS)]);
+export const generateOffersInRoutPoints = () => {
+  const propertiesGroupsName = Object.keys(ROUTE_POINT_TYPES);
+
+  for (const nameGroupProperties of propertiesGroupsName) {
+    const properties = Object.keys(ROUTE_POINT_TYPES[nameGroupProperties]);
+    properties.forEach((property) => {
+      const generatedOffers = getRandomOffers();
+      ROUTE_POINT_TYPES[nameGroupProperties][property].offers.push(...generatedOffers);
+    });
   }
+};
 
-  return offers;
+/**
+ * This function adds new descriptions to city in list of cities.
+ */
+export const generateDescriptionsInCities = () => {
+  CITIES.forEach((item) => {
+    item.description = getRandomDescriptions();
+  });
+};
+
+/**
+ * This function adds new photos to city in list of cities.
+ */
+export const generatePhotosInCities = () => {
+  CITIES.forEach((item) => {
+    item.photos = getRandomPhotosSrc();
+  });
 };
