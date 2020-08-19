@@ -132,13 +132,3 @@ export const CITIES = [
     photos: null
   },
 ];
-
-export const DESTINATION_POINTS = [
-  `Amsterdam`,
-  `Chamonix`,
-  `Geneva`,
-  `Paris`,
-  `London`,
-  `Riga`,
-  `Dublin`
-];

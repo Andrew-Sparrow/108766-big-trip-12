@@ -89,7 +89,7 @@ export const getRandomPropertyOfObject = (obj) => {
  * @return {Object[]} Returns array of entries of events
  */
 export const groupArrayOfObjects = (list, key) => {
-  const items = list.reduce(function (receiver, current) {
+  const items = list.reduce((receiver, current) => {
     receiver[current[key].toDateString()] = receiver[current[key].toDateString()] || [];
     receiver[current[key].toDateString()].push(current);
 
@@ -99,10 +99,15 @@ export const groupArrayOfObjects = (list, key) => {
   return Object.entries(items);
 };
 
-export function defaultSortEvents(arr) {
-  const items = new Array(...arr);
+export const defaultSortEvents = (list) => {
+  const items = new Array(...list);
   return items.sort((first, second) => new Date(first[0]) - new Date(second[0]));
-}
+};
+
+export const sortTravelEventsByDateEnd = (list) => {
+  const items = new Array(...list);
+  return items.sort((first, second) => new Date(second[1][0].dateEnd) - new Date(first[1][0].dateEnd));
+};
 
 const getShortTitleMonth = (date) => {
   const options = {
@@ -114,8 +119,11 @@ const getShortTitleMonth = (date) => {
 };
 
 export const getDateStringForHeader = (tripEvents) => {
+  const sortedListByEndDate = sortTravelEventsByDateEnd(tripEvents);
+  const dateOfFirstEventInSortedList = sortedListByEndDate[0][1][0].dateEnd;
+
   let dateStart = new Date(tripEvents[0][0]);
-  let dateEnd = new Date(tripEvents[tripEvents.length - 1][0]);
+  let dateEnd = new Date(dateOfFirstEventInSortedList);
 
   dateStart = getShortTitleMonth(dateStart);
   dateEnd = getShortTitleMonth(dateEnd);

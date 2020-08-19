@@ -10,7 +10,7 @@ import {getTripSortContainer} from "./view/trip-sort.js";
 import {getTripEventItemEditTemplate} from "./view/trip-event-item.js";
 import {getTripDaysTemplate} from "./view/trip-days.js";
 import {generateEvent} from "./mock/trip-event";
-import {DESTINATION_POINTS} from "./const";
+import {CITIES} from "./const";
 
 const headerElement = document.querySelector(`.page-header`);
 const tripMainElementInHeader = headerElement.querySelector(`.trip-main`);
@@ -45,7 +45,7 @@ render(tripViewElement, getHeaderElementTripTabsContainer(), `afterend`);
 render(filterEventsElement, getHeaderFiltersContainer(), `afterend`);
 render(tripEventsTitleElement, getTripSortContainer(), `afterend`);
 
-render(tripEventsElement, getTripEventItemEditTemplate(tripEvents[0], DESTINATION_POINTS), `beforeend`);
+render(tripEventsElement, getTripEventItemEditTemplate(tripEvents[0], CITIES), `beforeend`);
 
 // render(tripEventsElement, getTripDaysTemplate(groupsEventsByDay), `beforeend`);
 render(tripEventsElement, getTripDaysTemplate(defaultSortedDays), `beforeend`);

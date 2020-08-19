@@ -10,10 +10,12 @@ const getHeaderElementTripInfoTitleContainer = () => {
  * @return {String} Returns markup block
  */
 export const getHeaderElementTripInfoContainer = (tripEvents) => {
+  const dateString = getDateStringForHeader(tripEvents);
+
   return (`<section class="trip-main__trip-info  trip-info">
             <div class="trip-info__main">
             ${getHeaderElementTripInfoTitleContainer()}
-              <p class="trip-info__dates">${getDateStringForHeader(tripEvents).startTrip}&nbsp;—&nbsp;${getDateStringForHeader(tripEvents).endTrip}</p>
+              <p class="trip-info__dates">${dateString.startTrip}&nbsp;—&nbsp;${dateString.endTrip}</p>
             </div>
 
             <p class="trip-info__cost">
