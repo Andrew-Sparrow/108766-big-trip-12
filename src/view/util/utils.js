@@ -167,3 +167,15 @@ export const generatePhotosInCities = () => {
     item.photos = getRandomPhotosSrc();
   });
 };
+
+export const calculateTotalPrice = (items) => {
+  return items.reduce((total, currentItem) => {
+    let sumOffersOfItem = 0;
+    if (currentItem[1][0].routPointType.offers.length > 0) {
+      sumOffersOfItem = currentItem[1][0].routPointType.offers.reduce((sum, current) => {
+        return sum + current.price;
+      }, 0);
+    }
+    return total + currentItem[1][0].price + sumOffersOfItem;
+  }, 0);
+};
