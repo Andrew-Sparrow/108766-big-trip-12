@@ -1,8 +1,7 @@
 import {
-  CITIES
+  CITIES,
+  DESCRIPTIONS
 } from "../../const.js";
-
-import {DESCRIPTIONS} from "../../const";
 
 export const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
