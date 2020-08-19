@@ -34,12 +34,12 @@ export const getRandomIndexOfList = (array) => {
   return getRandomInteger(start, end);
 };
 
-export const getRandomAmountOfItems = (listItems) => {
-  const lengthOfListItems = listItems.length;
-  const start = getRandomIndexOfList(listItems);
+export const getRandomAmountOfItems = (items) => {
+  const lengthOfListItems = items.length;
+  const start = getRandomIndexOfList(items);
   const end = getRandomInteger(start, lengthOfListItems);
 
-  return listItems.slice(start, end);
+  return items.slice(start, end);
 };
 
 // get date randomly in past or in future or in present within period of two weeks
@@ -84,12 +84,12 @@ export const getRandomPropertyOfObject = (obj) => {
 
 /**
  * This function groups events by day.
- * @param {Object[]} list - The array of events.
+ * @param {Object[]} objects - The array of events.
  * @param {String} key - The key in the trip event.
  * @return {Object[]} Returns array of entries of events
  */
-export const groupArrayOfObjects = (list, key) => {
-  const items = list.reduce((receiver, current) => {
+export const groupArrayOfObjects = (objects, key) => {
+  const items = objects.reduce((receiver, current) => {
     receiver[current[key].toDateString()] = receiver[current[key].toDateString()] || [];
     receiver[current[key].toDateString()].push(current);
 
@@ -99,13 +99,13 @@ export const groupArrayOfObjects = (list, key) => {
   return Object.entries(items);
 };
 
-export const defaultSortEvents = (list) => {
-  const items = new Array(...list);
-  return items.sort((first, second) => new Date(first[0]) - new Date(second[0]));
+export const defaultSortEvents = (tripEvents) => {
+  const items = new Array(...tripEvents);
+  return new Array(...items).sort((first, second) => new Date(first[0]) - new Date(second[0]));
 };
 
-export const sortTravelEventsByDateEnd = (list) => {
-  const items = new Array(...list);
+export const sortTravelEventsByDateEnd = (tripEvents) => {
+  const items = new Array(...tripEvents);
   return items.sort((first, second) => new Date(second[1][0].dateEnd) - new Date(first[1][0].dateEnd));
 };
 
