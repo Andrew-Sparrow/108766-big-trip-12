@@ -176,6 +176,6 @@ export const calculateTotalPrice = (items) => {
         return sum + current.price;
       }, 0);
     }
-    return total + currentItem[1][0].price + sumOffersOfItem;
+    return Math.ceil(total + currentItem[1][0].price + sumOffersOfItem);
   }, 0);
 };
