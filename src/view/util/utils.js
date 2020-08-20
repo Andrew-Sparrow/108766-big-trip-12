@@ -105,8 +105,12 @@ export const groupArrayOfObjects = (objects, key) => {
   return Object.entries(items);
 };
 
-export const defaultSortEvents = (tripEvents) => {
+export const defaultSortEventsByGroupDays = (tripEvents) => {
   return new Array(...tripEvents).sort((first, second) => new Date(first[FIRST_ELEMENT]) - new Date(second[FIRST_ELEMENT]));
+};
+
+export const defaultSortEventsItems = (tripEvents) => {
+  return new Array(...tripEvents).sort((first, second) => new Date(first.dateStart) - new Date(second.dateStart));
 };
 
 export const sortTravelEventsByDateEnd = (tripEvents) => {

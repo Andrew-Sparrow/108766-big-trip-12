@@ -10,28 +10,30 @@ import {
 } from "./util/utils.js";
 
 const getHeaderElementTripInfoTitleContainer = (tripEvents) => {
+  // console.log(tripEvents);
   if (tripEvents.length === 1) {
-    return (`<h1 class="trip-info__title">${tripEvents[FIRST_ELEMENT][SECOND_ELEMENT][FIRST_ELEMENT].destination.city}</h1>`);
+    return (`<h1 class="trip-info__title">${tripEvents[FIRST_ELEMENT].destination.city}</h1>`);
   } else if (tripEvents.length === 2) {
-    return (`<h1 class="trip-info__title">${tripEvents[FIRST_ELEMENT][SECOND_ELEMENT][FIRST_ELEMENT].destination.city} — ${tripEvents[SECOND_ELEMENT][SECOND_ELEMENT][FIRST_ELEMENT].destination.city}</h1>`);
+    return (`<h1 class="trip-info__title">${tripEvents[FIRST_ELEMENT].destination.city} — ${tripEvents[SECOND_ELEMENT].destination.city}</h1>`);
   } else if (tripEvents.length === 3) {
-    return (`<h1 class="trip-info__title">${tripEvents[FIRST_ELEMENT][SECOND_ELEMENT][FIRST_ELEMENT].destination.city} — ${tripEvents[SECOND_ELEMENT][SECOND_ELEMENT][FIRST_ELEMENT].destination.city} — ${tripEvents[THIRD_ELEMENT][SECOND_ELEMENT][FIRST_ELEMENT].destination.city}</h1>`);
+    return (`<h1 class="trip-info__title">${tripEvents[FIRST_ELEMENT].destination.city} — ${tripEvents[SECOND_ELEMENT].destination.city} — ${tripEvents[THIRD_ELEMENT].destination.city}</h1>`);
   } else {
-    return (`<h1 class="trip-info__title">${tripEvents[FIRST_ELEMENT][SECOND_ELEMENT][FIRST_ELEMENT].destination.city} — ... — ${tripEvents[tripEvents.length - 1][SECOND_ELEMENT][FIRST_ELEMENT].destination.city}</h1>`);
+    return (`<h1 class="trip-info__title">${tripEvents[FIRST_ELEMENT].destination.city} — ... — ${tripEvents[tripEvents.length - 1].destination.city}</h1>`);
   }
 };
 
 /**
  * Returns a markup list of header.
  * @param {Object[]} tripEvents - The travelEvents.
+ * @param {Object[]} ungroupedTripEvents - The unsorted travelEvents.
  * @return {String} Returns markup block
  */
-export const getHeaderElementTripInfoContainer = (tripEvents) => {
+export const getHeaderElementTripInfoContainer = (tripEvents, ungroupedTripEvents) => {
   const dateString = getDateStringForHeader(tripEvents);
 
   return (`<section class="trip-main__trip-info  trip-info">
             <div class="trip-info__main">
-            ${getHeaderElementTripInfoTitleContainer(tripEvents)}
+            ${getHeaderElementTripInfoTitleContainer(ungroupedTripEvents)}
               <p class="trip-info__dates">${dateString.startTrip}&nbsp;—&nbsp;${dateString.endTrip}</p>
             </div>
 

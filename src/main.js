@@ -1,7 +1,8 @@
 import {
   render,
   groupArrayOfObjects,
-  defaultSortEvents
+  defaultSortEventsByGroupDays,
+  defaultSortEventsItems
 } from "./view/util/utils.js";
 
 import {getHeaderElementTripInfoContainer} from "./view/header-info.js";
@@ -29,9 +30,10 @@ const tripEvents = new Array(10).fill().map(generateEvent);
 
 const groupsEventsByDay = groupArrayOfObjects(tripEvents, `dateStart`);
 
-const defaultSortedDays = defaultSortEvents(groupsEventsByDay);
+const defaultSortedDays = defaultSortEventsByGroupDays(groupsEventsByDay);
+const defaultSortedEvents = defaultSortEventsItems(tripEvents);
 
-render(tripMainElementInHeader, getHeaderElementTripInfoContainer(defaultSortedDays), `afterbegin`);
+render(tripMainElementInHeader, getHeaderElementTripInfoContainer(defaultSortedDays, defaultSortedEvents), `afterbegin`);
 
 render(tripViewElement, getHeaderElementTripTabsContainer(), `afterend`);
 render(filterEventsElement, getHeaderFiltersContainer(), `afterend`);
