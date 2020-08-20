@@ -1,4 +1,4 @@
-const destinationPointsTemplate = (city) => {
+const getDestinationPointsTemplate = (city) => {
   return `<option value="${city}"></option>`;
 };
 
@@ -10,7 +10,7 @@ export const getTripEventItemHeaderTemplate = (travelEvent, destinationsPoints) 
     dateEnd
   } = travelEvent;
 
-  const destinationPointsValues = destinationsPoints.map((point) => destinationPointsTemplate(point.city)).join(``);
+  const destinationPointsValues = destinationsPoints.map((point) => getDestinationPointsTemplate(point.city)).join(``);
 
   return (`<header class="event__header">
               <div class="event__type-wrapper">
