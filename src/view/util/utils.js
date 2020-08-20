@@ -46,8 +46,8 @@ export const getRandomAmountOfItems = (items) => {
 
 // get date randomly in past or in future or in present within period of two weeks
 export const getRandomDate = () => {
-  let randomInteger = getRandomInteger(-7, 7);
-  let newDate = new Date();
+  const randomInteger = getRandomInteger(-7, 7);
+  const newDate = new Date();
   newDate.setDate(newDate.getDate() + randomInteger);
   newDate.setHours(newDate.getHours() + getRandomInteger(0, 24));
   newDate.setMinutes(newDate.getMinutes() + getRandomInteger(0, 60));
