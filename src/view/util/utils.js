@@ -2,7 +2,9 @@ import {
   CITIES,
   DESCRIPTIONS,
   ADDITIONAL_OFFERS,
-  ROUTE_POINT_TYPES
+  ROUTE_POINT_TYPES,
+  FIRST_ELEMENT,
+  SECOND_ELEMENT
 } from "../../const.js";
 
 export const render = (container, template, place) => {
@@ -64,7 +66,7 @@ export const getRandomDescriptions = () => {
 };
 
 export const getRandomPhotosSrc = () => {
-  let photos = [];
+  const photos = [];
 
   for (let i = 0; i < getRandomInteger(1, 5); i++) {
     photos.push(`img/photos/${getRandomInteger(1, 5)}.jpg`);
@@ -104,11 +106,11 @@ export const groupArrayOfObjects = (objects, key) => {
 };
 
 export const defaultSortEvents = (tripEvents) => {
-  return new Array(...tripEvents).sort((first, second) => new Date(first[0]) - new Date(second[0]));
+  return new Array(...tripEvents).sort((first, second) => new Date(first[FIRST_ELEMENT]) - new Date(second[FIRST_ELEMENT]));
 };
 
 export const sortTravelEventsByDateEnd = (tripEvents) => {
-  return new Array(...tripEvents).sort((first, second) => new Date(second[1][0].dateEnd) - new Date(first[1][0].dateEnd));
+  return new Array(...tripEvents).sort((first, second) => new Date(second[SECOND_ELEMENT][FIRST_ELEMENT].dateEnd) - new Date(first[SECOND_ELEMENT][FIRST_ELEMENT].dateEnd));
 };
 
 const getShortTitleMonth = (date) => {
@@ -122,9 +124,9 @@ const getShortTitleMonth = (date) => {
 
 export const getDateStringForHeader = (tripEvents) => {
   const sortedListByEndDate = sortTravelEventsByDateEnd(tripEvents);
-  const dateOfFirstEventInSortedList = sortedListByEndDate[0][1][0].dateEnd;
+  const dateOfFirstEventInSortedList = sortedListByEndDate[FIRST_ELEMENT][SECOND_ELEMENT][FIRST_ELEMENT].dateEnd;
 
-  let dateStart = new Date(tripEvents[0][0]);
+  let dateStart = new Date(tripEvents[FIRST_ELEMENT][FIRST_ELEMENT]);
   let dateEnd = new Date(dateOfFirstEventInSortedList);
 
   dateStart = getShortTitleMonth(dateStart);
@@ -173,11 +175,11 @@ export const generatePhotosInCities = () => {
 export const calculateTotalPrice = (items) => {
   return items.reduce((total, currentItem) => {
     let sumOffersOfItem = 0;
-    if (currentItem[1][0].routPointType.offers.length > 0) {
-      sumOffersOfItem = currentItem[1][0].routPointType.offers.reduce((sum, current) => {
+    if (currentItem[SECOND_ELEMENT][FIRST_ELEMENT].routPointType.offers.length > 0) {
+      sumOffersOfItem = currentItem[SECOND_ELEMENT][FIRST_ELEMENT].routPointType.offers.reduce((sum, current) => {
         return sum + current.price;
       }, 0);
     }
-    return Math.ceil(total + currentItem[1][0].price + sumOffersOfItem);
+    return Math.ceil(total + currentItem[SECOND_ELEMENT][FIRST_ELEMENT].price + sumOffersOfItem);
   }, 0);
 };
