@@ -27,9 +27,9 @@ export const getRandomInteger = (min = 0, max = 1) => {
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
-export const getRandomIndexOfList = (array) => {
-  let start = 0;
-  let end = array.length - 1;
+export const getRandomIndexOfList = (items) => {
+  const start = 0;
+  const end = items.length - 1;
 
   return getRandomInteger(start, end);
 };
@@ -104,13 +104,11 @@ export const groupArrayOfObjects = (objects, key) => {
 };
 
 export const defaultSortEvents = (tripEvents) => {
-  const items = new Array(...tripEvents);
-  return new Array(...items).sort((first, second) => new Date(first[0]) - new Date(second[0]));
+  return new Array(...tripEvents).sort((first, second) => new Date(first[0]) - new Date(second[0]));
 };
 
 export const sortTravelEventsByDateEnd = (tripEvents) => {
-  const items = new Array(...tripEvents);
-  return items.sort((first, second) => new Date(second[1][0].dateEnd) - new Date(first[1][0].dateEnd));
+  return new Array(...tripEvents).sort((first, second) => new Date(second[1][0].dateEnd) - new Date(first[1][0].dateEnd));
 };
 
 const getShortTitleMonth = (date) => {

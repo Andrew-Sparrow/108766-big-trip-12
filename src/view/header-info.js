@@ -1,17 +1,23 @@
 import {
+  FIRST_ELEMENT,
+  SECOND_ELEMENT,
+  THIRD_ELEMENT
+} from "../const";
+
+import {
   getDateStringForHeader,
   calculateTotalPrice
 } from "./util/utils.js";
 
 const getHeaderElementTripInfoTitleContainer = (tripEvents) => {
   if (tripEvents.length === 1) {
-    return (`<h1 class="trip-info__title">${tripEvents[0][1][0].destination.city}</h1>`);
+    return (`<h1 class="trip-info__title">${tripEvents[FIRST_ELEMENT][SECOND_ELEMENT][FIRST_ELEMENT].destination.city}</h1>`);
   } else if (tripEvents.length === 2) {
-    return (`<h1 class="trip-info__title">${tripEvents[0][1][0].destination.city} — ${tripEvents[1][1][0].destination.city}</h1>`);
+    return (`<h1 class="trip-info__title">${tripEvents[FIRST_ELEMENT][SECOND_ELEMENT][FIRST_ELEMENT].destination.city} — ${tripEvents[SECOND_ELEMENT][SECOND_ELEMENT][FIRST_ELEMENT].destination.city}</h1>`);
   } else if (tripEvents.length === 3) {
-    return (`<h1 class="trip-info__title">${tripEvents[0][1][0].destination.city} — ${tripEvents[1][1][0].destination.city} — ${tripEvents[2][1][0].destination.city}</h1>`);
+    return (`<h1 class="trip-info__title">${tripEvents[FIRST_ELEMENT][SECOND_ELEMENT][FIRST_ELEMENT].destination.city} — ${tripEvents[SECOND_ELEMENT][SECOND_ELEMENT][FIRST_ELEMENT].destination.city} — ${tripEvents[THIRD_ELEMENT][SECOND_ELEMENT][FIRST_ELEMENT].destination.city}</h1>`);
   } else {
-    return (`<h1 class="trip-info__title">${tripEvents[0][1][0].destination.city} — ... — ${tripEvents[tripEvents.length - 1][1][0].destination.city}</h1>`);
+    return (`<h1 class="trip-info__title">${tripEvents[FIRST_ELEMENT][SECOND_ELEMENT][FIRST_ELEMENT].destination.city} — ... — ${tripEvents[tripEvents.length - 1][SECOND_ELEMENT][FIRST_ELEMENT].destination.city}</h1>`);
   }
 };
 

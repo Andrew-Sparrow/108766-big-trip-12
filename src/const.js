@@ -1,3 +1,7 @@
+export const FIRST_ELEMENT = 0;
+export const SECOND_ELEMENT = 1;
+export const THIRD_ELEMENT = 2;
+
 export const DESCRIPTIONS = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
   `Cras aliquet varius magna, non porta ligula feugiat eget.`,
