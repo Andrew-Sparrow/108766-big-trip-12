@@ -1,5 +1,5 @@
 import {
-  render,
+  renderTemplate,
   groupArrayOfObjects,
   defaultSortEventsByGroupDays,
   defaultSortEventsItems
@@ -33,12 +33,12 @@ const groupsEventsByDay = groupArrayOfObjects(tripEvents, `dateStart`);
 const defaultSortedDays = defaultSortEventsByGroupDays(groupsEventsByDay);
 const defaultSortedEvents = defaultSortEventsItems(tripEvents);
 
-render(tripMainElementInHeader, getHeaderElementTripInfoContainer(defaultSortedDays, defaultSortedEvents), `afterbegin`);
+renderTemplate(tripMainElementInHeader, getHeaderElementTripInfoContainer(defaultSortedDays, defaultSortedEvents), `afterbegin`);
 
-render(tripViewElement, getHeaderElementTripTabsContainer(), `afterend`);
-render(filterEventsElement, getHeaderFiltersContainer(), `afterend`);
-render(tripEventsTitleElement, getTripSortContainer(), `afterend`);
+renderTemplate(tripViewElement, getHeaderElementTripTabsContainer(), `afterend`);
+renderTemplate(filterEventsElement, getHeaderFiltersContainer(), `afterend`);
+renderTemplate(tripEventsTitleElement, getTripSortContainer(), `afterend`);
 
-render(tripEventsElement, getTripEventItemEditTemplate(tripEvents[FIRST_ELEMENT], CITIES), `beforeend`);
+renderTemplate(tripEventsElement, getTripEventItemEditTemplate(tripEvents[FIRST_ELEMENT], CITIES), `beforeend`);
 
-render(tripEventsElement, getTripDaysTemplate(defaultSortedDays), `beforeend`);
+renderTemplate(tripEventsElement, getTripDaysTemplate(defaultSortedDays), `beforeend`);
