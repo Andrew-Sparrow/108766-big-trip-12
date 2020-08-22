@@ -7,8 +7,8 @@ import {
   defaultSortEventsItems
 } from "./view/util/utils.js";
 
-import HeaderElementTripInfo from "./view/header-info.js";
-import {getHeaderElementTripTabsContainer} from "./view/header-trip-tabs.js";
+import HeaderElementTripInfoView from "./view/header-info.js";
+import HeaderElementTripTabsView from "./view/header-trip-tabs.js";
 import {getHeaderFiltersContainer} from "./view/header-filters.js";
 import {getTripSortContainer} from "./view/trip-sort.js";
 import {getTripEventItemEditTemplate} from "./view/trip-event-item.js";
@@ -35,9 +35,12 @@ const groupsEventsByDay = groupArrayOfObjects(tripEvents, `dateStart`);
 const defaultSortedDays = defaultSortEventsByGroupDays(groupsEventsByDay);
 const defaultSortedEvents = defaultSortEventsItems(tripEvents);
 
-renderElement(tripMainElementInHeader, new HeaderElementTripInfo().getElement(defaultSortedDays, defaultSortedEvents), RenderPosition.AFTERBEGIN);
+renderElement(tripMainElementInHeader, new HeaderElementTripInfoView().getElement(defaultSortedDays, defaultSortedEvents), RenderPosition.AFTERBEGIN);
 
-renderTemplate(tripViewElement, getHeaderElementTripTabsContainer(), `afterend`);
+const headerElementTripTabsViewComponent = new HeaderElementTripTabsView();
+
+renderElement(tripViewElement, headerElementTripTabsViewComponent.getElement(), RenderPosition.AFTEREND);
+
 renderTemplate(filterEventsElement, getHeaderFiltersContainer(), `afterend`);
 renderTemplate(tripEventsTitleElement, getTripSortContainer(), `afterend`);
 
