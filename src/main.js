@@ -48,7 +48,7 @@ renderElement(filterEventsElement, headerFiltersComponent.getElement(), RenderPo
 
 const tripSortComponent = new TripSortView();
 
-renderElement(tripEventsTitleElement, tripSortComponent, RenderPosition.AFTEREND);
+renderElement(tripEventsTitleElement, tripSortComponent.getElement(), RenderPosition.AFTEREND);
 
 renderTemplate(tripEventsElement, getTripEventItemEditTemplate(tripEvents[FIRST_ELEMENT], CITIES), `beforeend`);
 
