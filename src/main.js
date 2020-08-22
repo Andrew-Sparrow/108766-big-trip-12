@@ -1,5 +1,4 @@
 import {
-  renderTemplate,
   renderElement,
   RenderPosition,
   groupArrayOfObjects,
@@ -12,7 +11,8 @@ import HeaderElementTripTabsView from "./view/header-trip-tabs.js";
 import HeaderFiltersView from "./view/header-filters.js";
 import TripSortView from "./view/trip-sort.js";
 import TripEventItemEditView from "./view/trip-event-item.js";
-import {getTripDaysTemplate} from "./view/trip-days.js";
+import TripDays from "./view/trip-days.js";
+
 import {generateEvent} from "./mock/trip-event";
 import {
   CITIES,
@@ -53,4 +53,6 @@ const tripEventItemEditComponent = new TripEventItemEditView();
 
 renderElement(tripEventsElement, tripEventItemEditComponent.getElement(tripEvents[FIRST_ELEMENT], CITIES), RenderPosition.BEFOREEND);
 
-renderTemplate(tripEventsElement, getTripDaysTemplate(defaultSortedDays), `beforeend`);
+const tripDaysComponent = new TripDays();
+
+renderElement(tripEventsElement, tripDaysComponent.getElement(defaultSortedDays), RenderPosition.BEFOREEND);
