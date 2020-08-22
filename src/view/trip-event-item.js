@@ -23,13 +23,9 @@ export default class TripEventItemEdit {
     this._element = null;
   }
 
-  getTemplate(travelEvent, destinationPoints) {
-    return createTripEventItemEditTemplate(travelEvent, destinationPoints);
-  }
-
   getElement(travelEvent, destinationPoints) {
     if (!this._element) {
-      this._element = createElement(this.getTemplate(travelEvent, destinationPoints));
+      this._element = createElement(TripEventItemEdit.getTemplate(travelEvent, destinationPoints));
     }
 
     return this._element;
@@ -37,5 +33,9 @@ export default class TripEventItemEdit {
 
   removeElement() {
     this._element = null;
+  }
+
+  static getTemplate(travelEvent, destinationPoints) {
+    return createTripEventItemEditTemplate(travelEvent, destinationPoints);
   }
 }

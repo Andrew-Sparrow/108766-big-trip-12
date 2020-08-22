@@ -49,10 +49,6 @@ export default class HeaderElementTripInfo {
     this._element = null;
   }
 
-  static getTemplate(sortedDays, sortedEvents) {
-    return createHeaderElementTripInfoTemplate(sortedDays, sortedEvents);
-  }
-
   getElement(sortedDays, sortedEvents) {
     if (!this._element) {
       this._element = createElement(HeaderElementTripInfo.getTemplate(sortedDays, sortedEvents));
@@ -63,5 +59,9 @@ export default class HeaderElementTripInfo {
 
   removeElement() {
     this._element = null;
+  }
+
+  static getTemplate(sortedDays, sortedEvents) {
+    return createHeaderElementTripInfoTemplate(sortedDays, sortedEvents);
   }
 }

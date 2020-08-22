@@ -12,18 +12,18 @@ export default class HeaderElementTripTabs {
     this._element = null;
   }
 
-  getTemplate() {
-    return createHeaderElementTripTabsTemplate();
-  }
-
   getElement() {
     if (!this._element) {
-      this._element = createElement(this.getTemplate());
+      this._element = createElement(HeaderElementTripTabs.getTemplate());
     }
     return this._element;
   }
 
   removeElement() {
     this._element = null;
+  }
+
+  static getTemplate() {
+    return createHeaderElementTripTabsTemplate();
   }
 }

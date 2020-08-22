@@ -38,13 +38,9 @@ export default class TripSort {
     this._element = null;
   }
 
-  getTemplate() {
-    return createTripSortTemplate();
-  }
-
   getElement() {
     if (!this._element) {
-      this._element = createElement(this.getTemplate());
+      this._element = createElement(TripSort.getTemplate());
     }
 
     return this._element;
@@ -52,5 +48,9 @@ export default class TripSort {
 
   removeElement() {
     this._element = null;
+  }
+
+  static getTemplate() {
+    return createTripSortTemplate();
   }
 }
