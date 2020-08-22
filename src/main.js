@@ -9,7 +9,7 @@ import {
 
 import HeaderElementTripInfoView from "./view/header-info.js";
 import HeaderElementTripTabsView from "./view/header-trip-tabs.js";
-import {getHeaderFiltersContainer} from "./view/header-filters.js";
+import HeaderFiltersView from "./view/header-filters.js";
 import {getTripSortContainer} from "./view/trip-sort.js";
 import {getTripEventItemEditTemplate} from "./view/trip-event-item.js";
 import {getTripDaysTemplate} from "./view/trip-days.js";
@@ -37,11 +37,14 @@ const defaultSortedEvents = defaultSortEventsItems(tripEvents);
 
 renderElement(tripMainElementInHeader, new HeaderElementTripInfoView().getElement(defaultSortedDays, defaultSortedEvents), RenderPosition.AFTERBEGIN);
 
-const headerElementTripTabsViewComponent = new HeaderElementTripTabsView();
+const headerElementTripTabsComponent = new HeaderElementTripTabsView();
 
-renderElement(tripViewElement, headerElementTripTabsViewComponent.getElement(), RenderPosition.AFTEREND);
+renderElement(tripViewElement, headerElementTripTabsComponent.getElement(), RenderPosition.AFTEREND);
 
-renderTemplate(filterEventsElement, getHeaderFiltersContainer(), `afterend`);
+const headerFiltersComponent = new HeaderFiltersView();
+
+renderElement(filterEventsElement, headerFiltersComponent.getElement(), RenderPosition.AFTEREND);
+
 renderTemplate(tripEventsTitleElement, getTripSortContainer(), `afterend`);
 
 renderTemplate(tripEventsElement, getTripEventItemEditTemplate(tripEvents[FIRST_ELEMENT], CITIES), `beforeend`);
