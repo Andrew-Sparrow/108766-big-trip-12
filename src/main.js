@@ -10,7 +10,8 @@ import {
 import HeaderElementTripInfoView from "./view/header-info.js";
 import HeaderElementTripTabsView from "./view/header-trip-tabs.js";
 import HeaderFiltersView from "./view/header-filters.js";
-import {getTripSortContainer} from "./view/trip-sort.js";
+import TripSortView from "./view/trip-sort.js";
+import {createTripSortTemplate} from "./view/trip-sort.js";
 import {getTripEventItemEditTemplate} from "./view/trip-event-item.js";
 import {getTripDaysTemplate} from "./view/trip-days.js";
 import {generateEvent} from "./mock/trip-event";
@@ -45,7 +46,9 @@ const headerFiltersComponent = new HeaderFiltersView();
 
 renderElement(filterEventsElement, headerFiltersComponent.getElement(), RenderPosition.AFTEREND);
 
-renderTemplate(tripEventsTitleElement, getTripSortContainer(), `afterend`);
+const tripSortComponent = new TripSortView();
+
+renderElement(tripEventsTitleElement, tripSortComponent, RenderPosition.AFTEREND);
 
 renderTemplate(tripEventsElement, getTripEventItemEditTemplate(tripEvents[FIRST_ELEMENT], CITIES), `beforeend`);
 
