@@ -6,7 +6,8 @@ import {
 
 import {
   getDateStringForHeader,
-  calculateTotalPrice
+  calculateTotalPrice,
+  createElement
 } from "./util/utils.js";
 
 const getHeaderElementTripInfoTitleContainer = (tripEvents) => {
@@ -28,7 +29,7 @@ const getHeaderElementTripInfoTitleContainer = (tripEvents) => {
  * @param {Object[]} ungroupedTripEvents - The unsorted travelEvents.
  * @return {String} Returns markup block
  */
-export const getHeaderElementTripInfoContainer = (tripEvents, ungroupedTripEvents) => {
+const createHeaderElementTripInfoTemplate = (tripEvents, ungroupedTripEvents) => {
   const dateString = getDateStringForHeader(tripEvents);
 
   return (`<section class="trip-main__trip-info  trip-info">
@@ -42,3 +43,25 @@ export const getHeaderElementTripInfoContainer = (tripEvents, ungroupedTripEvent
             </p>
           </section>`);
 };
+
+export default class HeaderElementTripInfo {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate(sortedDays, sortedEvents) {
+    return createHeaderElementTripInfoTemplate(sortedDays, sortedEvents);
+  }
+
+  getElement(sortedDays, sortedEvents) {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate(sortedDays, sortedEvents));
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
