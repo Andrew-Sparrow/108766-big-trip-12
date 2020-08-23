@@ -7,7 +7,7 @@ import {
 import {
   getDateStringForHeader,
   calculateTotalPrice,
-  createElement
+  createDOMElement
 } from "./util/utils.js";
 
 const getHeaderElementTripInfoTitleContainer = (tripEvents) => {
@@ -51,7 +51,7 @@ export default class HeaderElementTripInfo {
 
   getElement(sortedDays, sortedEvents) {
     if (!this._element) {
-      this._element = createElement(HeaderElementTripInfo.getTemplate(sortedDays, sortedEvents));
+      this._element = createDOMElement(HeaderElementTripInfo.getTemplate(sortedDays, sortedEvents));
     }
 
     return this._element;

@@ -1,4 +1,4 @@
-import {createElement} from "./util/utils";
+import {createDOMElement} from "./util/utils";
 
 const createHeaderFiltersTemplate = () => {
   return (`<form class="trip-filters" action="#" method="get">
@@ -28,7 +28,7 @@ export default class HeaderFilters {
 
   getElement() {
     if (!this._element) {
-      this._element = createElement(HeaderFilters.getTemplate());
+      this._element = createDOMElement(HeaderFilters.getTemplate());
     }
     return this._element;
   }

@@ -2,7 +2,7 @@ const getDestinationPointsTemplate = (city) => {
   return `<option value="${city}"></option>`;
 };
 
-export const getTripEventItemHeaderTemplate = (travelEvent, destinationsPoints) => {
+export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoints) => {
   const {
     routPointType,
     routPointTypeGroupName,

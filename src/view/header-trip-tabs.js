@@ -1,4 +1,4 @@
-import {createElement} from "./util/utils";
+import {createDOMElement} from "./util/utils";
 
 const createHeaderElementTripTabsTemplate = () => {
   return (`<nav class="trip-controls__trip-tabs  trip-tabs">
@@ -14,7 +14,7 @@ export default class HeaderElementTripTabs {
 
   getElement() {
     if (!this._element) {
-      this._element = createElement(HeaderElementTripTabs.getTemplate());
+      this._element = createDOMElement(HeaderElementTripTabs.getTemplate());
     }
     return this._element;
   }

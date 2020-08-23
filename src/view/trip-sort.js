@@ -1,4 +1,4 @@
-import {createElement} from "./util/utils.js";
+import {createDOMElement} from "./util/utils.js";
 
 export const createTripSortTemplate = () => {
   return (`<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
@@ -40,7 +40,7 @@ export default class TripSort {
 
   getElement() {
     if (!this._element) {
-      this._element = createElement(TripSort.getTemplate());
+      this._element = createDOMElement(TripSort.getTemplate());
     }
 
     return this._element;
