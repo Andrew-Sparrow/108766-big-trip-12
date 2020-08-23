@@ -1,3 +1,5 @@
+import {createElement} from "./util/utils.js";
+
 const getEventOfferTemplateInTripDay = (offer) => {
   const {price, title} = offer;
 
@@ -7,7 +9,7 @@ const getEventOfferTemplateInTripDay = (offer) => {
 };
 
 // get event item template in day
-export const getTripEventTemplateForDays = (travelEvent) => {
+const createTripEventForDayTemplate = (travelEvent) => {
   const {
     dateStart,
     dateEnd,
@@ -15,9 +17,10 @@ export const getTripEventTemplateForDays = (travelEvent) => {
     routPointType,
     price} = travelEvent;
 
-  const offersBlockTemplate = routPointType.offers
-    .map((offer) => getEventOfferTemplateInTripDay(offer))
-    .join(``);
+  const offers = routPointType.offers
+    .map((offer) => getEventOfferTemplateInTripDay(offer));
+
+  const offersBlockTemplate = offers.join(``);
 
   return (`<li class="trip-events__item">
               <div class="event">
@@ -51,3 +54,25 @@ export const getTripEventTemplateForDays = (travelEvent) => {
               </div>
             </li>`);
 };
+
+export default class TripEventsForDay {
+  constructor() {
+    this._element = null;
+  }
+
+  getElement(tripEvent) {
+    if (!this._element) {
+      this._element = createElement(TripEventsForDay.getTemplate(tripEvent));
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+
+  static getTemplate(travelEvent) {
+    return createTripEventForDayTemplate(travelEvent);
+  }
+}

@@ -4,13 +4,18 @@ import {
   THIRD_ELEMENT
 } from "../const";
 
-import {createElement} from "./util/utils.js";
+import {
+  createElement,
+} from "./util/utils.js";
 
-import {getTripEventTemplateForDays} from "./trip-event-item-in-trip-days.js";
+import TripEventsForDay from "./trip-event-item-in-trip-days.js";
 
 // get day template in list of days
 const createEventDayTemplate = (date, tripEventsInDay, counter) => {
-  const blockEventsInTripDaysItem = tripEventsInDay.map((tripEvent) => getTripEventTemplateForDays(tripEvent)).join(``);
+
+  const blockEventsInTripDaysItem = tripEventsInDay.map((tripEvent) => {
+    return TripEventsForDay.getTemplate(tripEvent);
+  }).join(``);
 
   return (`<li class="trip-days__item  day">
               <div class="day__info">
@@ -19,6 +24,7 @@ const createEventDayTemplate = (date, tripEventsInDay, counter) => {
               </div>
 
               <ul class="trip-events__list">
+                <!-- block of events in day is inserted here -->
                 ${blockEventsInTripDaysItem}
               </ul>
             </li>`);
