@@ -17,10 +17,13 @@ const createTripEventForDayTemplate = (travelEvent) => {
     routPointType,
     price} = travelEvent;
 
-  const offers = routPointType.offers
+  const offersTemplates = routPointType.offers
     .map((offer) => getEventOfferTemplateInTripDay(offer));
 
-  const offersBlockTemplate = offers.join(``);
+  // not more than three offers should be displayed in block of offers
+  const offersTemplatesSliced = offersTemplates.slice(0, 3);
+
+  const offersBlockTemplate = offersTemplatesSliced.join(``);
 
   return (`<li class="trip-events__item">
               <div class="event">
