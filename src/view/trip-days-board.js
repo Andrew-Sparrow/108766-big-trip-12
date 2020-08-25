@@ -6,7 +6,7 @@ import {
 
 import {createDOMElement} from "./util/utils.js";
 
-// import TripEventsForDay from "./trip-event-item-in-trip-days.js";
+// import TripEventsForDay from "./trip-event-item-in-trip-days-board.js";
 
 const getEventOfferTemplateInTripDay = (offer) => {
   const {price, title} = offer;
@@ -88,7 +88,7 @@ const createEventDayTemplate = (date, tripEventsInDay, counter) => {
 };
 
 // get block of days
-const createTripDaysTemplate = (tripDays) => {
+const createTripDaysBoardTemplate = (tripDays) => {
   const blockTripDaysItems = tripDays.map((tripDay, index) => createEventDayTemplate(tripDay[FIRST_ELEMENT], tripDay[SECOND_ELEMENT], index)).join(``);
 
   return (`<ul class="trip-days">
@@ -96,14 +96,14 @@ const createTripDaysTemplate = (tripDays) => {
            </ul>`);
 };
 
-export default class TripDays {
+export default class TripDaysBoard {
   constructor(tripDays) {
     this._days = tripDays;
     this._element = null;
   }
 
   getTemplate() {
-    return createTripDaysTemplate(this._days);
+    return createTripDaysBoardTemplate(this._days);
   }
 
   getElement() {

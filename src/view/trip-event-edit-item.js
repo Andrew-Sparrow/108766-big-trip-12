@@ -200,8 +200,8 @@ export const createTripEventItemEditTemplate = (travelEvent, destinationPoints) 
           </form>`);
 };
 
-export default class TripEventItemEdit {
-  constructor(travelEvent, destinationPoints) {
+export default class TripEventEditItem {
+  constructor(travelEvent = BLANK_TRIP_EVENT, destinationPoints) {
     this._travelEvent = travelEvent;
     this._destinationPoints = destinationPoints;
     this._element = null;

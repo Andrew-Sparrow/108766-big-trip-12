@@ -10,8 +10,8 @@ import HeaderElementTripInfoView from "./view/header-info.js";
 import HeaderElementTripTabsView from "./view/header-trip-tabs.js";
 import HeaderFiltersView from "./view/header-filters.js";
 import TripSortView from "./view/trip-sort.js";
-import TripEventItemEditView from "./view/trip-event-edit-item.js";
-import TripDays from "./view/trip-days.js";
+import TripEventEditItemView from "./view/trip-event-edit-item.js";
+import TripDaysBoard from "./view/trip-days-board.js";
 
 import {generateEvent} from "./mock/trip-event";
 import {
@@ -32,6 +32,7 @@ const tripEvents = new Array(10).fill().map(generateEvent);
 const groupsEventsByDay = groupArrayOfObjects(tripEvents, `dateStart`);
 
 const defaultSortedDays = defaultSortEventsByGroupDays(groupsEventsByDay);
+// console.log(defaultSortedDays);
 const defaultSortedEvents = defaultSortEventsItems(tripEvents);
 
 renderDOMElement(tripMainElementInHeader, new HeaderElementTripInfoView(defaultSortedDays, defaultSortedEvents).getElement(), RenderPosition.AFTERBEGIN);
@@ -48,10 +49,10 @@ const tripSortComponent = new TripSortView();
 
 renderDOMElement(tripEventsElement, tripSortComponent.getElement(), RenderPosition.AFTERBEGIN);
 
-const tripEventItemEditComponent = new TripEventItemEditView(tripEvents[FIRST_ELEMENT], CITIES);
+const tripEventItemEditComponent = new TripEventEditItemView(tripEvents[FIRST_ELEMENT], CITIES);
 
 renderDOMElement(tripEventsElement, tripEventItemEditComponent.getElement(), RenderPosition.BEFOREEND);
 
-const tripDaysComponent = new TripDays(defaultSortedDays);
+const tripDaysComponent = new TripDaysBoard(defaultSortedDays);
 
 renderDOMElement(tripEventsElement, tripDaysComponent.getElement(), RenderPosition.BEFOREEND);
