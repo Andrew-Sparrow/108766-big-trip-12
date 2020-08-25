@@ -1,3 +1,5 @@
+/*
+
 const getEventPhoto = (photoSrc) => {
   return (`<img class="event__photo" src="${photoSrc}" alt="Event photo">`);
 };
@@ -21,3 +23,4 @@ export const getEventItemDestinationInEditFormTemplate = (travelEvent) => {
               </div>
             </section>`);
 };
+*/

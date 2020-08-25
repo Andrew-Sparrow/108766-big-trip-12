@@ -1,7 +1,7 @@
 import {ROUTE_POINT_TYPES} from "../const.js";
-import {getTripEventItemHeaderEditTemplate} from "./trip-event-item-header.js";
-import {getEventItemDestinationInEditFormTemplate} from "./event-item-destination.js";
-import {getEventOffersInEditFormTemplate} from "./event-offers-in-edit";
+// import {getTripEventItemHeaderEditTemplate} from "./trip-event-item-header.js";
+// import {getEventItemDestinationInEditFormTemplate} from "./event-item-destination.js";
+// import {getEventOffersInEditFormTemplate} from "./event-offers-in-edit";
 import {createDOMElement} from "./util/utils.js";
 
 const BLANK_TRIP_EVENT = {
@@ -11,6 +11,178 @@ const BLANK_TRIP_EVENT = {
   dateStart: null,
   dateEnd: null,
   price: null
+};
+
+const getDestinationPointsTemplate = (city) => {
+  return `<option value="${city}"></option>`;
+};
+
+export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoints) => {
+  const {
+    routPointType,
+    routPointTypeGroupName,
+    dateStart,
+    dateEnd
+  } = travelEvent;
+
+  const destinationPointsValues = destinationsPoints.map((point) => getDestinationPointsTemplate(point.city)).join(``);
+
+  return (`<header class="event__header">
+              <div class="event__type-wrapper">
+                <label class="event__type  event__type-btn" for="event-type-toggle-1">
+                  <span class="visually-hidden">Choose event type</span>
+                  <img class="event__type-icon" width="17" height="17" src="img/icons/${routPointType.name.toLowerCase()}.png" alt="Event type icon">
+                </label>
+                <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
+
+                <div class="event__type-list">
+                  <fieldset class="event__type-group">
+                    <legend class="visually-hidden">Transfer</legend>
+
+                    <div class="event__type-item">
+                      <input id="event-type-taxi-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="taxi">
+                      <label class="event__type-label  event__type-label--taxi" for="event-type-taxi-1">Taxi</label>
+                    </div>
+
+                    <div class="event__type-item">
+                      <input id="event-type-bus-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="bus">
+                      <label class="event__type-label  event__type-label--bus" for="event-type-bus-1">Bus</label>
+                    </div>
+
+                    <div class="event__type-item">
+                      <input id="event-type-train-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="train">
+                      <label class="event__type-label  event__type-label--train" for="event-type-train-1">Train</label>
+                    </div>
+
+                    <div class="event__type-item">
+                      <input id="event-type-ship-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="ship">
+                      <label class="event__type-label  event__type-label--ship" for="event-type-ship-1">Ship</label>
+                    </div>
+
+                    <div class="event__type-item">
+                      <input id="event-type-transport-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="transport">
+                      <label class="event__type-label  event__type-label--transport" for="event-type-transport-1">Transport</label>
+                    </div>
+
+                    <div class="event__type-item">
+                      <input id="event-type-drive-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="drive">
+                      <label class="event__type-label  event__type-label--drive" for="event-type-drive-1">Drive</label>
+                    </div>
+
+                    <div class="event__type-item">
+                      <input id="event-type-flight-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="flight" checked="">
+                      <label class="event__type-label  event__type-label--flight" for="event-type-flight-1">Flight</label>
+                    </div>
+                  </fieldset>
+
+                  <fieldset class="event__type-group">
+                    <legend class="visually-hidden">Activity</legend>
+
+                    <div class="event__type-item">
+                      <input id="event-type-check-in-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="check-in">
+                      <label class="event__type-label  event__type-label--check-in" for="event-type-check-in-1">Check-in</label>
+                    </div>
+
+                    <div class="event__type-item">
+                      <input id="event-type-sightseeing-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="sightseeing">
+                      <label class="event__type-label  event__type-label--sightseeing" for="event-type-sightseeing-1">Sightseeing</label>
+                    </div>
+
+                    <div class="event__type-item">
+                      <input id="event-type-restaurant-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="restaurant">
+                      <label class="event__type-label  event__type-label--restaurant" for="event-type-restaurant-1">Restaurant</label>
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+
+              <div class="event__field-group  event__field-group--destination">
+                <label class="event__label  event__type-output" for="event-destination-1">
+                  ${routPointType.name} ${routPointTypeGroupName === `transfer` ? ` to` : ` in`}
+                </label>
+                <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" list="destination-list-1" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+                <datalist id="destination-list-1">
+                  ${destinationPointsValues}
+                </datalist>
+              </div>
+
+              <div class="event__field-group  event__field-group--time">
+                <label class="visually-hidden" for="event-start-time-1">
+                  From
+                </label>
+                <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${dateStart.getDate()}/${dateStart.getMonth()}/${dateStart.getFullYear()} ${dateStart.getHours()}:${dateStart.getMinutes()}">
+                —
+                <label class="visually-hidden" for="event-end-time-1">
+                  To                </label>
+                <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${dateEnd.getDate()}/${dateEnd.getMonth()}/${dateEnd.getFullYear()} ${dateEnd.getHours()}:${dateEnd.getMinutes()}">
+              </div>
+
+              <div class="event__field-group  event__field-group--price">
+                <label class="event__label" for="event-price-1">
+                  <span class="visually-hidden">Price</span>
+                  €
+                </label>
+                <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="">
+              </div>
+
+              <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
+              <button class="event__reset-btn" type="reset">Cancel</button>
+            </header>`);
+};
+
+const getEventOffersItemInEditFormTemplate = (offer) => {
+  const {title, price} = offer;
+
+  return `<div class="event__offer-selector">
+            <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-${offer.name}" checked="">
+            <label class="event__offer-label" for="event-offer-luggage-1">
+              <span class="event__offer-title">${title}</span>
+              +
+              €&nbsp;<span class="event__offer-price">${price}</span>
+            </label>
+          </div>`;
+};
+
+/**
+ * Returns a markup list of offers.
+ * @param {Object[]} offers - The offers in the trip event.
+ * @return {String} Returns markup block of offers
+ */
+export const getEventOffersInEditFormTemplate = (offers) => {
+
+  const offersBlockInEditForm = offers.map((offer) => getEventOffersItemInEditFormTemplate(offer)).join(``);
+
+  return (`<section class="event__section  event__section--offers">
+              <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+              <div class="event__available-offers">
+                  <!--container for available offers-->
+                  ${offersBlockInEditForm}
+              </div>
+            </section>`);
+};
+
+const getEventPhoto = (photoSrc) => {
+  return (`<img class="event__photo" src="${photoSrc}" alt="Event photo">`);
+};
+
+export const getEventItemDestinationInEditFormTemplate = (travelEvent) => {
+  const {destination} = travelEvent;
+  const {photos, description} = destination;
+
+  const photosBlockTemplate = photos
+    .map((photo) => getEventPhoto(photo))
+    .join(``);
+
+  return (`<section class="event__section  event__section--destination">
+              <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+              <p class="event__destination-description">${description}</p>
+
+              <div class="event__photos-container">
+                <div class="event__photos-tape">
+                ${photosBlockTemplate}
+                </div>
+              </div>
+            </section>`);
 };
 
 export const createTripEventItemEditTemplate = (travelEvent, destinationPoints) => {

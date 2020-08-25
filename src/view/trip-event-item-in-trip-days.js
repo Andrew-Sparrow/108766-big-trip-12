@@ -1,4 +1,5 @@
-import {createDOMElement} from "./util/utils.js";
+// import {createDOMElement} from "./util/utils.js";
+/*
 
 const getEventOfferTemplateInTripDay = (offer) => {
   const {price, title} = offer;
@@ -57,7 +58,8 @@ const createTripEventForDayTemplate = (travelEvent) => {
               </div>
             </li>`);
 };
-
+*/
+/*
 export default class TripEventsForDay {
   constructor(tripEvent) {
     this._tripEvent = tripEvent;
@@ -79,4 +81,4 @@ export default class TripEventsForDay {
   removeElement() {
     this._element = null;
   }
-}
+}*/

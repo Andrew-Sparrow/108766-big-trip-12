@@ -1,3 +1,4 @@
+/*
 const getDestinationPointsTemplate = (city) => {
   return `<option value="${city}"></option>`;
 };
@@ -114,3 +115,4 @@ export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoin
               <button class="event__reset-btn" type="reset">Cancel</button>
             </header>`);
 };
+*/
