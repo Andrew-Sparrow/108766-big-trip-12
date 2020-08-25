@@ -88,7 +88,7 @@ const createEventDayTemplate = (date, tripEventsInDay, counter) => {
 };
 
 // get block of days
-const createTripDaysBoardTemplate = (tripDays) => {
+const createTripDaysTemplate = (tripDays) => {
   const blockTripDaysItems = tripDays.map((tripDay, index) => createEventDayTemplate(tripDay[FIRST_ELEMENT], tripDay[SECOND_ELEMENT], index)).join(``);
 
   return (`<ul class="trip-days">
@@ -103,7 +103,7 @@ export default class TripDaysBoard {
   }
 
   getTemplate() {
-    return createTripDaysBoardTemplate(this._days);
+    return createTripDaysTemplate(this._days);
   }
 
   getElement() {

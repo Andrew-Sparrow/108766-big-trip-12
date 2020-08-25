@@ -24,8 +24,8 @@ const tripMainElementInHeader = headerElement.querySelector(`.trip-main`);
 const tripViewElement = tripMainElementInHeader.querySelector(`.trip-view`);
 const filterEventsElement = tripMainElementInHeader.querySelector(`.filter-events`);
 const pageMainElement = document.querySelector(`.page-main`);
-const pageBodyContainerElement = pageMainElement.querySelector(`.page-body__container`);
-const tripEventsElement = pageBodyContainerElement.querySelector(`.trip-events`);
+const pageBodyContainer = pageMainElement.querySelector(`.page-body__container`);
+const tripEventsContainer = pageBodyContainer.querySelector(`.trip-events`);
 
 const tripEvents = new Array(10).fill().map(generateEvent);
 
@@ -47,12 +47,12 @@ renderDOMElement(filterEventsElement, headerFiltersComponent.getElement(), Rende
 
 const tripSortComponent = new TripSortView();
 
-renderDOMElement(tripEventsElement, tripSortComponent.getElement(), RenderPosition.AFTERBEGIN);
+renderDOMElement(tripEventsContainer, tripSortComponent.getElement(), RenderPosition.AFTERBEGIN);
 
 const tripEventItemEditComponent = new TripEventEditItemView(tripEvents[FIRST_ELEMENT], CITIES);
 
-renderDOMElement(tripEventsElement, tripEventItemEditComponent.getElement(), RenderPosition.BEFOREEND);
+renderDOMElement(tripEventsContainer, tripEventItemEditComponent.getElement(), RenderPosition.BEFOREEND);
 
 const tripDaysComponent = new TripDaysBoard(defaultSortedDays);
 
-renderDOMElement(tripEventsElement, tripDaysComponent.getElement(), RenderPosition.BEFOREEND);
+renderDOMElement(tripEventsContainer, tripDaysComponent.getElement(), RenderPosition.BEFOREEND);
