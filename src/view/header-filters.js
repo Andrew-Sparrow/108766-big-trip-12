@@ -26,18 +26,18 @@ export default class HeaderFilters {
     this._element = null;
   }
 
+  getTemplate() {
+    return createHeaderFiltersTemplate();
+  }
+
   getElement() {
     if (!this._element) {
-      this._element = createDOMElement(HeaderFilters.getTemplate());
+      this._element = createDOMElement(this.getTemplate());
     }
     return this._element;
   }
 
   removeElement() {
     this._element = null;
-  }
-
-  static getTemplate() {
-    return createHeaderFiltersTemplate();
   }
 }

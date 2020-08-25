@@ -4,11 +4,7 @@ import {
   THIRD_ELEMENT,
 } from "../const";
 
-import {
-  createDOMElement,
-  renderDOMElement,
-  RenderPosition
-} from "./util/utils.js";
+import {createDOMElement} from "./util/utils.js";
 
 import TripEventsForDay from "./trip-event-item-in-trip-days.js";
 
@@ -16,12 +12,9 @@ import TripEventsForDay from "./trip-event-item-in-trip-days.js";
 const createEventDayTemplate = (date, tripEventsInDay, counter) => {
 
   const blockEventsInTripDaysItem = tripEventsInDay.map((tripEvent) => {
-    // console.log(tripEvent);
-    return TripEventsForDay.getTemplate(tripEvent);
-    // return tripEventForDayComponent.getElement(tripEvent);
+    const tripEventInDay = new TripEventsForDay(tripEvent);
+    return tripEventInDay.getTemplate();
   }).join(``);
-
-  // console.log(blockEventsInTripDaysItem);
 
   // template for day
   return (`<li class="trip-days__item  day">
@@ -47,13 +40,18 @@ export const createTripDaysTemplate = (tripDays) => {
 };
 
 export default class TripDays {
-  constructor() {
+  constructor(tripDays) {
+    this._days = tripDays;
     this._element = null;
   }
 
-  getElement(tripDays) {
+  getTemplate() {
+    return createTripDaysTemplate(this._days);
+  }
+
+  getElement() {
     if (!this._element) {
-      this._element = createDOMElement(TripDays.getTemplate(tripDays));
+      this._element = createDOMElement(this.getTemplate());
     }
 
     return this._element;
@@ -61,9 +59,5 @@ export default class TripDays {
 
   removeElement() {
     this._element = null;
-  }
-
-  static getTemplate(tripDays) {
-    return createTripDaysTemplate(tripDays);
   }
 }

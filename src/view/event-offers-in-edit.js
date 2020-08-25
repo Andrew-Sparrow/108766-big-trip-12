@@ -1,4 +1,4 @@
-const getEventOffersItemTemplateInEditForm = (offer) => {
+const getEventOffersItemInEditFormTemplate = (offer) => {
   const {title, price} = offer;
 
   return `<div class="event__offer-selector">
@@ -16,9 +16,9 @@ const getEventOffersItemTemplateInEditForm = (offer) => {
  * @param {Object[]} offers - The offers in the trip event.
  * @return {String} Returns markup block of offers
  */
-export const getEventOffersTemplateInEditForm = (offers) => {
+export const getEventOffersInEditFormTemplate = (offers) => {
 
-  const offersBlockInEditForm = offers.map((offer) => getEventOffersItemTemplateInEditForm(offer)).join(``);
+  const offersBlockInEditForm = offers.map((offer) => getEventOffersItemInEditFormTemplate(offer)).join(``);
 
   return (`<section class="event__section  event__section--offers">
               <h3 class="event__section-title  event__section-title--offers">Offers</h3>

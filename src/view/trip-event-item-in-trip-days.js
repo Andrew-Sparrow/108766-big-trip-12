@@ -59,13 +59,18 @@ const createTripEventForDayTemplate = (travelEvent) => {
 };
 
 export default class TripEventsForDay {
-  constructor() {
+  constructor(tripEvent) {
+    this._tripEvent = tripEvent;
     this._element = null;
   }
 
-  getElement(tripEvent) {
+  getTemplate() {
+    return createTripEventForDayTemplate(this._tripEvent);
+  }
+
+  getElement() {
     if (!this._element) {
-      this._element = createDOMElement(TripEventsForDay.getTemplate(tripEvent));
+      this._element = createDOMElement(this.getTemplate());
     }
 
     return this._element;
@@ -73,9 +78,5 @@ export default class TripEventsForDay {
 
   removeElement() {
     this._element = null;
-  }
-
-  static getTemplate(travelEvent) {
-    return createTripEventForDayTemplate(travelEvent);
   }
 }

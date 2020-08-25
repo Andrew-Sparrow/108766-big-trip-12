@@ -45,13 +45,19 @@ const createHeaderElementTripInfoTemplate = (tripEvents, ungroupedTripEvents) =>
 };
 
 export default class HeaderElementTripInfo {
-  constructor() {
+  constructor(sortedDays, sortedEvents) {
+    this._sortedDays = sortedDays;
+    this._sortedEvents = sortedEvents;
     this._element = null;
   }
 
-  getElement(sortedDays, sortedEvents) {
+  getTemplate() {
+    return createHeaderElementTripInfoTemplate(this._sortedDays, this._sortedEvents);
+  }
+
+  getElement() {
     if (!this._element) {
-      this._element = createDOMElement(HeaderElementTripInfo.getTemplate(sortedDays, sortedEvents));
+      this._element = createDOMElement(this.getTemplate());
     }
 
     return this._element;
@@ -61,7 +67,4 @@ export default class HeaderElementTripInfo {
     this._element = null;
   }
 
-  static getTemplate(sortedDays, sortedEvents) {
-    return createHeaderElementTripInfoTemplate(sortedDays, sortedEvents);
-  }
 }

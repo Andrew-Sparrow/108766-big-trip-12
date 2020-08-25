@@ -2,8 +2,7 @@ const getEventPhoto = (photoSrc) => {
   return (`<img class="event__photo" src="${photoSrc}" alt="Event photo">`);
 };
 
-
-export const getEventItemDestination = (travelEvent) => {
+export const getEventItemDestinationInEditFormTemplate = (travelEvent) => {
   const {destination} = travelEvent;
   const {photos, description} = destination;
 
