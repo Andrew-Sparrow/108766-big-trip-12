@@ -30,13 +30,15 @@ const getHeaderElementTripInfoTitleContainer = (tripEvents) => {
  * @return {String} Returns markup block
  */
 const createHeaderElementTripInfoTemplate = (tripEvents, ungroupedTripEvents) => {
-  const dateString = getDateStringForHeader(tripEvents);
+  const dateString = tripEvents.length !== 0 ? getDateStringForHeader(tripEvents) : null;
 
   return (`<section class="trip-main__trip-info  trip-info">
-            <div class="trip-info__main">
-            ${getHeaderElementTripInfoTitleContainer(ungroupedTripEvents)}
-              <p class="trip-info__dates">${dateString.startTrip}&nbsp;—&nbsp;${dateString.endTrip}</p>
-            </div>
+            ${tripEvents.length !== 0 ? `
+              <div class="trip-info__main">
+                ${getHeaderElementTripInfoTitleContainer(ungroupedTripEvents)}
+                <p class="trip-info__dates">${dateString.startTrip}&nbsp;—&nbsp;${dateString.endTrip}</p>
+              </div>
+              ` : ``}
 
             <p class="trip-info__cost">
               Total: €&nbsp;<span class="trip-info__cost-value">${calculateTotalPrice(tripEvents)}</span>
