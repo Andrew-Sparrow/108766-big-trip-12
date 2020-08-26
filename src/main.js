@@ -34,12 +34,10 @@ const tripEvents = new Array(10).fill().map(generateEvent);
 const groupsEventsByDay = groupArrayOfObjects(tripEvents, `dateStart`);
 
 const defaultSortedDays = defaultSortEventsByGroupDays(groupsEventsByDay);
-// console.log(defaultSortedDays);
 const defaultSortedEvents = defaultSortEventsItems(tripEvents);
 
 const renderEventInDay = (containerForRendering, event) => {
   const tripEventInDay = new TripEventItemInDayView(event);
-  // console.log(event);
   renderDOMElement(containerForRendering, tripEventInDay.getElement(), RenderPosition.BEFOREEND);
 };
 
@@ -57,7 +55,6 @@ const renderDay = (containerForRendering, day, index) => {
 };
 
 const renderDays = (containerForRendering, days) => {
-  // console.log(days);
   if (days.length === 0) {
     renderDOMElement(containerForRendering, new NoEventsView().getElement(), RenderPosition.BEFOREEND);
     return;
