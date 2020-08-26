@@ -12,6 +12,7 @@ import HeaderFiltersView from "./view/header-filters.js";
 import TripSortView from "./view/trip-sort.js";
 import TripEventEditItemView from "./view/trip-event-edit-item.js";
 import TripDaysView from "./view/trip-days.js";
+import NoEventsView from "./view/no-events.js";
 
 import {generateEvent} from "./mock/trip-event";
 
@@ -33,13 +34,9 @@ const defaultSortedEvents = defaultSortEventsItems(tripEvents);
 
 renderDOMElement(tripMainElementInHeader, new HeaderElementTripInfoView(defaultSortedDays, defaultSortedEvents).getElement(), RenderPosition.AFTERBEGIN);
 
-const headerElementTripTabsComponent = new HeaderElementTripTabsView();
+renderDOMElement(tripViewElement, new HeaderElementTripTabsView().getElement(), RenderPosition.AFTEREND);
 
-renderDOMElement(tripViewElement, headerElementTripTabsComponent.getElement(), RenderPosition.AFTEREND);
-
-const headerFiltersComponent = new HeaderFiltersView();
-
-renderDOMElement(filterEventsElement, headerFiltersComponent.getElement(), RenderPosition.AFTEREND);
+renderDOMElement(filterEventsElement, new HeaderFiltersView().getElement(), RenderPosition.AFTEREND);
 
 // const tripSortComponent = new TripSortView();
 //
@@ -56,7 +53,7 @@ renderDOMElement(filterEventsElement, headerFiltersComponent.getElement(), Rende
 const renderDaysContainer = (placeForRendering, days) => {
 
   if (days.length === 0) {
-    console.log(`Click New Event to create your first point`);
+    renderDOMElement(placeForRendering, new NoEventsView().getElement(), RenderPosition.BEFOREEND);
     return;
   }
 
