@@ -58,7 +58,7 @@ const createTripEventForDayTemplate = (travelEvent) => {
             </li>`);
 };
 
-export default class TripEventsForDay {
+export default class TripEventItemInDay {
   constructor(tripEvent) {
     this._tripEvent = tripEvent;
     this._element = null;

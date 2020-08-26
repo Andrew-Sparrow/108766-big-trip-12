@@ -1,3 +1,5 @@
+import {SECOND_ELEMENT} from "./const.js";
+
 import {
   renderDOMElement,
   RenderPosition,
@@ -14,6 +16,8 @@ import TripEventEditItemView from "./view/trip-event-edit-item.js";
 import TripDaysView from "./view/trip-days.js";
 import TripDayView from "./view/trip-day.js";
 import NoEventsView from "./view/no-events.js";
+import TripEventsInDayView from "./view/trip-events-in-day.js";
+import TripEventItemInDayView from "./view/trip-event-item-in-trip-days.js";
 
 import {generateEvent} from "./mock/trip-event";
 
@@ -33,9 +37,22 @@ const defaultSortedDays = defaultSortEventsByGroupDays(groupsEventsByDay);
 // console.log(defaultSortedDays);
 const defaultSortedEvents = defaultSortEventsItems(tripEvents);
 
+const renderEventInDay = (containerForRendering, event) => {
+  const tripEventInDay = new TripEventItemInDayView(event);
+  // console.log(event);
+  renderDOMElement(containerForRendering, tripEventInDay.getElement(), RenderPosition.BEFOREEND);
+};
+
 const renderDay = (containerForRendering, day, index) => {
-  // console.log(day);
+  const events = day[SECOND_ELEMENT];
+
+  const tripEventsInDay = new TripEventsInDayView();
   const tripDay = new TripDayView(day, index);
+
+  events.forEach((tripEvent) => renderEventInDay(tripEventsInDay.getElement(), tripEvent));
+
+  renderDOMElement(tripDay.getElement(), tripEventsInDay.getElement(), RenderPosition.BEFOREEND);
+
   renderDOMElement(containerForRendering, tripDay.getElement(), RenderPosition.BEFOREEND);
 };
 
