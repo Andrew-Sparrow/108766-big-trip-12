@@ -12,6 +12,7 @@ import HeaderFiltersView from "./view/header-filters.js";
 import TripSortView from "./view/trip-sort.js";
 import TripEventEditItemView from "./view/trip-event-edit-item.js";
 import TripDaysView from "./view/trip-days.js";
+import TripDayView from "./view/trip-day.js";
 import NoEventsView from "./view/no-events.js";
 
 import {generateEvent} from "./mock/trip-event";
@@ -24,7 +25,7 @@ const pageMainElement = document.querySelector(`.page-main`);
 const pageBodyContainer = pageMainElement.querySelector(`.page-body__container`);
 const tripEventsContainer = pageBodyContainer.querySelector(`.trip-events`);
 
-const tripEvents = new Array(0).fill().map(generateEvent);
+const tripEvents = new Array(10).fill().map(generateEvent);
 
 const groupsEventsByDay = groupArrayOfObjects(tripEvents, `dateStart`);
 
@@ -32,36 +33,33 @@ const defaultSortedDays = defaultSortEventsByGroupDays(groupsEventsByDay);
 // console.log(defaultSortedDays);
 const defaultSortedEvents = defaultSortEventsItems(tripEvents);
 
+const renderDay = (containerForRendering, day, index) => {
+  // console.log(day);
+  const tripDay = new TripDayView(day, index);
+  renderDOMElement(containerForRendering, tripDay.getElement(), RenderPosition.BEFOREEND);
+};
+
+const renderDays = (containerForRendering, days) => {
+  // console.log(days);
+  if (days.length === 0) {
+    renderDOMElement(containerForRendering, new NoEventsView().getElement(), RenderPosition.BEFOREEND);
+    return;
+  }
+
+  const tripSortComponent = new TripSortView();
+  renderDOMElement(containerForRendering, tripSortComponent.getElement(), RenderPosition.BEFOREEND);
+
+  const tripDays = new TripDaysView();
+  renderDOMElement(containerForRendering, tripDays.getElement(), RenderPosition.BEFOREEND);
+
+  days.forEach((dayInListOfEvents, index) => renderDay(tripDays.getElement(), dayInListOfEvents, index));
+};
+
 renderDOMElement(tripMainElementInHeader, new HeaderElementTripInfoView(defaultSortedDays, defaultSortedEvents).getElement(), RenderPosition.AFTERBEGIN);
 
 renderDOMElement(tripViewElement, new HeaderElementTripTabsView().getElement(), RenderPosition.AFTEREND);
 
 renderDOMElement(filterEventsElement, new HeaderFiltersView().getElement(), RenderPosition.AFTEREND);
 
-// const tripSortComponent = new TripSortView();
-//
-// renderDOMElement(tripEventsContainer, tripSortComponent.getElement(), RenderPosition.AFTERBEGIN);
 
-// const tripEventItemEditComponent = new TripEventEditItemView(tripEvents[FIRST_ELEMENT], CITIES);
-
-// renderDOMElement(tripEventsContainer, tripEventItemEditComponent.getElement(), RenderPosition.BEFOREEND);
-
-// const tripDaysComponent = new TripDaysView(defaultSortedDays);
-
-// renderDOMElement(tripEventsContainer, tripDaysComponent.getElement(), RenderPosition.BEFOREEND);
-
-const renderDaysContainer = (placeForRendering, days) => {
-
-  if (days.length === 0) {
-    renderDOMElement(placeForRendering, new NoEventsView().getElement(), RenderPosition.BEFOREEND);
-    return;
-  }
-
-  const tripSortComponent = new TripSortView();
-  renderDOMElement(placeForRendering, tripSortComponent.getElement(), RenderPosition.AFTERBEGIN);
-
-  const daysComponent = new TripDaysView(days);
-  renderDOMElement(placeForRendering, daysComponent.getElement(), RenderPosition.BEFOREEND);
-};
-
-renderDaysContainer(tripEventsContainer, defaultSortedDays);
+renderDays(tripEventsContainer, defaultSortedDays);

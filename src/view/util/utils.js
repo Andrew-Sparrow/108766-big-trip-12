@@ -13,8 +13,8 @@ export const RenderPosition = {
   AFTEREND: `afterend`
 };
 
-export const renderDOMElement = (container, element, place) => {
-  switch (place) {
+export const renderDOMElement = (container, element, position) => {
+  switch (position) {
     case RenderPosition.AFTERBEGIN:
       container.prepend(element);
       break;
