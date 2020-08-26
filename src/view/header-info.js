@@ -10,7 +10,7 @@ import {
   createDOMElement
 } from "./util/utils.js";
 
-const getHeaderElementTripInfoTitleContainer = (tripEvents) => {
+const createHeaderElementTripInfoTitleTemplate = (tripEvents) => {
   // console.log(tripEvents);
   if (tripEvents.length === 1) {
     return (`<h1 class="trip-info__title">${tripEvents[FIRST_ELEMENT].destination.city}</h1>`);
@@ -35,7 +35,7 @@ const createHeaderElementTripInfoTemplate = (tripEvents, ungroupedTripEvents) =>
   return (`<section class="trip-main__trip-info  trip-info">
             ${tripEvents.length !== 0 ? `
               <div class="trip-info__main">
-                ${getHeaderElementTripInfoTitleContainer(ungroupedTripEvents)}
+                ${createHeaderElementTripInfoTitleTemplate(ungroupedTripEvents)}
                 <p class="trip-info__dates">${dateString.startTrip}&nbsp;—&nbsp;${dateString.endTrip}</p>
               </div>
               ` : ``}

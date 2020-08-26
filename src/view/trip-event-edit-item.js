@@ -1,7 +1,3 @@
-import {ROUTE_POINT_TYPES} from "../const.js";
-// import {getTripEventItemHeaderEditTemplate} from "./trip-event-item-header.js";
-// import {getEventItemDestinationInEditFormTemplate} from "./event-item-destination.js";
-// import {getEventOffersInEditFormTemplate} from "./event-offers-in-edit";
 import {createDOMElement} from "./util/utils.js";
 
 const BLANK_TRIP_EVENT = {
@@ -13,7 +9,7 @@ const BLANK_TRIP_EVENT = {
   price: null
 };
 
-const getDestinationPointsTemplate = (city) => {
+const createDestinationPointsTemplate = (city) => {
   return `<option value="${city}"></option>`;
 };
 
@@ -25,7 +21,7 @@ export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoin
     dateEnd
   } = travelEvent;
 
-  const destinationPointsValues = destinationsPoints.map((point) => getDestinationPointsTemplate(point.city)).join(``);
+  const destinationPointsValues = destinationsPoints.map((point) => createDestinationPointsTemplate(point.city)).join(``);
 
   return (`<header class="event__header">
               <div class="event__type-wrapper">
@@ -130,7 +126,7 @@ export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoin
             </header>`);
 };
 
-const getEventOffersItemInEditFormTemplate = (offer) => {
+const createEventOffersItemInEditFormTemplate = (offer) => {
   const {title, price} = offer;
 
   return `<div class="event__offer-selector">
@@ -148,9 +144,9 @@ const getEventOffersItemInEditFormTemplate = (offer) => {
  * @param {Object[]} offers - The offers in the trip event.
  * @return {String} Returns markup block of offers
  */
-export const getEventOffersInEditFormTemplate = (offers) => {
+export const createEventOffersInEditFormTemplate = (offers) => {
 
-  const offersBlockInEditForm = offers.map((offer) => getEventOffersItemInEditFormTemplate(offer)).join(``);
+  const offersBlockInEditForm = offers.map((offer) => createEventOffersItemInEditFormTemplate(offer)).join(``);
 
   return (`<section class="event__section  event__section--offers">
               <h3 class="event__section-title  event__section-title--offers">Offers</h3>
@@ -161,7 +157,7 @@ export const getEventOffersInEditFormTemplate = (offers) => {
             </section>`);
 };
 
-const getEventPhoto = (photoSrc) => {
+const createEventPhotoTemplate = (photoSrc) => {
   return (`<img class="event__photo" src="${photoSrc}" alt="Event photo">`);
 };
 
@@ -170,7 +166,7 @@ export const getEventItemDestinationInEditFormTemplate = (travelEvent) => {
   const {photos, description} = destination;
 
   const photosBlockTemplate = photos
-    .map((photo) => getEventPhoto(photo))
+    .map((photo) => createEventPhotoTemplate(photo))
     .join(``);
 
   return (`<section class="event__section  event__section--destination">
@@ -194,14 +190,14 @@ export const createTripEventItemEditTemplate = (travelEvent, destinationPoints) 
   return (`<form class="trip-events__item  event  event--edit" action="#" method="post">
             ${getTripEventItemHeaderEditTemplate(travelEvent, destinationPoints)}
             <section class="event__details">
-              ${routPointType.offers.length !== 0 ? getEventOffersInEditFormTemplate(routPointType.offers) : ``}
+              ${routPointType.offers.length !== 0 ? createEventOffersInEditFormTemplate(routPointType.offers) : ``}
               ${destination.description === null ? `` : getEventItemDestinationInEditFormTemplate(travelEvent)}
             </section>
           </form>`);
 };
 
 export default class TripEventEditItem {
-  constructor(travelEvent = BLANK_TRIP_EVENT, destinationPoints) {
+  constructor(travelEvent = Object.assign(BLANK_TRIP_EVENT), destinationPoints) {
     this._travelEvent = travelEvent;
     this._destinationPoints = destinationPoints;
     this._element = null;
