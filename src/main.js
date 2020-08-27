@@ -26,8 +26,7 @@ import NoEventsView from "./view/no-events.js";
 
 const headerElement = document.querySelector(`.page-header`);
 const tripMainElementInHeader = headerElement.querySelector(`.trip-main`);
-const tripViewElement = tripMainElementInHeader.querySelector(`.trip-view`);
-const filterEventsElement = tripMainElementInHeader.querySelector(`.filter-events`);
+const tripControls = tripMainElementInHeader.querySelector(`.trip-main__trip-controls`);
 const pageMainElement = document.querySelector(`.page-main`);
 const pageBodyContainer = pageMainElement.querySelector(`.page-body__container`);
 const tripEventsContainer = pageBodyContainer.querySelector(`.trip-events`);
@@ -121,9 +120,8 @@ export const renderDays = (containerForRendering, days) => {
 
 renderDOMElement(tripMainElementInHeader, new HeaderElementTripInfoView(defaultSortedDays, defaultSortedEvents).getElement(), RenderPosition.AFTERBEGIN);
 
-renderDOMElement(tripViewElement, new HeaderElementTripTabsView().getElement(), RenderPosition.AFTEREND);
+renderDOMElement(tripControls, new HeaderElementTripTabsView().getElement(), RenderPosition.AFTERBEGIN);
 
-renderDOMElement(filterEventsElement, new HeaderFiltersView().getElement(), RenderPosition.AFTEREND);
-
+renderDOMElement(tripControls, new HeaderFiltersView().getElement(), RenderPosition.BEFOREEND);
 
 renderDays(tripEventsContainer, defaultSortedDays);

@@ -10,7 +10,6 @@ import {
 export const RenderPosition = {
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`,
-  AFTEREND: `afterend`
 };
 
 export const renderDOMElement = (container, element, position) => {
