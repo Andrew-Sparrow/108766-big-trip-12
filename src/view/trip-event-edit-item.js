@@ -197,7 +197,7 @@ export const createTripEventItemEditTemplate = (travelEvent, destinationPoints) 
 };
 
 export default class TripEventEditItem {
-  constructor(travelEvent = Object.assign(BLANK_TRIP_EVENT), destinationPoints) {
+  constructor(travelEvent = Object.assign({}, BLANK_TRIP_EVENT), destinationPoints) {
     this._travelEvent = travelEvent;
     this._destinationPoints = destinationPoints;
     this._element = null;
