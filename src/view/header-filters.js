@@ -1,4 +1,6 @@
-export const getHeaderFiltersContainer = () => {
+import {createDOMElement} from "./util/utils";
+
+const createHeaderFiltersTemplate = () => {
   return (`<form class="trip-filters" action="#" method="get">
               <div class="trip-filters__filter">
                 <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="everything" checked="">
@@ -18,3 +20,24 @@ export const getHeaderFiltersContainer = () => {
               <button class="visually-hidden" type="submit">Accept filter</button>
             </form>`);
 };
+
+export default class HeaderFilters {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createHeaderFiltersTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createDOMElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

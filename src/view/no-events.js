@@ -1,19 +1,16 @@
 import {createDOMElement} from "./util/utils.js";
 
-// get block of days
-const createTripDaysTemplate = () => {
-
-  return (`<ul class="trip-days">
-           </ul>`);
+const createNoEventsTemplate = () => {
+  return `<p class="trip-events__msg">Click New Event to create your first point</p>`;
 };
 
-export default class TripDays {
+export default class NoEvents {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createTripDaysTemplate();
+    return createNoEventsTemplate();
   }
 
   getElement() {
@@ -28,3 +25,4 @@ export default class TripDays {
     this._element = null;
   }
 }
+

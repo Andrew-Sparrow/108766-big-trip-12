@@ -3,11 +3,51 @@ import {
   DESCRIPTIONS,
   ADDITIONAL_OFFERS,
   ROUTE_POINT_TYPES,
-  FIRST_ELEMENT,
-  SECOND_ELEMENT
 } from "../../const.js";
 
-export const render = (container, template, place) => {
+const DATE_OF_GROUP_EVENTS = 0;
+const DESTINATIONS_IN_DAY = 1;
+const FIRST_DESTINATION_IN_DAY = 0;
+const FIRST_DAY = 0;
+
+export const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`,
+  AFTER: `afterend`,
+};
+
+export const renderDOMElement = (container, element, position) => {
+  switch (position) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+    case RenderPosition.AFTEREND:
+      container.insertAdjacentElement(`afterend`, element);
+      break;
+  }
+};
+
+/**
+ * create DOM Element.
+ * @param {String} template - The template.
+ * @return {ChildNode} DOM element - The place to put.
+ */
+export const createDOMElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+  return newElement.firstChild;
+};
+
+/**
+ * renderTemplate.
+ * @param {Object} container - The container to put.
+ * @param {String} template - The template.
+ * @param {InsertPosition} place - The place to put.
+ */
+export const renderTemplate = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
@@ -101,12 +141,11 @@ export const groupArrayOfObjects = (objects, key) => {
 
     return receiver;
   }, {});
-
   return Object.entries(items);
 };
 
 export const defaultSortEventsByGroupDays = (tripEvents) => {
-  return new Array(...tripEvents).sort((first, second) => new Date(first[FIRST_ELEMENT]) - new Date(second[FIRST_ELEMENT]));
+  return new Array(...tripEvents).sort((first, second) => new Date(first[DATE_OF_GROUP_EVENTS]) - new Date(second[DATE_OF_GROUP_EVENTS]));
 };
 
 export const defaultSortEventsItems = (tripEvents) => {
@@ -114,7 +153,7 @@ export const defaultSortEventsItems = (tripEvents) => {
 };
 
 export const sortTravelEventsByDateEnd = (tripEvents) => {
-  return new Array(...tripEvents).sort((first, second) => new Date(second[SECOND_ELEMENT][FIRST_ELEMENT].dateEnd) - new Date(first[SECOND_ELEMENT][FIRST_ELEMENT].dateEnd));
+  return new Array(...tripEvents).sort((first, second) => new Date(second[DESTINATIONS_IN_DAY][FIRST_DESTINATION_IN_DAY].dateEnd) - new Date(first[DESTINATIONS_IN_DAY][FIRST_DESTINATION_IN_DAY].dateEnd));
 };
 
 const getShortTitleMonth = (date) => {
@@ -128,9 +167,9 @@ const getShortTitleMonth = (date) => {
 
 export const getDateStringForHeader = (tripEvents) => {
   const sortedListByEndDate = sortTravelEventsByDateEnd(tripEvents);
-  const dateOfFirstEventInSortedList = sortedListByEndDate[FIRST_ELEMENT][SECOND_ELEMENT][FIRST_ELEMENT].dateEnd;
+  const dateOfFirstEventInSortedList = sortedListByEndDate[FIRST_DAY][DESTINATIONS_IN_DAY][FIRST_DESTINATION_IN_DAY].dateEnd;
 
-  let dateStart = new Date(tripEvents[FIRST_ELEMENT][FIRST_ELEMENT]);
+  let dateStart = new Date(tripEvents[FIRST_DAY][DATE_OF_GROUP_EVENTS]);
   let dateEnd = new Date(dateOfFirstEventInSortedList);
 
   dateStart = getShortTitleMonth(dateStart);
@@ -179,11 +218,11 @@ export const generatePhotosInCities = () => {
 export const calculateTotalPrice = (items) => {
   return items.reduce((total, currentItem) => {
     let sumOffersOfItem = 0;
-    if (currentItem[SECOND_ELEMENT][FIRST_ELEMENT].routPointType.offers.length > 0) {
-      sumOffersOfItem = currentItem[SECOND_ELEMENT][FIRST_ELEMENT].routPointType.offers.reduce((sum, current) => {
+    if (currentItem[DESTINATIONS_IN_DAY][FIRST_DESTINATION_IN_DAY].routPointType.offers.length > 0) {
+      sumOffersOfItem = currentItem[DESTINATIONS_IN_DAY][FIRST_DESTINATION_IN_DAY].routPointType.offers.reduce((sum, current) => {
         return sum + current.price;
       }, 0);
     }
-    return Math.ceil(total + currentItem[SECOND_ELEMENT][FIRST_ELEMENT].price + sumOffersOfItem);
+    return Math.ceil(total + currentItem[DESTINATIONS_IN_DAY][FIRST_DESTINATION_IN_DAY].price + sumOffersOfItem);
   }, 0);
 };

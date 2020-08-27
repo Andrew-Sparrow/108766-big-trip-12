@@ -1,19 +1,16 @@
 import {createDOMElement} from "./util/utils.js";
 
-// get block of days
-const createTripDaysTemplate = () => {
-
-  return (`<ul class="trip-days">
-           </ul>`);
+const createTripEventsInDay = () => {
+  return `<ul class="trip-events__list"></ul>`;
 };
 
-export default class TripDays {
+export default class TripEventsInDay {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createTripDaysTemplate();
+    return createTripEventsInDay();
   }
 
   getElement() {

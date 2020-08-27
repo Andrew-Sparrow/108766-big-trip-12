@@ -1,4 +1,8 @@
-const getEventOfferTemplateInTripDay = (offer) => {
+import {createDOMElement} from "./util/utils.js";
+
+const FORTH_ELEMENT = 3;
+
+const createEventOfferInTripDayTemplate = (offer) => {
   const {price, title} = offer;
 
   return (`<li class="event__offer">
@@ -7,7 +11,7 @@ const getEventOfferTemplateInTripDay = (offer) => {
 };
 
 // get event item template in day
-export const getTripEventTemplateForDays = (travelEvent) => {
+const createTripEventForDayTemplate = (travelEvent) => {
   const {
     dateStart,
     dateEnd,
@@ -15,9 +19,13 @@ export const getTripEventTemplateForDays = (travelEvent) => {
     routPointType,
     price} = travelEvent;
 
-  const offersBlockTemplate = routPointType.offers
-    .map((offer) => getEventOfferTemplateInTripDay(offer))
-    .join(``);
+  const offersTemplates = routPointType.offers
+    .map((offer) => createEventOfferInTripDayTemplate(offer));
+
+  // not more than three offers should be displayed in block of offers
+  const offersTemplatesSliced = offersTemplates.slice(0, FORTH_ELEMENT);
+
+  const offersBlockTemplate = offersTemplatesSliced.join(``);
 
   return (`<li class="trip-events__item">
               <div class="event">
@@ -51,3 +59,26 @@ export const getTripEventTemplateForDays = (travelEvent) => {
               </div>
             </li>`);
 };
+
+export default class TripEventItemInDay {
+  constructor(tripEvent) {
+    this._tripEvent = tripEvent;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTripEventForDayTemplate(this._tripEvent);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createDOMElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
