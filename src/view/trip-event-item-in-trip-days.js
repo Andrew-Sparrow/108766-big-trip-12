@@ -1,5 +1,6 @@
 import {createDOMElement} from "./util/utils.js";
-import {FORTH_ELEMENT} from "../const.js";
+
+const FORTH_ELEMENT = 3;
 
 const createEventOfferInTripDayTemplate = (offer) => {
   const {price, title} = offer;

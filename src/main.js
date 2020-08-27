@@ -1,7 +1,8 @@
 import {
   CITIES,
-  SECOND_ELEMENT
 } from "./const.js";
+
+const EVENTS_OF_DAY = 1;
 
 import {
   renderDOMElement,
@@ -88,7 +89,7 @@ const renderEventInDay = (containerForRendering, event) => {
  * @param {Number} index - index of dayProperties in list of days.
  */
 const renderDay = (containerForRendering, dayProperties, index) => {
-  const events = dayProperties[SECOND_ELEMENT];
+  const events = dayProperties[EVENTS_OF_DAY];
 
   const tripEventsInDay = new TripEventsInDayView();
   const tripDay = new TripDayView(dayProperties, index);

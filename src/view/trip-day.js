@@ -1,10 +1,8 @@
 import {createDOMElement} from "./util/utils.js";
 
-import {
-  FIRST_ELEMENT,
-  SECOND_ELEMENT,
-  THIRD_ELEMENT
-} from "../const.js";
+const FIRST_EVENT = 0;
+const SECOND_EVENT = 1;
+const THIRD_EVENT = 2;
 
 const createEventDayTemplate = (day, index) => {
   const [
@@ -16,7 +14,7 @@ const createEventDayTemplate = (day, index) => {
   return (`<li class="trip-days__item  day">
              <div class="day__info">
                <span class="day__counter">${index + 1}</span>
-               <time class="day__date" datetime="${tripEventsInDay[FIRST_ELEMENT].dateStart.toISOString()}">${date.split(` `)[SECOND_ELEMENT]} ${date.split(` `)[THIRD_ELEMENT]}</time>
+               <time class="day__date" datetime="${tripEventsInDay[FIRST_EVENT].dateStart.toISOString()}">${date.split(` `)[SECOND_EVENT]} ${date.split(` `)[THIRD_EVENT]}</time>
              </div>
              <!-- place for list of events in day-->
            </li>`);

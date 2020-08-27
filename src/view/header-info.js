@@ -1,8 +1,6 @@
-import {
-  FIRST_ELEMENT,
-  SECOND_ELEMENT,
-  THIRD_ELEMENT
-} from "../const";
+const FIRST_CITY = 0;
+const SECOND_CITY = 1;
+const THIRD_CITY = 2;
 
 import {
   getDateStringForHeader,
@@ -12,13 +10,13 @@ import {
 
 const createHeaderElementTripInfoTitleTemplate = (tripEvents) => {
   if (tripEvents.length === 1) {
-    return (`<h1 class="trip-info__title">${tripEvents[FIRST_ELEMENT].destination.city}</h1>`);
+    return (`<h1 class="trip-info__title">${tripEvents[FIRST_CITY].destination.city}</h1>`);
   } else if (tripEvents.length === 2) {
-    return (`<h1 class="trip-info__title">${tripEvents[FIRST_ELEMENT].destination.city} — ${tripEvents[SECOND_ELEMENT].destination.city}</h1>`);
+    return (`<h1 class="trip-info__title">${tripEvents[FIRST_CITY].destination.city} — ${tripEvents[SECOND_CITY].destination.city}</h1>`);
   } else if (tripEvents.length === 3) {
-    return (`<h1 class="trip-info__title">${tripEvents[FIRST_ELEMENT].destination.city} — ${tripEvents[SECOND_ELEMENT].destination.city} — ${tripEvents[THIRD_ELEMENT].destination.city}</h1>`);
+    return (`<h1 class="trip-info__title">${tripEvents[FIRST_CITY].destination.city} — ${tripEvents[SECOND_CITY].destination.city} — ${tripEvents[THIRD_CITY].destination.city}</h1>`);
   } else {
-    return (`<h1 class="trip-info__title">${tripEvents[FIRST_ELEMENT].destination.city} — ... — ${tripEvents[tripEvents.length - 1].destination.city}</h1>`);
+    return (`<h1 class="trip-info__title">${tripEvents[FIRST_CITY].destination.city} — ... — ${tripEvents[tripEvents.length - 1].destination.city}</h1>`);
   }
 };
 
