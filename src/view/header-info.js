@@ -11,7 +11,6 @@ import {
 } from "./util/utils.js";
 
 const createHeaderElementTripInfoTitleTemplate = (tripEvents) => {
-  // console.log(tripEvents);
   if (tripEvents.length === 1) {
     return (`<h1 class="trip-info__title">${tripEvents[FIRST_ELEMENT].destination.city}</h1>`);
   } else if (tripEvents.length === 2) {

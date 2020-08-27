@@ -27,6 +27,8 @@ import NoEventsView from "./view/no-events.js";
 const headerElement = document.querySelector(`.page-header`);
 const tripMainElementInHeader = headerElement.querySelector(`.trip-main`);
 const tripControls = tripMainElementInHeader.querySelector(`.trip-main__trip-controls`);
+const tripView = tripControls.querySelector(`.trip-view`);
+
 const pageMainElement = document.querySelector(`.page-main`);
 const pageBodyContainer = pageMainElement.querySelector(`.page-body__container`);
 const tripEventsContainer = pageBodyContainer.querySelector(`.trip-events`);
@@ -80,16 +82,16 @@ const renderEventInDay = (containerForRendering, event) => {
 };
 
 /**
- * Renders day in day's list.
+ * Renders dayProperties in dayProperties's list.
  * @param {Object} containerForRendering - containerForRendering.
- * @param {Object} day - day.
- * @param {Number} index - index of day in list of days.
+ * @param {Object[]} dayProperties - dayProperties.
+ * @param {Number} index - index of dayProperties in list of days.
  */
-const renderDay = (containerForRendering, day, index) => {
-  const events = day[SECOND_ELEMENT];
+const renderDay = (containerForRendering, dayProperties, index) => {
+  const events = dayProperties[SECOND_ELEMENT];
 
   const tripEventsInDay = new TripEventsInDayView();
-  const tripDay = new TripDayView(day, index);
+  const tripDay = new TripDayView(dayProperties, index);
 
   events.forEach((tripEvent) => renderEventInDay(tripEventsInDay.getElement(), tripEvent));
 
@@ -101,9 +103,9 @@ const renderDay = (containerForRendering, day, index) => {
 /**
  * Renders days in list events in day.
  * @param {Object} containerForRendering - containerForRendering.
- * @param {Object[]} days - days.
+ * @param {Object} days - days.
  */
-export const renderDays = (containerForRendering, days) => {
+const renderDays = (containerForRendering, days) => {
   if (days.length === 0) {
     renderDOMElement(containerForRendering, new NoEventsView().getElement(), RenderPosition.BEFOREEND);
     return;
@@ -120,7 +122,7 @@ export const renderDays = (containerForRendering, days) => {
 
 renderDOMElement(tripMainElementInHeader, new HeaderElementTripInfoView(defaultSortedDays, defaultSortedEvents).getElement(), RenderPosition.AFTERBEGIN);
 
-renderDOMElement(tripControls, new HeaderElementTripTabsView().getElement(), RenderPosition.AFTERBEGIN);
+renderDOMElement(tripView, new HeaderElementTripTabsView().getElement(), RenderPosition.AFTEREND);
 
 renderDOMElement(tripControls, new HeaderFiltersView().getElement(), RenderPosition.BEFOREEND);
 

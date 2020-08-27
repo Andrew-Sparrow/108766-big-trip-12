@@ -10,6 +10,7 @@ import {
 export const RenderPosition = {
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`,
+  AFTEREND: `afterend`,
 };
 
 export const renderDOMElement = (container, element, position) => {
@@ -19,6 +20,9 @@ export const renderDOMElement = (container, element, position) => {
       break;
     case RenderPosition.BEFOREEND:
       container.append(element);
+      break;
+    case RenderPosition.AFTEREND:
+      container.insertAdjacentHTML(`afterend`, element);
       break;
   }
 };
@@ -134,7 +138,6 @@ export const groupArrayOfObjects = (objects, key) => {
 
     return receiver;
   }, {});
-
   return Object.entries(items);
 };
 
