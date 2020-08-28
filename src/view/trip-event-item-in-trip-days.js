@@ -1,6 +1,6 @@
 import {createDOMElement} from "./util/utils.js";
 
-const FORTH_ELEMENT = 3;
+const THREE_OFFERS = 3;
 
 const createEventOfferInTripDayTemplate = (offer) => {
   const {price, title} = offer;
@@ -23,7 +23,7 @@ const createTripEventForDayTemplate = (travelEvent) => {
     .map((offer) => createEventOfferInTripDayTemplate(offer));
 
   // not more than three offers should be displayed in block of offers
-  const offersTemplatesSliced = offersTemplates.slice(0, FORTH_ELEMENT);
+  const offersTemplatesSliced = offersTemplates.slice(0, THREE_OFFERS);
 
   const offersBlockTemplate = offersTemplatesSliced.join(``);
 
