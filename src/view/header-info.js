@@ -1,15 +1,14 @@
 import AbstractView from "./abstract.js";
 
 import {
-  getDateStringForHeader,
   calculateTotalPrice,
-  createDOMElement
 } from "./util/utils.js";
+
+import {getDateStringForHeader} from "./util/trip-event.js";
 
 const FIRST_CITY = 0;
 const SECOND_CITY = 1;
 const THIRD_CITY = 2;
-
 
 const createHeaderElementTripInfoTitleTemplate = (tripEvents) => {
   if (tripEvents.length === 1) {

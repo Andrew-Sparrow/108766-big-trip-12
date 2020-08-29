@@ -1,6 +1,5 @@
 import AbstractView from "./abstract.js";
 
-
 const BLANK_TRIP_EVENT = {
   destination: null,
   routPointTypeGroupName: null,

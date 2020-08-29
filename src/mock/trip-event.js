@@ -1,18 +1,21 @@
 import {
   CITIES,
   ROUTE_POINT_TYPES,
-} from "../const";
+} from "../const.js";
 
 import {
   getRandomDate,
+  getRandomAmountOfItems,
+  getRandomInteger
+} from "../view/util/common.js";
+
+import {
   getRandomCities,
   getRandomPropertyOfObject,
-  getRandomInteger,
   generateOffersInRoutPoints,
   generateDescriptionsInCities,
   generatePhotosInCities,
-  getRandomAmountOfItems
-} from "../view/util/utils";
+} from "../view/util/utils.js";
 
 generateOffersInRoutPoints();
 generateDescriptionsInCities();

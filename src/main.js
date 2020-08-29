@@ -1,29 +1,39 @@
 import {
-  CITIES,
-} from "./const.js";
-
-const EVENTS_OF_DAY = 1;
-
-import {
-  renderDOMElement,
-  RenderPosition,
   groupArrayOfObjects,
   defaultSortEventsByGroupDays,
   defaultSortEventsItems
 } from "./view/util/utils.js";
 
+import {
+  renderDOMElement,
+  RenderPosition,
+  replace,
+  remove
+} from "./view/util/render.js";
+
+import BoardView from "./view/board.js";
 import HeaderElementTripInfoView from "./view/header-info.js";
 import HeaderElementTripTabsView from "./view/header-trip-tabs.js";
 import HeaderFiltersView from "./view/header-filters.js";
 
 import {generateEvent} from "./mock/trip-event";
-import TripEventEditItemView from "./view/trip-event-edit-item.js";
-import TripSortView from "./view/trip-sort.js";
-import TripDaysView from "./view/trip-days.js";
-import TripDayView from "./view/trip-day.js";
 import TripEventItemInDayView from "./view/trip-event-item-in-trip-days.js";
+import TripEventEditItemView from "./view/trip-event-edit-item.js";
 import TripEventsInDayView from "./view/trip-events-in-day.js";
+import TripDayView from "./view/trip-day.js";
 import NoEventsView from "./view/no-events.js";
+import TripSortView from "./view/trip-sort.js";
+import TripDaysListView from "./view/trip-days-list.js";
+import {CITIES} from "./const.js";
+// import TripEventEditItemView from "./view/trip-event-edit-item.js";
+// import TripSortView from "./view/trip-sort.js";
+// import TripDaysListView from "./view/trip-days-list.js";
+// import TripDayView from "./view/trip-day.js";
+// import TripEventItemInDayView from "./view/trip-event-item-in-trip-days-list.js";
+// import TripEventsInDayView from "./view/trip-events-in-day.js";
+// import NoEventsView from "./view/no-events.js";
+
+const EVENTS_OF_DAY = 1;
 
 const headerElement = document.querySelector(`.page-header`);
 const tripMainElementInHeader = headerElement.querySelector(`.trip-main`);
@@ -32,7 +42,6 @@ const tripView = tripControls.querySelector(`.trip-view`);
 
 const pageMainElement = document.querySelector(`.page-main`);
 const pageBodyContainer = pageMainElement.querySelector(`.page-body__container`);
-const tripEventsContainer = pageBodyContainer.querySelector(`.trip-events`);
 
 const tripEvents = new Array(10).fill().map(generateEvent);
 
@@ -48,16 +57,16 @@ const defaultSortedEvents = defaultSortEventsItems(tripEvents);
  * @param {Object} event - event.
  */
 const renderEventInDay = (containerForRendering, event) => {
-  const tripEventInDay = new TripEventItemInDayView(event);
+  const tripEventInDayComponent = new TripEventItemInDayView(event);
 
   const tripEditComponent = new TripEventEditItemView(event, CITIES);
 
   const replaceCardToForm = () => {
-    containerForRendering.replaceChild(tripEditComponent.getElement(), tripEventInDay.getElement());
+    replace(tripEditComponent, tripEventInDayComponent);
   };
 
   const replaceFormToCard = () => {
-    containerForRendering.replaceChild(tripEventInDay.getElement(), tripEditComponent.getElement());
+    replace(tripEventInDayComponent, tripEditComponent);
   };
 
   const onEscKeyDown = (evt) => {
@@ -68,7 +77,7 @@ const renderEventInDay = (containerForRendering, event) => {
     }
   };
 
-  tripEventInDay.setRollupClickHandler(() => {
+  tripEventInDayComponent.setRollupClickHandler(() => {
     replaceCardToForm();
     document.addEventListener(`keydown`, onEscKeyDown);
   });
@@ -78,7 +87,7 @@ const renderEventInDay = (containerForRendering, event) => {
     document.removeEventListener(`keydown`, onEscKeyDown);
   });
 
-  renderDOMElement(containerForRendering, tripEventInDay.getElement(), RenderPosition.BEFOREEND);
+  renderDOMElement(containerForRendering, tripEventInDayComponent, RenderPosition.BEFOREEND);
 };
 
 /**
@@ -101,29 +110,33 @@ const renderDay = (containerForRendering, dayProperties, index) => {
 };
 
 /**
- * Renders days in list events in day.
- * @param {Object} containerForRendering - containerForRendering.
- * @param {Object} days - days.
+ * Renders boardDays in list events in day.
+ * @param {Object} boardContainer - boardContainer.
+ * @param {Object} boardDays - boardDays.
  */
-const renderDays = (containerForRendering, days) => {
-  if (days.length === 0) {
-    renderDOMElement(containerForRendering, new NoEventsView().getElement(), RenderPosition.BEFOREEND);
+export const renderBoard = (boardContainer, boardDays) => {
+  const boardComponent = new BoardView();
+
+  renderDOMElement(boardContainer, boardComponent, RenderPosition.BEFOREEND);
+
+  if (boardDays.length === 0) {
+    renderDOMElement(boardComponent, new NoEventsView(), RenderPosition.BEFOREEND);
     return;
   }
 
   const tripSortComponent = new TripSortView();
-  renderDOMElement(containerForRendering, tripSortComponent.getElement(), RenderPosition.BEFOREEND);
+  renderDOMElement(boardComponent, tripSortComponent, RenderPosition.BEFOREEND);
 
-  const tripDays = new TripDaysView();
-  renderDOMElement(containerForRendering, tripDays.getElement(), RenderPosition.BEFOREEND);
+  const tripDays = new TripDaysListView();
+  renderDOMElement(boardComponent, tripDays, RenderPosition.BEFOREEND);
 
-  days.forEach((dayInListOfEvents, index) => renderDay(tripDays.getElement(), dayInListOfEvents, index));
+  boardDays.forEach((dayInListOfEvents, index) => renderDay(tripDays, dayInListOfEvents, index));
 };
 
-renderDOMElement(tripMainElementInHeader, new HeaderElementTripInfoView(defaultSortedDays, defaultSortedEvents).getElement(), RenderPosition.AFTERBEGIN);
+renderDOMElement(tripMainElementInHeader, new HeaderElementTripInfoView(defaultSortedDays, defaultSortedEvents), RenderPosition.AFTERBEGIN);
 
-renderDOMElement(tripView, new HeaderElementTripTabsView().getElement(), RenderPosition.AFTEREND);
+renderDOMElement(tripView, new HeaderElementTripTabsView(), RenderPosition.AFTEREND);
 
-renderDOMElement(tripControls, new HeaderFiltersView().getElement(), RenderPosition.BEFOREEND);
+renderDOMElement(tripControls, new HeaderFiltersView(), RenderPosition.BEFOREEND);
 
-renderDays(tripEventsContainer, defaultSortedDays);
+renderBoard(pageBodyContainer, defaultSortedDays);

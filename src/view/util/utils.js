@@ -5,95 +5,15 @@ import {
   ROUTE_POINT_TYPES,
 } from "../../const.js";
 
-const DATE_OF_GROUP_EVENTS = 0;
-const DESTINATIONS_IN_DAY = 1;
-const FIRST_DESTINATION_IN_DAY = 0;
-const FIRST_DAY = 0;
+import {
+  getRandomInteger,
+  getRandomIndexOfList,
+  getRandomAmountOfItems,
+} from "./common.js";
 
-export const RenderPosition = {
-  AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`,
-  AFTER: `afterend`,
-};
-
-export const renderDOMElement = (container, element, position) => {
-  switch (position) {
-    case RenderPosition.AFTERBEGIN:
-      container.prepend(element);
-      break;
-    case RenderPosition.BEFOREEND:
-      container.append(element);
-      break;
-    case RenderPosition.AFTEREND:
-      container.insertAdjacentElement(`afterend`, element);
-      break;
-  }
-};
-
-/**
- * create DOM Element.
- * @param {String} template - The template.
- * @return {ChildNode} DOM element - The place to put.
- */
-export const createDOMElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-  return newElement.firstChild;
-};
-
-/**
- * renderTemplate.
- * @param {Object} container - The container to put.
- * @param {String} template - The template.
- * @param {InsertPosition} place - The place to put.
- */
-export const renderTemplate = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
-
-export const humanizeTaskDueDate = (dueDate) => {
-  return dueDate.toLocaleString(`en-US`, {
-    day: `numeric`,
-    month: `long`
-  });
-};
-
-export const getRandomBoolean = () => {
-  return Boolean(getRandomInteger(0, 1));
-};
-
-export const getRandomInteger = (min = 0, max = 1) => {
-  const lower = Math.ceil(Math.min(min, max));
-  const upper = Math.floor(Math.max(min, max));
-
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
-
-export const getRandomIndexOfList = (items) => {
-  const start = 0;
-  const end = items.length - 1;
-
-  return getRandomInteger(start, end);
-};
-
-export const getRandomAmountOfItems = (items) => {
-  const lengthOfListItems = items.length;
-  const start = getRandomIndexOfList(items);
-  const end = getRandomInteger(start, lengthOfListItems);
-
-  return items.slice(start, end);
-};
-
-// get date randomly in past or in future or in present within period of two weeks
-export const getRandomDate = () => {
-  const randomInteger = getRandomInteger(-7, 7);
-  const newDate = new Date();
-  newDate.setDate(newDate.getDate() + randomInteger);
-  newDate.setHours(newDate.getHours() + getRandomInteger(0, 24));
-  newDate.setMinutes(newDate.getMinutes() + getRandomInteger(0, 60));
-
-  return newDate;
-};
+export const DATE_OF_GROUP_EVENTS = 0;
+export const DESTINATIONS_IN_DAY = 1;
+export const FIRST_DESTINATION_IN_DAY = 0;
 
 export const getRandomDescriptions = () => {
   const sumStrings = [];
@@ -126,59 +46,6 @@ export const getRandomCities = () => {
 export const getRandomPropertyOfObject = (obj) => {
   const properties = Object.keys(obj);
   return properties[getRandomIndexOfList(properties)];
-};
-
-/**
- * This function groups events by day.
- * @param {Object[]} objects - The array of events.
- * @param {String} key - The key in the trip event.
- * @return {Object[]} Returns array of entries of events
- */
-export const groupArrayOfObjects = (objects, key) => {
-  const items = objects.reduce((receiver, current) => {
-    receiver[current[key].toDateString()] = receiver[current[key].toDateString()] || [];
-    receiver[current[key].toDateString()].push(current);
-
-    return receiver;
-  }, {});
-  return Object.entries(items);
-};
-
-export const defaultSortEventsByGroupDays = (tripEvents) => {
-  return new Array(...tripEvents).sort((first, second) => new Date(first[DATE_OF_GROUP_EVENTS]) - new Date(second[DATE_OF_GROUP_EVENTS]));
-};
-
-export const defaultSortEventsItems = (tripEvents) => {
-  return new Array(...tripEvents).sort((first, second) => new Date(first.dateStart) - new Date(second.dateStart));
-};
-
-export const sortTravelEventsByDateEnd = (tripEvents) => {
-  return new Array(...tripEvents).sort((first, second) => new Date(second[DESTINATIONS_IN_DAY][FIRST_DESTINATION_IN_DAY].dateEnd) - new Date(first[DESTINATIONS_IN_DAY][FIRST_DESTINATION_IN_DAY].dateEnd));
-};
-
-const getShortTitleMonth = (date) => {
-  const options = {
-    month: `short`,
-    day: `2-digit`
-  };
-
-  return new Intl.DateTimeFormat(`en-US`, options).format(date);
-};
-
-export const getDateStringForHeader = (tripEvents) => {
-  const sortedListByEndDate = sortTravelEventsByDateEnd(tripEvents);
-  const dateOfFirstEventInSortedList = sortedListByEndDate[FIRST_DAY][DESTINATIONS_IN_DAY][FIRST_DESTINATION_IN_DAY].dateEnd;
-
-  let dateStart = new Date(tripEvents[FIRST_DAY][DATE_OF_GROUP_EVENTS]);
-  let dateEnd = new Date(dateOfFirstEventInSortedList);
-
-  dateStart = getShortTitleMonth(dateStart);
-  dateEnd = getShortTitleMonth(dateEnd);
-
-  return {
-    startTrip: dateStart,
-    endTrip: dateEnd
-  };
 };
 
 export const getRandomOffers = () => {
@@ -215,6 +82,18 @@ export const generatePhotosInCities = () => {
   });
 };
 
+export const defaultSortEventsByGroupDays = (tripEvents) => {
+  return new Array(...tripEvents).sort((first, second) => new Date(first[DATE_OF_GROUP_EVENTS]) - new Date(second[DATE_OF_GROUP_EVENTS]));
+};
+
+export const defaultSortEventsItems = (tripEvents) => {
+  return new Array(...tripEvents).sort((first, second) => new Date(first.dateStart) - new Date(second.dateStart));
+};
+
+export const sortTravelEventsByDateEnd = (tripEvents) => {
+  return new Array(...tripEvents).sort((first, second) => new Date(second[DESTINATIONS_IN_DAY][FIRST_DESTINATION_IN_DAY].dateEnd) - new Date(first[DESTINATIONS_IN_DAY][FIRST_DESTINATION_IN_DAY].dateEnd));
+};
+
 export const calculateTotalPrice = (items) => {
   return items.reduce((total, currentItem) => {
     let sumOffersOfItem = 0;
@@ -225,4 +104,20 @@ export const calculateTotalPrice = (items) => {
     }
     return Math.ceil(total + currentItem[DESTINATIONS_IN_DAY][FIRST_DESTINATION_IN_DAY].price + sumOffersOfItem);
   }, 0);
+};
+
+/**
+ * This function groups events by day.
+ * @param {Object[]} objects - The array of events.
+ * @param {String} key - The key in the trip event.
+ * @return {Object[]} Returns array of entries of events
+ */
+export const groupArrayOfObjects = (objects, key) => {
+  const items = objects.reduce((receiver, current) => {
+    receiver[current[key].toDateString()] = receiver[current[key].toDateString()] || [];
+    receiver[current[key].toDateString()].push(current);
+
+    return receiver;
+  }, {});
+  return Object.entries(items);
 };
