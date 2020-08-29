@@ -1,4 +1,4 @@
-import {createDOMElement} from "./util/utils.js";
+import AbstractView from "./abstract.js";
 
 const FIRST_EVENT = 0;
 const MONTH_OF_EVENT = 1;
@@ -20,26 +20,14 @@ const createEventDayTemplate = (day, index) => {
            </li>`);
 };
 
-export default class TripDay {
+export default class TripDay extends AbstractView {
   constructor(day, index) {
+    super();
     this._day = day;
     this._index = index;
-    this._element = null;
   }
 
   getTemplate() {
     return createEventDayTemplate(this._day, this._index);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createDOMElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

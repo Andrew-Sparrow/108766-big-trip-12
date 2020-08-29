@@ -1,4 +1,4 @@
-import {createDOMElement} from "./util/utils.js";
+import AbstractView from "./abstract.js";
 
 const THREE_OFFERS = 3;
 
@@ -60,25 +60,13 @@ const createTripEventForDayTemplate = (travelEvent) => {
             </li>`);
 };
 
-export default class TripEventItemInDay {
+export default class TripEventItemInDay extends AbstractView {
   constructor(tripEvent) {
+    super();
     this._tripEvent = tripEvent;
-    this._element = null;
   }
 
   getTemplate() {
     return createTripEventForDayTemplate(this._tripEvent);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createDOMElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
