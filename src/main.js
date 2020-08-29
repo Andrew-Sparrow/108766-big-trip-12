@@ -68,13 +68,12 @@ const renderEventInDay = (containerForRendering, event) => {
     }
   };
 
-  tripEventInDay.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+  tripEventInDay.setRollupClickHandler(() => {
     replaceCardToForm();
     document.addEventListener(`keydown`, onEscKeyDown);
   });
 
-  tripEditComponent.getElement().querySelector(`.event__save-btn`).addEventListener(`submit`, (evt) => {
-    evt.preventDefault();
+  tripEditComponent.setFormSubmitHandler(() => {
     replaceFormToCard();
     document.removeEventListener(`keydown`, onEscKeyDown);
   });

@@ -202,9 +202,20 @@ export default class TripEventEditItem extends AbstractView {
     super();
     this._travelEvent = travelEvent;
     this._destinationPoints = destinationPoints;
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
   }
 
   getTemplate() {
     return createTripEventItemEditTemplate(this._travelEvent, this._destinationPoints);
+  }
+
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
+  }
+
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector(`.event__save-btn`).addEventListener(`submit`, this._formSubmitHandler);
   }
 }
