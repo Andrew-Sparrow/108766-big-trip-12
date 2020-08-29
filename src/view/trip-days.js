@@ -1,4 +1,4 @@
-import {createDOMElement} from "./util/utils.js";
+import AbstractView from "./abstract.js";
 
 // get block of days
 const createTripDaysTemplate = () => {
@@ -7,24 +7,8 @@ const createTripDaysTemplate = () => {
            </ul>`);
 };
 
-export default class TripDays {
-  constructor() {
-    this._element = null;
-  }
-
+export default class TripDays extends AbstractView {
   getTemplate() {
     return createTripDaysTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createDOMElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
