@@ -27,7 +27,7 @@ export default class Board {
   }
 
   _renderSort() {
-    // Метод для рендеринга сортировки
+    renderDOMElement(this._boardComponent, this._sortComponent, RenderPosition.AFTERBEGIN);
   }
 
   _renderDay() {
@@ -40,7 +40,7 @@ export default class Board {
   }
 
   _renderNoEvents() {
-    // Метод для рендеринга заглушки
+    renderDOMElement(this._boardComponent, this._noEventComponent, RenderPosition.BEFOREEND);
   }
 
   _renderBoard() {
