@@ -21,8 +21,9 @@ export default class Board {
 
   init(boardEvents) {
     this._boardEvents = boardEvents.slice();
-    // Метод для инициализации (начала работы) модуля,
-    // малая часть текущей функции renderBoard в main.js
+
+    renderDOMElement(this._boardContainer, this._boardComponent, RenderPosition.BEFOREEND);
+    renderDOMElement(this._boardComponent, this._tripDaysListComponent, RenderPosition.BEFOREEND);
   }
 
   _renderSort() {
@@ -43,7 +44,11 @@ export default class Board {
   }
 
   _renderBoard() {
-    // Метод для инициализации (начала работы) модуля,
-    // бОльшая часть текущей функции renderBoard в main.js
+    if (this._boardEvents.length === 0) {
+      renderDOMElement(this._boardComponent, this._noEventComponent, RenderPosition.BEFOREEND);
+      return;
+    }
+
+    this._renderSort();
   }
 }
