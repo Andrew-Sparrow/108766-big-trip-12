@@ -6,8 +6,11 @@ import TripDayView from "../view/trip-day.js";
 import TripEventEditItemView from "../view/trip-event-edit-item.js";
 import {
   renderDOMElement,
-  RenderPosition
+  RenderPosition,
+  replace
 } from "../view/util/render.js";
+import TripEventItemInDayView from "../view/trip-event-item-in-trip-days.js";
+import {CITIES} from "../const.js";
 
 export default class Board {
   constructor(boardContainer) {
@@ -24,6 +27,40 @@ export default class Board {
 
     renderDOMElement(this._boardContainer, this._boardComponent, RenderPosition.BEFOREEND);
     renderDOMElement(this._boardComponent, this._tripDaysListComponent, RenderPosition.BEFOREEND);
+  }
+
+  _renderEventInDay(containerForRendering, event) {
+    const tripEventInDayComponent = new TripEventItemInDayView(event);
+
+    const tripEditComponent = new TripEventEditItemView(event, CITIES);
+
+    const replaceCardToForm = () => {
+      replace(tripEditComponent, tripEventInDayComponent);
+    };
+
+    const replaceFormToCard = () => {
+      replace(tripEventInDayComponent, tripEditComponent);
+    };
+
+    const onEscKeyDown = (evt) => {
+      if (evt.key === `Escape` || evt.key === `Esc`) {
+        evt.preventDefault();
+        replaceFormToCard();
+        document.removeEventListener(`keydown`, onEscKeyDown);
+      }
+    };
+
+    tripEventInDayComponent.setRollupClickHandler(() => {
+      replaceCardToForm();
+      document.addEventListener(`keydown`, onEscKeyDown);
+    });
+
+    tripEditComponent.setFormSubmitHandler(() => {
+      replaceFormToCard();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    });
+
+    renderDOMElement(containerForRendering, tripEventInDayComponent, RenderPosition.BEFOREEND);
   }
 
   _renderSort() {
