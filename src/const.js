@@ -1,3 +1,9 @@
+export const EVENTS_OF_DAY = 1;
+export const FIRST_DAY = 0;
+export const DATE_OF_GROUP_EVENTS = 0;
+export const DESTINATIONS_IN_DAY = 1;
+export const FIRST_DESTINATION_IN_DAY = 0;
+
 export const DESCRIPTIONS = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
   `Cras aliquet varius magna, non porta ligula feugiat eget.`,

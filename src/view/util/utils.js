@@ -3,6 +3,9 @@ import {
   DESCRIPTIONS,
   ADDITIONAL_OFFERS,
   ROUTE_POINT_TYPES,
+  DATE_OF_GROUP_EVENTS,
+  DESTINATIONS_IN_DAY,
+  FIRST_DESTINATION_IN_DAY
 } from "../../const.js";
 
 import {
@@ -10,10 +13,6 @@ import {
   getRandomIndexOfList,
   getRandomAmountOfItems,
 } from "./common.js";
-
-export const DATE_OF_GROUP_EVENTS = 0;
-export const DESTINATIONS_IN_DAY = 1;
-export const FIRST_DESTINATION_IN_DAY = 0;
 
 export const getRandomDescriptions = () => {
   const sumStrings = [];

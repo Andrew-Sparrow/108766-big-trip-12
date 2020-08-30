@@ -1,12 +1,13 @@
-import {sortTravelEventsByDateEnd} from "./utils.js";
-
 import {
+  FIRST_DAY,
   DATE_OF_GROUP_EVENTS,
   DESTINATIONS_IN_DAY,
   FIRST_DESTINATION_IN_DAY
-} from "./utils.js";
+} from "../../const.js";
 
-const FIRST_DAY = 0;
+import {
+  sortTravelEventsByDateEnd
+} from "./utils.js";
 
 const getShortTitleMonth = (date) => {
   const options = {
