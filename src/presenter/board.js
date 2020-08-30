@@ -27,6 +27,8 @@ export default class Board {
     this._sortComponent = new SortTripView();
     this._tripDaysListComponent = new TripDaysListView();
     this._noEventComponent = new NoEventsView();
+
+    this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
   }
 
   init(boardEvents) {
@@ -76,8 +78,15 @@ export default class Board {
     renderDOMElement(containerForRendering, tripEventInDayComponent, RenderPosition.BEFOREEND);
   }
 
+  _handleSortTypeChange(sortType) {
+    // - Сортируем задачи
+    // - Очищаем список
+    // - Рендерим список заново
+  }
+
   _renderSort() {
     renderDOMElement(this._boardComponent, this._sortComponent, RenderPosition.AFTERBEGIN);
+    this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
   /**
