@@ -16,6 +16,12 @@ export const DESCRIPTIONS = [
   `In rutrum ac purus sit amet tempus.`
 ];
 
+export const SortType = {
+  DEFAULT: `default`,
+  PRICE_DOWN: `price-down`,
+  DATE_DOWN: `date-down`
+};
+
 export const ADDITIONAL_OFFERS = [
   {
     name: `luggage`,

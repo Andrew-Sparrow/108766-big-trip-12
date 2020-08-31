@@ -2,7 +2,7 @@ import AbstractView from "./abstract.js";
 
 import {
   calculateTotalPrice,
-} from "./util/utils.js";
+} from "./util/trip-event.js";
 
 import {getDateStringForHeader} from "./util/trip-event.js";
 

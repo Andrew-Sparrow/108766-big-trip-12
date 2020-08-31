@@ -1,8 +1,11 @@
 import {
-  groupArrayOfObjects,
+  groupArrayOfObjects
+} from "./view/util/utils.js";
+
+import {
   defaultSortEventsByGroupDays,
   defaultSortEventsItems
-} from "./view/util/utils.js";
+} from "./view/util/trip-event.js";
 
 import {
   renderDOMElement,
@@ -25,11 +28,14 @@ const pageMainElement = document.querySelector(`.page-main`);
 const pageBodyContainer = pageMainElement.querySelector(`.page-body__container`);
 
 const tripEvents = new Array(10).fill().map(generateEvent);
+// console.log(tripEvents);
 
 const groupsEventsByDay = groupArrayOfObjects(tripEvents, `dateStart`);
+// console.log(groupsEventsByDay);
 
 const defaultSortedDays = defaultSortEventsByGroupDays(groupsEventsByDay);
 const defaultSortedEvents = defaultSortEventsItems(tripEvents);
+// console.log(defaultSortedEvents);
 
 const boardPresenter = new BoardPresenter(pageBodyContainer);
 
@@ -39,4 +45,5 @@ renderDOMElement(tripView, new HeaderElementTripTabsView(), RenderPosition.AFTER
 
 renderDOMElement(tripControls, new HeaderFiltersView(), RenderPosition.BEFOREEND);
 
-boardPresenter.init(defaultSortedDays);
+boardPresenter.init(tripEvents);
+// boardPresenter.init(defaultSortedDays);
