@@ -40,11 +40,12 @@ export default class Board {
   }
 
   init(boardEvents) {
-    this._boardEvents = boardEvents.slice();
-    // this._sourcedBoardEventsByGroupOfDays = boardEvents.slice();
+    this._sourcedBoardEvents = boardEvents.slice();
 
     this._groupsEventsByDay = groupArrayOfObjects(boardEvents, `dateStart`);
     this._defaultSortedDays = defaultSortEventsByGroupDays(this._groupsEventsByDay);
+
+    this._boardEvents = this._defaultSortedDays;
 
     renderDOMElement(this._boardContainer, this._boardComponent, RenderPosition.BEFOREEND);
 
@@ -114,26 +115,24 @@ export default class Board {
 
     switch (sortType) {
       case SortType.PRICE_DOWN:
+        this._boardEvents = this._sourcedBoardEvents.slice();
         this._boardEvents.sort(sortPriceDown);
+        this._boardEvents = [[`withoutDay`, this._boardEvents]];
         break;
       case SortType.DATE_DOWN:
+        this._boardEvents = this._sourcedBoardEvents.slice();
         this._boardEvents.sort(sortDateDown);
+        this._boardEvents = [[`withoutDay`, this._boardEvents]];
         break;
-      // default:
-      //   console.log(this._boardEvents);
-      //   // this._defaultSortedDays = this._defaultSortedDays.slice();
-      //   console.log(`Sorry, we are out of expr.`);
+      default:
+        // console.log(this._boardEvents);
+        this._boardEvents = this._defaultSortedDays;
     }
 
     this._currentSortType = sortType;
   }
 
   _handleSortTypeChange(sortType) {
-    // if (sortType === SortType.DEFAULT) {
-    //   // this._boardEvents = this._defaultSortedDays;
-    //   this._renderDaysList();
-    //   return;
-    // }
     // - Сортируем события путешествия
     this._sortEvents(sortType);
 
@@ -142,8 +141,6 @@ export default class Board {
 
     // - Рендерим список заново
     this._renderDaysList();
-
-    // this._renderEventsInDay(this._boardEvents, this._tripDaysListComponent);
   }
 
   /**
@@ -153,6 +150,7 @@ export default class Board {
   * @param {Number} index - index of dayProperties in list of days.
   */
   _renderDay(containerForRendering, dayProperties, index) {
+    // console.log(dayProperties);
     const events = dayProperties[EVENTS_OF_DAY];
 
     const tripEventsInDayComponent = new TripEventsInDayView();
@@ -168,20 +166,19 @@ export default class Board {
   // Renders days in board of day.
   _renderDaysList() {
     renderDOMElement(this._boardComponent, this._tripDaysListComponent, RenderPosition.BEFOREEND);
-
-    // ------------------------------------
+    // console.log(this._defaultSortedDays);
     // groupDaysEvents
-    this._defaultSortedDays.forEach((dayInListOfEvents, index) => this._renderDay(this._tripDaysListComponent, dayInListOfEvents, index));
+    this._boardEvents.forEach((dayInListOfEvents, index) => this._renderDay(this._tripDaysListComponent, dayInListOfEvents, index));
+    // this._defaultSortedDays.forEach((dayInListOfEvents, index) => this._renderDay(this._tripDaysListComponent, dayInListOfEvents, index));
   }
 
   _renderNoEvents() {
     renderDOMElement(this._boardComponent, this._noEventComponent, RenderPosition.BEFOREEND);
   }
 
-  // ------------------------------------
   // groupDaysEvents
   _renderBoard() {
-    if (this._defaultSortedDays.length === 0) {
+    if (this._boardEvents.length === 0) {
       this._renderNoEvents();
       return;
     }
