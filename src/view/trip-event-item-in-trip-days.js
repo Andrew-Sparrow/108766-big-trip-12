@@ -1,4 +1,5 @@
 import AbstractView from "./abstract.js";
+import {getFormattedDate} from "./util/trip-event.js";
 
 const THREE_OFFERS = 3;
 
@@ -40,7 +41,8 @@ const createTripEventForDayTemplate = (travelEvent) => {
                     —
                     <time class="event__end-time" datetime="${dateEnd.toISOString()}">${dateEnd.getHours()}:${dateEnd.getMinutes()}</time>
                   </p>
-                  <p class="event__duration">30M</p>
+<!--                  <p class="event__duration">30M</p>-->
+                  <p class="event__duration">${getFormattedDate(dateStart, dateEnd)}</p>
                 </div>
 
                 <p class="event__price">

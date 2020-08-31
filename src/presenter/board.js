@@ -53,7 +53,7 @@ export default class Board {
   }
 
   _renderSort() {
-    renderDOMElement(this._boardComponent, this._sortComponent, RenderPosition.AFTERBEGIN);
+    renderDOMElement(this._boardComponent, this._sortComponent, RenderPosition.BEFOREEND);
     this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
