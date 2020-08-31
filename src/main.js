@@ -28,14 +28,11 @@ const pageMainElement = document.querySelector(`.page-main`);
 const pageBodyContainer = pageMainElement.querySelector(`.page-body__container`);
 
 const tripEvents = new Array(10).fill().map(generateEvent);
-// console.log(tripEvents);
 
 const groupsEventsByDay = groupArrayOfObjects(tripEvents, `dateStart`);
-// console.log(groupsEventsByDay);
 
 const defaultSortedDays = defaultSortEventsByGroupDays(groupsEventsByDay);
 const defaultSortedEvents = defaultSortEventsItems(tripEvents);
-// console.log(defaultSortedEvents);
 
 const boardPresenter = new BoardPresenter(pageBodyContainer);
 
