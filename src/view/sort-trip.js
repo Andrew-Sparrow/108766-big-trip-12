@@ -47,11 +47,12 @@ export default class SortTrip extends AbstractView {
   }
 
   _sortTypeChangeHandler(evt) {
-    // console.log(evt.target.dataset.sortType, `- evt.target.dataset.sortType`);
+    if (evt.target.tagName !== `LABEL`) {
+      return;
+    }
 
     evt.preventDefault();
     this._callback.sortTypeChange(evt.target.dataset.sortType);
-    // this._callback.sortTypeChange(evt.target);
   }
 
   setSortTypeChangeHandler(callback) {

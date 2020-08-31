@@ -102,7 +102,6 @@ export default class Board {
    * @param {Object} tripEventsContainer - container for tripEvents items.
    */
   _renderEventsInDay(events, tripEventsContainer) {
-    // console.log(events);
     events.forEach((tripEvent) => {
       return this._renderEventInDay(tripEventsContainer, tripEvent);
     });
@@ -125,7 +124,6 @@ export default class Board {
         this._boardEvents = [[`withoutDay`, this._boardEvents]];
         break;
       default:
-        // console.log(this._boardEvents);
         this._boardEvents = this._defaultSortedDays;
     }
 
@@ -150,7 +148,6 @@ export default class Board {
   * @param {Number} index - index of dayProperties in list of days.
   */
   _renderDay(containerForRendering, dayProperties, index) {
-    // console.log(dayProperties);
     const events = dayProperties[EVENTS_OF_DAY];
 
     const tripEventsInDayComponent = new TripEventsInDayView();
@@ -166,10 +163,8 @@ export default class Board {
   // Renders days in board of day.
   _renderDaysList() {
     renderDOMElement(this._boardComponent, this._tripDaysListComponent, RenderPosition.BEFOREEND);
-    // console.log(this._defaultSortedDays);
     // groupDaysEvents
     this._boardEvents.forEach((dayInListOfEvents, index) => this._renderDay(this._tripDaysListComponent, dayInListOfEvents, index));
-    // this._defaultSortedDays.forEach((dayInListOfEvents, index) => this._renderDay(this._tripDaysListComponent, dayInListOfEvents, index));
   }
 
   _renderNoEvents() {
