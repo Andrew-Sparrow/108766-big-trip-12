@@ -1,4 +1,4 @@
-import {createDOMElement} from "./util/utils";
+import AbstractView from "./abstract.js";
 
 const createHeaderElementTripTabsTemplate = () => {
   return (`<nav class="trip-controls__trip-tabs  trip-tabs">
@@ -7,23 +7,8 @@ const createHeaderElementTripTabsTemplate = () => {
            </nav>`);
 };
 
-export default class HeaderElementTripTabs {
-  constructor() {
-    this._element = null;
-  }
-
+export default class HeaderElementTripTabs extends AbstractView {
   getTemplate() {
     return createHeaderElementTripTabsTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createDOMElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

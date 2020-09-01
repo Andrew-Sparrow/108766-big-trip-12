@@ -1,12 +1,14 @@
+import AbstractView from "./abstract.js";
+
+import {
+  calculateTotalPrice,
+} from "./util/trip-event.js";
+
+import {getDateStringForHeader} from "./util/trip-event.js";
+
 const FIRST_CITY = 0;
 const SECOND_CITY = 1;
 const THIRD_CITY = 2;
-
-import {
-  getDateStringForHeader,
-  calculateTotalPrice,
-  createDOMElement
-} from "./util/utils.js";
 
 const createHeaderElementTripInfoTitleTemplate = (tripEvents) => {
   if (tripEvents.length === 1) {
@@ -43,27 +45,14 @@ const createHeaderElementTripInfoTemplate = (tripEvents, ungroupedTripEvents) =>
           </section>`);
 };
 
-export default class HeaderElementTripInfo {
+export default class HeaderElementTripInfo extends AbstractView {
   constructor(sortedDays, sortedEvents) {
+    super();
     this._sortedDays = sortedDays;
     this._sortedEvents = sortedEvents;
-    this._element = null;
   }
 
   getTemplate() {
     return createHeaderElementTripInfoTemplate(this._sortedDays, this._sortedEvents);
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createDOMElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
-
 }

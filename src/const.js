@@ -1,3 +1,11 @@
+export const EVENTS_OF_DAY = 1;
+export const FIRST_DAY = 0;
+export const DATE_OF_GROUP_EVENTS = 0;
+export const DESTINATIONS_IN_DAY = 1;
+export const FIRST_DESTINATION_IN_DAY = 0;
+export const WITHOUT_DAY = `withoutDay`;
+export const WITHOUT_SELECTOR = `withoutSelector`;
+
 export const DESCRIPTIONS = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
   `Cras aliquet varius magna, non porta ligula feugiat eget.`,
@@ -9,6 +17,12 @@ export const DESCRIPTIONS = [
   `Nunc fermentum tortor ac porta dapibus.`,
   `In rutrum ac purus sit amet tempus.`
 ];
+
+export const SortType = {
+  DEFAULT: `sort-event`,
+  PRICE_DOWN: `sort-price`,
+  DATE_DOWN: `sort-time`
+};
 
 export const ADDITIONAL_OFFERS = [
   {

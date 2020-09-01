@@ -1,4 +1,4 @@
-import {createDOMElement} from "./util/utils.js";
+import AbstractView from "./abstract.js";
 
 export const createTripSortTemplate = () => {
   return (`<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
@@ -33,24 +33,28 @@ export const createTripSortTemplate = () => {
           </form>`);
 };
 
-export default class TripSort {
+export default class SortTrip extends AbstractView {
   constructor() {
-    this._element = null;
+    super();
+
+    this._sortTypeChangeHandler = this._sortTypeChangeHandler.bind(this);
   }
 
   getTemplate() {
     return createTripSortTemplate();
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createDOMElement(this.getTemplate());
+  _sortTypeChangeHandler(evt) {
+    if (evt.target.tagName !== `INPUT`) {
+      return;
     }
+    this.getElement().firstElementChild.innerHTML = ``;
 
-    return this._element;
+    this._callback.sortTypeChange(evt.target.value);
   }
 
-  removeElement() {
-    this._element = null;
+  setSortTypeChangeHandler(callback) {
+    this._callback.sortTypeChange = callback;
+    this.getElement().addEventListener(`change`, this._sortTypeChangeHandler);
   }
 }

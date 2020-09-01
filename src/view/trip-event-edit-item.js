@@ -1,4 +1,4 @@
-import {createDOMElement} from "./util/utils.js";
+import AbstractView from "./abstract.js";
 
 const BLANK_TRIP_EVENT = {
   destination: null,
@@ -196,26 +196,25 @@ export const createTripEventItemEditTemplate = (travelEvent, destinationPoints) 
           </form>`);
 };
 
-export default class TripEventEditItem {
+export default class TripEventEditItem extends AbstractView {
   constructor(travelEvent = Object.assign({}, BLANK_TRIP_EVENT), destinationPoints) {
+    super();
     this._travelEvent = travelEvent;
     this._destinationPoints = destinationPoints;
-    this._element = null;
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
   }
 
   getTemplate() {
     return createTripEventItemEditTemplate(this._travelEvent, this._destinationPoints);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createDOMElement(this.getTemplate());
-    }
-
-    return this._element;
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
   }
 
-  removeElement() {
-    this._element = null;
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement(`.event__save-btn`).addEventListener(`submit`, this._formSubmitHandler);
   }
 }

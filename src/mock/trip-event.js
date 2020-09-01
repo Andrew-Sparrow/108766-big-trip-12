@@ -1,18 +1,21 @@
 import {
   CITIES,
   ROUTE_POINT_TYPES,
-} from "../const";
+} from "../const.js";
 
 import {
   getRandomDate,
+  getRandomAmountOfItems,
+  getRandomInteger
+} from "../view/util/common.js";
+
+import {
   getRandomCities,
   getRandomPropertyOfObject,
-  getRandomInteger,
   generateOffersInRoutPoints,
   generateDescriptionsInCities,
   generatePhotosInCities,
-  getRandomAmountOfItems
-} from "../view/util/utils";
+} from "../view/util/utils.js";
 
 generateOffersInRoutPoints();
 generateDescriptionsInCities();
@@ -35,10 +38,10 @@ export const generateEvent = () => {
     dateEnd,
     price: getRandomInteger(10, 500)
   };
-
-  travelEvent.dateEnd.setDate(dateStart.getDate() + getRandomInteger(0, 2));
-  travelEvent.dateEnd.setHours(dateStart.getHours() + getRandomInteger(0, 10));
-  travelEvent.dateEnd.setMinutes(dateStart.getMinutes() + getRandomInteger(0, 60));
+  travelEvent.dateEnd.setMonth(dateStart.getMonth());
+  travelEvent.dateEnd.setDate(dateStart.getDate() + getRandomInteger(0, 3));
+  travelEvent.dateEnd.setHours(dateStart.getHours() + getRandomInteger(1, 10));
+  travelEvent.dateEnd.setMinutes(dateStart.getMinutes() + getRandomInteger(1, 60));
 
   return travelEvent;
 };

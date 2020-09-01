@@ -1,4 +1,5 @@
-import {createDOMElement} from "./util/utils.js";
+import AbstractView from "./abstract.js";
+import {getFormattedDate} from "./util/trip-event.js";
 
 const THREE_OFFERS = 3;
 
@@ -40,7 +41,8 @@ const createTripEventForDayTemplate = (travelEvent) => {
                     —
                     <time class="event__end-time" datetime="${dateEnd.toISOString()}">${dateEnd.getHours()}:${dateEnd.getMinutes()}</time>
                   </p>
-                  <p class="event__duration">30M</p>
+<!--                  <p class="event__duration">30M</p>-->
+                  <p class="event__duration">${getFormattedDate(dateStart, dateEnd)}</p>
                 </div>
 
                 <p class="event__price">
@@ -60,25 +62,24 @@ const createTripEventForDayTemplate = (travelEvent) => {
             </li>`);
 };
 
-export default class TripEventItemInDay {
+export default class TripEventItemInDay extends AbstractView {
   constructor(tripEvent) {
+    super();
     this._tripEvent = tripEvent;
-    this._element = null;
+    this._rollupClickHandler = this._rollupClickHandler.bind(this);
   }
 
   getTemplate() {
     return createTripEventForDayTemplate(this._tripEvent);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createDOMElement(this.getTemplate());
-    }
-
-    return this._element;
+  _rollupClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.rollupClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setRollupClickHandler(callback) {
+    this._callback.rollupClick = callback;
+    this.getElement(`.event__rollup-btn`).addEventListener(`click`, this._rollupClickHandler);
   }
 }

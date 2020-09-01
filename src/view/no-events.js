@@ -1,28 +1,11 @@
-import {createDOMElement} from "./util/utils.js";
+import AbstractView from "./abstract.js";
 
 const createNoEventsTemplate = () => {
   return `<p class="trip-events__msg">Click New Event to create your first point</p>`;
 };
 
-export default class NoEvents {
-  constructor() {
-    this._element = null;
-  }
-
+export default class NoEvents extends AbstractView {
   getTemplate() {
     return createNoEventsTemplate();
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createDOMElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
 }
-
