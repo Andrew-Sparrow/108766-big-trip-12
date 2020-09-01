@@ -4,6 +4,7 @@ import TripDaysListView from "../view/trip-days-list.js";
 import NoEventsView from "../view/no-events.js";
 import TripDayView from "../view/trip-day.js";
 import TripEventEditItemView from "../view/trip-event-edit-item.js";
+
 import {
   sortPriceDown,
   sortDateDown, defaultSortEventsByGroupDays,
@@ -21,7 +22,8 @@ import TripEventsInDayView from "../view/trip-events-in-day.js";
 import {
   CITIES,
   EVENTS_OF_DAY,
-  SortType
+  SortType,
+  WITHOUT_DAY
 } from "../const.js";
 import {groupArrayOfObjects} from "../view/util/utils.js";
 
@@ -116,12 +118,12 @@ export default class Board {
       case SortType.PRICE_DOWN:
         this._boardEvents = this._sourcedBoardEvents.slice();
         this._boardEvents.sort(sortPriceDown);
-        this._boardEvents = [[`withoutDay`, this._boardEvents]];
+        this._boardEvents = [[WITHOUT_DAY, this._boardEvents]];
         break;
       case SortType.DATE_DOWN:
         this._boardEvents = this._sourcedBoardEvents.slice();
         this._boardEvents.sort(sortDateDown);
-        this._boardEvents = [[`withoutDay`, this._boardEvents]];
+        this._boardEvents = [[WITHOUT_DAY, this._boardEvents]];
         break;
       default:
         this._boardEvents = this._defaultSortedDays;
