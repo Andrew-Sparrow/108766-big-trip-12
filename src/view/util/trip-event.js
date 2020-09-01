@@ -66,15 +66,26 @@ export const sortDateDown = (eventA, eventB) => {
   return differenceTimeA - differenceTimeB;
 };
 
-export const getFormattedDate = (dateStart, dateEnd) => {
-  const diff = dateEnd - dateStart; // разница в миллисекундах
-  let formattedTime = ``;
-
-  const minutes = Math.floor(diff / 60000); // преобразовать разницу в минуты
-  if (minutes < 60) {
-    formattedTime = Math.floor(minutes) + `M`;
-  } else {
-    formattedTime = Math.floor(minutes / 60) + `H`;
+const getDigitFormat = (digit, letter) => {
+  if (digit === 0) {
+    digit = ``;
+    return digit;
+  } else if (digit < 10) {
+    digit = `0` + digit;
   }
-  return formattedTime;
+  return digit + letter;
+};
+
+export const getFormattedDate = (dateStart, dateEnd) => {
+  const diffTime = dateEnd - dateStart; // разница в миллисекундах
+
+  const secondsInDay = 24 * 60 * 60 * 1000;
+  const hoursInDay = 60 * 60 * 1000;
+  const minutesInDay = 60 * 1000;
+
+  const daysInTime = Math.floor(diffTime / secondsInDay); // days
+  const remainderOfHoursInTime = Math.floor((diffTime - (daysInTime * secondsInDay)) / hoursInDay);
+  const remainderOfMinutesInTime = Math.floor((diffTime - (daysInTime * secondsInDay) - (remainderOfHoursInTime * hoursInDay)) / minutesInDay);
+
+  return getDigitFormat(daysInTime, `D`) + ` ` + getDigitFormat(remainderOfHoursInTime, `H`) + ` ` + getDigitFormat(remainderOfMinutesInTime, `M`);
 };
