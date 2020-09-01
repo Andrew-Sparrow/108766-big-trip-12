@@ -80,6 +80,6 @@ export default class TripEventItemInDay extends AbstractView {
 
   setRollupClickHandler(callback) {
     this._callback.rollupClick = callback;
-    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._rollupClickHandler);
+    this.getElement(`.event__rollup-btn`).addEventListener(`click`, this._rollupClickHandler);
   }
 }

@@ -20,9 +20,9 @@ import TripEventItemInDayView from "../view/trip-event-item-in-trip-days.js";
 import TripEventsInDayView from "../view/trip-events-in-day.js";
 
 import {
+  SortType,
   CITIES,
   EVENTS_OF_DAY,
-  SortType,
   WITHOUT_DAY
 } from "../const.js";
 import {groupArrayOfObjects} from "../view/util/utils.js";

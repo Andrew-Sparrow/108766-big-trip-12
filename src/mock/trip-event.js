@@ -38,14 +38,10 @@ export const generateEvent = () => {
     dateEnd,
     price: getRandomInteger(10, 500)
   };
-  // travelEvent.dateStart.setDate(31);
-  console.log(travelEvent.dateStart, ` - dateStart`);
   travelEvent.dateEnd.setMonth(dateStart.getMonth());
   travelEvent.dateEnd.setDate(dateStart.getDate() + getRandomInteger(0, 3));
   travelEvent.dateEnd.setHours(dateStart.getHours() + getRandomInteger(1, 10));
   travelEvent.dateEnd.setMinutes(dateStart.getMinutes() + getRandomInteger(1, 60));
-  console.log(travelEvent.dateEnd, ` - dateEnd`);
-  console.log(`------------------`);
 
   return travelEvent;
 };
