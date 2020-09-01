@@ -77,7 +77,7 @@ const getDigitFormat = (digit, letter) => {
 };
 
 export const getFormattedDate = (dateStart, dateEnd) => {
-  const diffTime = dateEnd - dateStart; // разница в миллисекундах
+  const diffTime = dateEnd - dateStart; // difference in milliseconds
 
   const secondsInDay = 24 * 60 * 60 * 1000;
   const hoursInDay = 60 * 60 * 1000;
