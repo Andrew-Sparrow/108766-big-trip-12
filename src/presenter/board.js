@@ -132,12 +132,23 @@ export default class Board {
     this._currentSortType = sortType;
   }
 
+  _cleanElement() {
+    this._tripDaysListComponent.getElement().innerHTML = ``;
+  }
+
+  // Renders days in board of day.
+  _renderDaysList() {
+    renderDOMElement(this._boardComponent, this._tripDaysListComponent, RenderPosition.BEFOREEND);
+    // groupDaysEvents
+    this._boardEvents.forEach((dayInListOfEvents, index) => this._renderDay(this._tripDaysListComponent, dayInListOfEvents, index));
+  }
+
   _handleSortTypeChange(sortType) {
     // - Сортируем события путешествия
     this._sortEvents(sortType);
 
     // - Очищаем список
-    this._tripDaysListComponent.getElement().innerHTML = ``;
+    this._cleanElement();
 
     // - Рендерим список заново
     this._renderDaysList();
@@ -160,13 +171,6 @@ export default class Board {
     renderDOMElement(tripDay, tripEventsInDayComponent, RenderPosition.BEFOREEND);
 
     renderDOMElement(containerForRendering, tripDay, RenderPosition.BEFOREEND);
-  }
-
-  // Renders days in board of day.
-  _renderDaysList() {
-    renderDOMElement(this._boardComponent, this._tripDaysListComponent, RenderPosition.BEFOREEND);
-    // groupDaysEvents
-    this._boardEvents.forEach((dayInListOfEvents, index) => this._renderDay(this._tripDaysListComponent, dayInListOfEvents, index));
   }
 
   _renderNoEvents() {
