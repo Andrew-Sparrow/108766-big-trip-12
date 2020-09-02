@@ -43,4 +43,3 @@ renderDOMElement(tripView, new HeaderElementTripTabsView(), RenderPosition.AFTER
 renderDOMElement(tripControls, new HeaderFiltersView(), RenderPosition.BEFOREEND);
 
 boardPresenter.init(tripEvents);
-// boardPresenter.init(defaultSortedDays);
