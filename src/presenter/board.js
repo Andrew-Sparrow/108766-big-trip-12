@@ -3,7 +3,7 @@ import SortTripView from "../view/sort-trip.js";
 import TripDaysListView from "../view/trip-days-list.js";
 import NoEventsView from "../view/no-events.js";
 import TripDayView from "../view/trip-day.js";
-import TripEventEditItemView from "../view/trip-event-edit-item.js";
+import TripEventPresenter from "./trip-event.js";
 
 import {
   sortPriceDown,
@@ -13,15 +13,12 @@ import {
 import {
   renderDOMElement,
   RenderPosition,
-  replace
 } from "../view/util/render.js";
 
-import TripEventItemInDayView from "../view/trip-event-item-in-trip-days.js";
 import TripEventsInDayView from "../view/trip-events-in-day.js";
 
 import {
   SortType,
-  CITIES,
   EVENTS_OF_DAY,
   WITHOUT_DAY
 } from "../const.js";
@@ -60,42 +57,13 @@ export default class Board {
   }
 
   /**
-   * Renders event in list events in day.
+   * Renders tripEvent in list events in day.
    * @param {Object} containerForRendering - containerForRendering.
-   * @param {Object} event - event.
+   * @param {Object} tripEvent - tripEvent.
    */
-  _renderEventInDay(containerForRendering, event) {
-    const tripEventInDayComponent = new TripEventItemInDayView(event);
-
-    const tripEditComponent = new TripEventEditItemView(event, CITIES);
-
-    const replaceCardToForm = () => {
-      replace(tripEditComponent, tripEventInDayComponent);
-    };
-
-    const replaceFormToCard = () => {
-      replace(tripEventInDayComponent, tripEditComponent);
-    };
-
-    const onEscKeyDown = (evt) => {
-      if (evt.key === `Escape` || evt.key === `Esc`) {
-        evt.preventDefault();
-        replaceFormToCard();
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      }
-    };
-
-    tripEventInDayComponent.setRollupClickHandler(() => {
-      replaceCardToForm();
-      document.addEventListener(`keydown`, onEscKeyDown);
-    });
-
-    tripEditComponent.setFormSubmitHandler(() => {
-      replaceFormToCard();
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    });
-
-    renderDOMElement(containerForRendering, tripEventInDayComponent, RenderPosition.BEFOREEND);
+  _renderEventInDay(containerForRendering, tripEvent) {
+    const eventPresenter = new TripEventPresenter(containerForRendering);
+    eventPresenter.init(tripEvent);
   }
 
   /**

@@ -62,7 +62,7 @@ const createTripEventForDayTemplate = (travelEvent) => {
             </li>`);
 };
 
-export default class TripEventItemInDay extends AbstractView {
+export default class TripEvent extends AbstractView {
   constructor(tripEvent) {
     super();
     this._tripEvent = tripEvent;

@@ -196,7 +196,7 @@ export const createTripEventItemEditTemplate = (travelEvent, destinationPoints) 
           </form>`);
 };
 
-export default class TripEventEditItem extends AbstractView {
+export default class TripEventEdit extends AbstractView {
   constructor(travelEvent = Object.assign({}, BLANK_TRIP_EVENT), destinationPoints) {
     super();
     this._travelEvent = travelEvent;
