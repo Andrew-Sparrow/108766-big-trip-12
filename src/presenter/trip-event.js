@@ -4,7 +4,8 @@ import TripEventEditView from "../view/trip-event-edit.js";
 import {
   renderDOMElement,
   RenderPosition,
-  replace
+  replace,
+  remove
 } from "../view/util/render.js";
 
 import {CITIES} from "../const.js";
@@ -24,13 +25,27 @@ export default class TripEvent {
   init(tripEvent) {
     this._tripEvent = tripEvent;
 
+    const prevTripEventComponent = this._tripEventComponent;
+    const prevTripEventEditComponent = this._tripEventEditComponent;
+
     this._tripEventComponent = new TripEventView(tripEvent);
     this._tripEventEditComponent = new TripEventEditView(tripEvent, CITIES);
 
     this._tripEventComponent.setRollupClickHandler(this._handleEditClick);
     this._tripEventEditComponent.setFormSubmitHandler(this._handleFormSubmit);
 
-    renderDOMElement(this._tripEventsListContainer, this._tripEventComponent, RenderPosition.BEFOREEND);
+    if (prevTripEventComponent === null || prevTripEventEditComponent === null) {
+      renderDOMElement(this._tripEventsListContainer, this._tripEventComponent, RenderPosition.BEFOREEND);
+      return;
+    }
+
+    if (this._tripEventsListContainer.getElement().contains(this._prevTripEventComponent.getElement())) {
+      replace(this._tripEventComponent, prevTripEventComponent);
+      replace(this._tripEventEditComponent, prevTripEventEditComponent);
+    }
+
+    remove(prevTripEventComponent);
+    remove(prevTripEventEditComponent);
   }
 
   _replaceCardToForm() {
