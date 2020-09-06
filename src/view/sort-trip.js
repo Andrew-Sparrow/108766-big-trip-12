@@ -48,6 +48,8 @@ export default class SortTrip extends AbstractView {
     if (evt.target.tagName !== `INPUT`) {
       return;
     }
+
+    // the day number will be just deleted in case of sorting
     this.getElement().firstElementChild.innerHTML = ``;
 
     this._callback.sortTypeChange(evt.target.value);

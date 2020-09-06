@@ -28,6 +28,7 @@ export default class Board {
     this._sortComponent = new SortTripView();
     this._tripDaysListComponent = new TripDaysListView();
     this._noEventComponent = new NoEventsView();
+    this._tripDaysPresenterCollector = {};
 
     this._currentSortType = SortType.DEFAULT;
 
@@ -40,14 +41,14 @@ export default class Board {
     this._groupsEventsByDay = groupArrayOfObjects(boardEvents, `dateStart`);
     this._defaultSortedDays = defaultSortEventsByGroupDays(this._groupsEventsByDay);
 
-    this._boardEvents = this._defaultSortedDays;
+    this._boardDays = this._defaultSortedDays;
 
     renderDOMElement(this._boardContainer, this._boardComponent, RenderPosition.BEFOREEND);
 
     this._renderBoard();
   }
 
-  _renderSort() {
+  _renderSortBlock() {
     renderDOMElement(this._boardComponent, this._sortComponent, RenderPosition.BEFOREEND);
     this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
@@ -59,24 +60,29 @@ export default class Board {
 
     switch (sortType) {
       case SortType.PRICE_DOWN:
-        this._boardEvents = this._sourcedBoardEvents.slice();
-        this._boardEvents.sort(sortPriceDown);
-        this._boardEvents = [[WITHOUT_DAY, this._boardEvents]];
+        this._boardDays = this._sourcedBoardEvents.slice();
+        this._boardDays.sort(sortPriceDown);
+        this._boardDays = [[WITHOUT_DAY, this._boardDays]];
         break;
       case SortType.DATE_DOWN:
-        this._boardEvents = this._sourcedBoardEvents.slice();
-        this._boardEvents.sort(sortDateDown);
-        this._boardEvents = [[WITHOUT_DAY, this._boardEvents]];
+        this._boardDays = this._sourcedBoardEvents.slice();
+        this._boardDays.sort(sortDateDown);
+        this._boardDays = [[WITHOUT_DAY, this._boardDays]];
         break;
       default:
-        this._boardEvents = this._defaultSortedDays;
+        this._boardDays = this._defaultSortedDays;
     }
 
     this._currentSortType = sortType;
   }
 
-  _cleanElement() {
-    this._tripDaysListComponent.getElement().innerHTML = ``;
+  _clearTripDaysList() {
+    Object
+      .values(this._tripDaysPresenterCollector)
+      .forEach((dayPresenter) => {
+        dayPresenter.destroy();
+      });
+    this._tripDaysPresenterCollector = {};
   }
 
   // Renders days in board of day.
@@ -84,7 +90,7 @@ export default class Board {
     renderDOMElement(this._boardComponent, this._tripDaysListComponent, RenderPosition.BEFOREEND);
 
     // groupDaysEvents
-    this._boardEvents.forEach((dayInListOfEvents, index) => this._renderDay(this._tripDaysListComponent, dayInListOfEvents, index));
+    this._boardDays.forEach((dayInListOfEvents, index) => this._renderDay(this._tripDaysListComponent, dayInListOfEvents, index));
   }
 
   _handleSortTypeChange(sortType) {
@@ -92,7 +98,7 @@ export default class Board {
     this._sortEvents(sortType);
 
     // - Очищаем список
-    this._cleanElement();
+    this._clearTripDaysList();
 
     // - Рендерим список заново
     this._renderDaysList();
@@ -107,6 +113,7 @@ export default class Board {
   _renderDay(containerForRendering, dayProperties, index) {
     const dayPresenter = new TripDayPresenter(containerForRendering);
     dayPresenter.init(dayProperties, index);
+    this._tripDaysPresenterCollector[index] = dayPresenter;
   }
 
   _renderNoEvents() {
@@ -115,12 +122,12 @@ export default class Board {
 
   // groupDaysEvents
   _renderBoard() {
-    if (this._boardEvents.length === 0) {
+    if (this._boardDays.length === 0) {
       this._renderNoEvents();
       return;
     }
 
-    this._renderSort();
+    this._renderSortBlock();
     this._renderDaysList();
   }
 }

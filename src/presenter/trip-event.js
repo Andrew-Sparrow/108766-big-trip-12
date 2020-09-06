@@ -48,6 +48,11 @@ export default class TripEvent {
     remove(prevTripEventEditComponent);
   }
 
+  destroy() {
+    remove(this._tripEventComponent);
+    remove(this._tripEventEditComponent);
+  }
+
   _replaceCardToForm() {
     replace(this._tripEventEditComponent, this._tripEventComponent);
     document.addEventListener(`keydown`, this._escKeyDownHandler);

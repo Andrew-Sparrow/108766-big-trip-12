@@ -21,6 +21,11 @@ generateOffersInRoutPoints();
 generateDescriptionsInCities();
 generatePhotosInCities();
 
+// it's better to use more reliable for production,
+// for example like that - https://github.com/ai/nanoid
+// but here, i will use next one:
+const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
+
 export const generateEvent = () => {
   const randomDestination = getRandomCities(CITIES);
   const dateStart = getRandomDate();
@@ -31,6 +36,7 @@ export const generateEvent = () => {
   routPointTypeOfEvent.offers = getRandomAmountOfItems(routPointTypeOfEvent.offers);
 
   const travelEvent = {
+    id: generateId(),
     destination: randomDestination,
     routPointTypeGroupName,
     routPointType: routPointTypeOfEvent,
