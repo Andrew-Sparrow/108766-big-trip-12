@@ -2,8 +2,7 @@ import BoardView from "../view/board.js";
 import SortTripView from "../view/sort-trip.js";
 import TripDaysListView from "../view/trip-days-list.js";
 import NoEventsView from "../view/no-events.js";
-import TripDayView from "../view/trip-day.js";
-import TripEventPresenter from "./trip-event.js";
+import TripDayPresenter from "./trip-day.js";
 
 import {
   sortPriceDown,
@@ -15,11 +14,8 @@ import {
   RenderPosition,
 } from "../view/util/render.js";
 
-import TripEventsInDayView from "../view/trip-events-in-day.js";
-
 import {
   SortType,
-  EVENTS_OF_DAY,
   WITHOUT_DAY
 } from "../const.js";
 import {groupArrayOfObjects} from "../view/util/utils.js";
@@ -56,27 +52,6 @@ export default class Board {
     this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
-  /**
-   * Renders tripEvent in list events in day.
-   * @param {Object} containerForRendering - containerForRendering.
-   * @param {Object} tripEvent - tripEvent.
-   */
-  _renderEventInDay(containerForRendering, tripEvent) {
-    const eventPresenter = new TripEventPresenter(containerForRendering);
-    eventPresenter.init(tripEvent);
-  }
-
-  /**
-   * Renders EventsInDay.
-   * @param {Object[]} events - list of events.
-   * @param {Object} tripEventsContainer - container for tripEvents items.
-   */
-  _renderEventsInDay(events, tripEventsContainer) {
-    events.forEach((tripEvent) => {
-      return this._renderEventInDay(tripEventsContainer, tripEvent);
-    });
-  }
-
   _sortEvents(sortType) {
     if (this._currentSortType === sortType) {
       return;
@@ -107,6 +82,7 @@ export default class Board {
   // Renders days in board of day.
   _renderDaysList() {
     renderDOMElement(this._boardComponent, this._tripDaysListComponent, RenderPosition.BEFOREEND);
+
     // groupDaysEvents
     this._boardEvents.forEach((dayInListOfEvents, index) => this._renderDay(this._tripDaysListComponent, dayInListOfEvents, index));
   }
@@ -129,16 +105,8 @@ export default class Board {
   * @param {Number} index - index of dayProperties in list of days.
   */
   _renderDay(containerForRendering, dayProperties, index) {
-    const events = dayProperties[EVENTS_OF_DAY];
-
-    const tripEventsInDayComponent = new TripEventsInDayView();
-    const tripDay = new TripDayView(dayProperties, index);
-
-    this._renderEventsInDay(events, tripEventsInDayComponent);
-
-    renderDOMElement(tripDay, tripEventsInDayComponent, RenderPosition.BEFOREEND);
-
-    renderDOMElement(containerForRendering, tripDay, RenderPosition.BEFOREEND);
+    const dayPresenter = new TripDayPresenter(containerForRendering);
+    dayPresenter.init(dayProperties, index);
   }
 
   _renderNoEvents() {
