@@ -3,7 +3,15 @@ import TripDayView from "../view/trip-day.js";
 import TripEventPresenter from "./trip-event.js";
 
 import {EVENTS_OF_DAY} from "../const.js";
-import {remove, renderDOMElement, RenderPosition} from "../view/util/render.js";
+
+import {
+  remove,
+  renderDOMElement,
+  RenderPosition
+} from "../view/util/render.js";
+
+// import {updateItems} from "../view/util/common.js";
+
 
 export default class TripDay {
   constructor(containerForRendering) {

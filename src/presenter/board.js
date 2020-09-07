@@ -20,6 +20,8 @@ import {
 } from "../const.js";
 import {groupArrayOfObjects} from "../view/util/utils.js";
 
+import {updateItems} from "../view/util/common.js";
+
 export default class Board {
   constructor(boardContainer) {
     this._boardContainer = boardContainer;
@@ -32,6 +34,7 @@ export default class Board {
 
     this._currentSortType = SortType.DEFAULT;
 
+    this._handleTripEventChange = this._handleTripEventChange.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
   }
 
@@ -46,6 +49,12 @@ export default class Board {
     renderDOMElement(this._boardContainer, this._boardComponent, RenderPosition.BEFOREEND);
 
     this._renderBoard();
+  }
+
+  _handleTripEventChange(updatedTripEvent) {
+    this._boardDays = updateItems(this._boardDays, updatedTripEvent);
+    this._sourcedBoardEvents = updateItems(this._sourcedBoardEvents, updatedTripEvent);
+    this._tripDaysPresenterCollector[updatedTripEvent.id].init(updatedTripEvent);
   }
 
   _renderSortBlock() {
@@ -63,14 +72,21 @@ export default class Board {
         this._boardDays = this._sourcedBoardEvents.slice();
         this._boardDays.sort(sortPriceDown);
         this._boardDays = [[WITHOUT_DAY, this._boardDays]];
+        // console.log(this._boardDays);
+
         break;
       case SortType.DATE_DOWN:
         this._boardDays = this._sourcedBoardEvents.slice();
         this._boardDays.sort(sortDateDown);
         this._boardDays = [[WITHOUT_DAY, this._boardDays]];
+        // console.log(this._boardDays);
+
         break;
       default:
         this._boardDays = this._defaultSortedDays;
+        // console.log(this._boardDays);
+
+        break;
     }
 
     this._currentSortType = sortType;
