@@ -30,11 +30,13 @@ export default class Board {
     this._sortComponent = new SortTripView();
     this._tripDaysListComponent = new TripDaysListView();
     this._noEventComponent = new NoEventsView();
+
     this._tripDaysPresenterCollector = {};
 
     this._currentSortType = SortType.DEFAULT;
 
     this._handleTripEventChange = this._handleTripEventChange.bind(this);
+    // this._addPresenterToCollection = this._addPresenterToCollection.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
   }
 
@@ -54,8 +56,14 @@ export default class Board {
   _handleTripEventChange(updatedTripEvent) {
     this._boardDays = updateItems(this._boardDays, updatedTripEvent);
     this._sourcedBoardEvents = updateItems(this._sourcedBoardEvents, updatedTripEvent);
-    this._tripDaysPresenterCollector[updatedTripEvent.id].init(updatedTripEvent);
+    // console.log(this._tripDaysPresenterCollector);
+    // this._tripDaysPresenterCollector[updatedTripEvent.id].init(updatedTripEvent);
   }
+
+  // _addPresenterToCollection(tripEvent, tripEventPresenter) {
+  //   this._tripEventsPresenterCollector[tripEvent.id] = tripEventPresenter;
+  //   // console.log(this._tripEventsPresenterCollector);
+  // }
 
   _renderSortBlock() {
     renderDOMElement(this._boardComponent, this._sortComponent, RenderPosition.BEFOREEND);
@@ -95,8 +103,8 @@ export default class Board {
   _clearTripDaysList() {
     Object
       .values(this._tripDaysPresenterCollector)
-      .forEach((dayPresenter) => {
-        dayPresenter.destroy();
+      .forEach((tripDayPresenter) => {
+        tripDayPresenter.destroy();
       });
     this._tripDaysPresenterCollector = {};
   }
@@ -127,7 +135,7 @@ export default class Board {
   * @param {Number} index - index of dayProperties in list of days.
   */
   _renderDay(containerForRendering, dayProperties, index) {
-    const dayPresenter = new TripDayPresenter(containerForRendering);
+    const dayPresenter = new TripDayPresenter(containerForRendering, this._handleTripEventChange);
     dayPresenter.init(dayProperties, index);
     this._tripDaysPresenterCollector[index] = dayPresenter;
   }

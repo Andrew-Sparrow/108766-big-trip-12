@@ -6,7 +6,8 @@ import {
 import {
   getRandomDate,
   getRandomAmountOfItems,
-  getRandomInteger
+  getRandomInteger,
+  getRandomBoolean
 } from "../view/util/common.js";
 
 import {
@@ -42,7 +43,8 @@ export const generateEvent = () => {
     routPointType: routPointTypeOfEvent,
     dateStart,
     dateEnd,
-    price: getRandomInteger(10, 500)
+    price: getRandomInteger(10, 500),
+    isFavorite: getRandomBoolean()
   };
   travelEvent.dateEnd.setMonth(dateStart.getMonth());
   travelEvent.dateEnd.setDate(dateStart.getDate() + getRandomInteger(0, 3));

@@ -44,3 +44,7 @@ export const updateItems = (items, updatedItem) => {
     ...items.slice(index + 1)
   ];
 };
+
+export const getRandomBoolean = () => {
+  return Boolean(getRandomInteger(0, 1));
+};

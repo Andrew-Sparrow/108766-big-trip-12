@@ -18,7 +18,8 @@ export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoin
     routPointType,
     routPointTypeGroupName,
     dateStart,
-    dateEnd
+    dateEnd,
+    isFavorite
   } = travelEvent;
 
   const destinationPointsValues = destinationsPoints.map((point) => createDestinationPointsTemplate(point.city)).join(``);
@@ -123,7 +124,7 @@ export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoin
 
               <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
               <button class="event__reset-btn" type="reset">Delete</button>
-              <input id="event-favorite-1" class="event__favorite-checkbox  visually-hidden" type="checkbox" name="event-favorite" checked="">
+              <input id="event-favorite-1" class="event__favorite-checkbox  visually-hidden" type="checkbox" name="event-favorite" ${isFavorite ? `checked` : ``}>
               <label class="event__favorite-btn" for="event-favorite-1">
                 <span class="visually-hidden">Add to favorite</span>
                 <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
@@ -211,6 +212,8 @@ export default class TripEventEdit extends AbstractView {
     super();
     this._travelEvent = travelEvent;
     this._destinationPoints = destinationPoints;
+
+    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
   }
 
@@ -218,9 +221,19 @@ export default class TripEventEdit extends AbstractView {
     return createTripEventItemEditTemplate(this._travelEvent, this._destinationPoints);
   }
 
+  _favoriteClickHandler(evt) {
+    // evt.preventDefault();
+    this._callback.favoriteClick();
+  }
+
   _formSubmitHandler(evt) {
     evt.preventDefault();
-    this._callback.formSubmit();
+    this._callback.formSubmit(this._travelEvent);
+  }
+
+  setFavoriteClickHandler(callback) {
+    this._callback.favoriteClick = callback;
+    this.getElement().querySelector(`.event__favorite-btn`).addEventListener(`click`, this._favoriteClickHandler);
   }
 
   setFormSubmitHandler(callback) {

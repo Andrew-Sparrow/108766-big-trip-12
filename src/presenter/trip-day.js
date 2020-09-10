@@ -12,11 +12,11 @@ import {
 
 // import {updateItems} from "../view/util/common.js";
 
-
 export default class TripDay {
-  constructor(containerForRendering) {
+  constructor(containerForRendering, changeData) {
     this._tripDaysContainer = containerForRendering;
-    this._tripEventPresenterCollector = {};
+    this._changeData = changeData;
+    this._tripEventsPresenterCollector = {};
   }
 
   init(dayProperties, index) {
@@ -54,22 +54,15 @@ export default class TripDay {
    * @param {Object} tripEvent - tripEvent.
    */
   _renderTripEventInDay(containerForRendering, tripEvent) {
-    const tripEventPresenter = new TripEventPresenter(containerForRendering);
+    const tripEventPresenter = new TripEventPresenter(containerForRendering, this._changeData);
     tripEventPresenter.init(tripEvent);
-    this._tripEventPresenterCollector[tripEvent.id] = tripEventPresenter;
+    this._tripEventsPresenterCollector[tripEvent.id] = tripEventPresenter;
   }
 
   _clearTripEventsListInDay() {
     Object
-      .values(this._tripEventPresenterCollector)
+      .values(this._tripEventsPresenterCollector)
       .forEach((presenter) => presenter.destroy());
-    this._tripEventPresenterCollector = {};
+    this._tripEventsPresenterCollector = {};
   }
-
-  // _clearEventsListInDay() {
-  //   Object
-  //     .values(this._tripDaysPresenterCollector)
-  //     .forEach((dayPresenter) => dayPresenter.clearTripEventsList());
-  //   this._tripDaysPresenterCollector = {};
-  // }
 }

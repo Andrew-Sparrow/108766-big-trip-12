@@ -11,13 +11,15 @@ import {
 import {CITIES} from "../const.js";
 
 export default class TripEvent {
-  constructor(tripEventsListContainer) {
+  constructor(tripEventsListContainer, changeData) {
     this._tripEventsListContainer = tripEventsListContainer;
+    this._changeData = changeData;
 
     this._tripEventComponent = null;
     this._tripEventEditComponent = null;
 
     this._handleEditClick = this._handleEditClick.bind(this);
+    this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
@@ -32,6 +34,7 @@ export default class TripEvent {
     this._tripEventEditComponent = new TripEventEditView(tripEvent, CITIES);
 
     this._tripEventComponent.setRollupClickHandler(this._handleEditClick);
+    this._tripEventEditComponent.setFavoriteClickHandler(this._handleFavoriteClick);
     this._tripEventEditComponent.setFormSubmitHandler(this._handleFormSubmit);
 
     if (prevTripEventComponent === null || prevTripEventEditComponent === null) {
@@ -74,7 +77,13 @@ export default class TripEvent {
     this._replaceCardToForm();
   }
 
-  _handleFormSubmit() {
+  _handleFavoriteClick() {
+    this._changeData(Object.assign({}, this._tripEvent, {isFavorite: !this._tripEvent.isFavorite}));
+    console.log(this._tripEvent);
+  }
+
+  _handleFormSubmit(tripEvent) {
+    this._changeData(tripEvent);
     this._replaceFormToCard();
   }
 }

@@ -18,7 +18,9 @@ const createTripEventForDayTemplate = (travelEvent) => {
     dateEnd,
     destination,
     routPointType,
-    price} = travelEvent;
+    price,
+    isFavorite
+  } = travelEvent;
 
   const offersTemplates = routPointType.offers
     .map((offer) => createEventOfferInTripDayTemplate(offer));
