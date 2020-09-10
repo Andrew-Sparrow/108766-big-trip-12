@@ -13,10 +13,11 @@ import {
 // import {updateItems} from "../view/util/common.js";
 
 export default class TripDay {
-  constructor(containerForRendering, changeData) {
+  constructor(containerForRendering, changeData, addToCollection) {
     this._tripDaysContainer = containerForRendering;
     this._changeData = changeData;
-    this._tripEventsPresenterCollector = {};
+    this._addToCollection = addToCollection;
+    // this._tripEventsPresenterCollector = {};
   }
 
   init(dayProperties, index) {
@@ -33,8 +34,12 @@ export default class TripDay {
     renderDOMElement(this._tripDaysContainer, this._tripDayComponent, RenderPosition.BEFOREEND);
   }
 
+  // destroy() {
+  //   this._clearTripEventsListInDay();
+  //   remove(this._tripDayComponent);
+  // }
+
   destroy() {
-    this._clearTripEventsListInDay();
     remove(this._tripDayComponent);
   }
 
@@ -56,7 +61,8 @@ export default class TripDay {
   _renderTripEventInDay(containerForRendering, tripEvent) {
     const tripEventPresenter = new TripEventPresenter(containerForRendering, this._changeData);
     tripEventPresenter.init(tripEvent);
-    this._tripEventsPresenterCollector[tripEvent.id] = tripEventPresenter;
+    // this._tripEventsPresenterCollector[tripEvent.id] = tripEventPresenter;
+    this._addToCollection(tripEvent, tripEventPresenter);
   }
 
   _clearTripEventsListInDay() {

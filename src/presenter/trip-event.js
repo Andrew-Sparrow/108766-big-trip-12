@@ -30,8 +30,8 @@ export default class TripEvent {
     const prevTripEventComponent = this._tripEventComponent;
     const prevTripEventEditComponent = this._tripEventEditComponent;
 
-    this._tripEventComponent = new TripEventView(tripEvent);
-    this._tripEventEditComponent = new TripEventEditView(tripEvent, CITIES);
+    this._tripEventComponent = new TripEventView(this._tripEvent);
+    this._tripEventEditComponent = new TripEventEditView(this._tripEvent, CITIES);
 
     this._tripEventComponent.setRollupClickHandler(this._handleEditClick);
     this._tripEventEditComponent.setFavoriteClickHandler(this._handleFavoriteClick);
@@ -42,8 +42,11 @@ export default class TripEvent {
       return;
     }
 
-    if (this._tripEventsListContainer.getElement().contains(this._prevTripEventComponent.getElement())) {
+    if (this._tripEventsListContainer.getElement().contains(prevTripEventComponent.getElement())) {
       replace(this._tripEventComponent, prevTripEventComponent);
+    }
+
+    if (this._tripEventsListContainer.getElement().contains(prevTripEventEditComponent.getElement())) {
       replace(this._tripEventEditComponent, prevTripEventEditComponent);
     }
 
@@ -78,8 +81,13 @@ export default class TripEvent {
   }
 
   _handleFavoriteClick() {
-    this._changeData(Object.assign({}, this._tripEvent, {isFavorite: !this._tripEvent.isFavorite}));
-    console.log(this._tripEvent);
+    this._tripEvent = Object.assign({}, this._tripEvent, {isFavorite: !this._tripEvent.isFavorite});
+    // const updatedTripEvent = Object.assign({}, this._tripEvent, {isFavorite: !this._tripEvent.isFavorite});
+    // console.log(this._tripEvent.isFavorite);
+    // console.log(this._tripEvent.isFavorite);
+    // console.log(updatedTripEvent);
+    this._changeData(this._tripEvent);
+    // this._changeData(updatedTripEvent);
   }
 
   _handleFormSubmit(tripEvent) {

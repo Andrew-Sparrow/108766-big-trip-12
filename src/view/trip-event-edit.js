@@ -221,8 +221,7 @@ export default class TripEventEdit extends AbstractView {
     return createTripEventItemEditTemplate(this._travelEvent, this._destinationPoints);
   }
 
-  _favoriteClickHandler(evt) {
-    // evt.preventDefault();
+  _favoriteClickHandler() {
     this._callback.favoriteClick();
   }
 
