@@ -33,16 +33,19 @@ export const getRandomDate = () => {
 
 export const updateItems = (items, updatedItem) => {
   const index = items.findIndex((item) => item.id === updatedItem.id);
-
+  let newItems;
+  console.log(index);
   if (index === -1) {
     return items;
   }
 
-  return [
+  newItems = [
     ...items.slice(0, index),
     updatedItem,
     ...items.slice(index + 1)
   ];
+
+  return newItems;
 };
 
 export const getRandomBoolean = () => {

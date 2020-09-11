@@ -39,7 +39,7 @@ export default class Board {
     this._handleTripEventChange = this._handleTripEventChange.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
 
-    this._addTripEventToCollection = this._addTripEventToCollection.bind(this);
+    this._addTripEventPresenterToCollection = this._addTripEventPresenterToCollection.bind(this);
   }
 
   init(boardEvents) {
@@ -59,12 +59,15 @@ export default class Board {
     this._boardDays = updateItems(this._boardDays, updatedTripEvent);
     this._sourcedBoardEvents = updateItems(this._sourcedBoardEvents, updatedTripEvent);
     console.log(this._boardDays);
-    // console.log(updatedTripEvent);
+    // console.log(this._sourcedBoardEvents);
+    // console.log(updatedTripEvent.id);
+    // console.log(updatedTripEvent.isFavorite);
     // console.log(this._tripDaysPresenterCollector);
+    // console.log(this._tripEventsPresenterCollector);
     this._tripEventsPresenterCollector[updatedTripEvent.id].init(updatedTripEvent);
   }
 
-  _addTripEventToCollection(tripEvent, tripEventPresenter) {
+  _addTripEventPresenterToCollection(tripEvent, tripEventPresenter) {
     this._tripEventsPresenterCollector[tripEvent.id] = tripEventPresenter;
   }
 
@@ -138,7 +141,7 @@ export default class Board {
   * @param {Number} index - index of dayProperties in list of days.
   */
   _renderDay(containerForRendering, dayProperties, index) {
-    const dayPresenter = new TripDayPresenter(containerForRendering, this._handleTripEventChange, this._addTripEventToCollection);
+    const dayPresenter = new TripDayPresenter(containerForRendering, this._handleTripEventChange, this._addTripEventPresenterToCollection);
     dayPresenter.init(dayProperties, index);
     this._tripDaysPresenterCollector[index] = dayPresenter;
   }
