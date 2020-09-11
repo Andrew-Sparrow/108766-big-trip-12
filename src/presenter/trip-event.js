@@ -82,11 +82,11 @@ export default class TripEvent {
 
   _handleFavoriteClick() {
     this._tripEvent = Object.assign({}, this._tripEvent, {isFavorite: !this._tripEvent.isFavorite});
-    this._changeData(this._tripEvent);
+    this._changeData(this._tripEvent, false);
   }
 
   _handleFormSubmit(tripEvent) {
-    this._changeData(tripEvent);
+    this._changeData(tripEvent, false);
     this._replaceFormToCard();
   }
 }
