@@ -44,8 +44,9 @@ export default class Board {
 
   init(boardEvents) {
     this._sourcedBoardEvents = boardEvents.slice();
+    this._changeableBoardEvents = boardEvents.slice();
 
-    this._groupsEventsByDay = groupArrayOfObjects(boardEvents, `dateStart`);
+    this._groupsEventsByDay = groupArrayOfObjects(this._changeableBoardEvents, `dateStart`);
     this._defaultSortedDays = defaultSortEventsByGroupDays(this._groupsEventsByDay);
 
     this._boardDays = this._defaultSortedDays;
@@ -56,14 +57,8 @@ export default class Board {
   }
 
   _handleTripEventChange(updatedTripEvent) {
-    this._boardDays = updateItems(this._boardDays, updatedTripEvent);
+    this._changeableBoardEvents = updateItems(this._changeableBoardEvents, updatedTripEvent);
     this._sourcedBoardEvents = updateItems(this._sourcedBoardEvents, updatedTripEvent);
-    console.log(this._boardDays);
-    // console.log(this._sourcedBoardEvents);
-    // console.log(updatedTripEvent.id);
-    // console.log(updatedTripEvent.isFavorite);
-    // console.log(this._tripDaysPresenterCollector);
-    // console.log(this._tripEventsPresenterCollector);
     this._tripEventsPresenterCollector[updatedTripEvent.id].init(updatedTripEvent);
   }
 
@@ -86,19 +81,16 @@ export default class Board {
         this._boardDays = this._sourcedBoardEvents.slice();
         this._boardDays.sort(sortPriceDown);
         this._boardDays = [[WITHOUT_DAY, this._boardDays]];
-        // console.log(this._boardDays);
 
         break;
       case SortType.DATE_DOWN:
         this._boardDays = this._sourcedBoardEvents.slice();
         this._boardDays.sort(sortDateDown);
         this._boardDays = [[WITHOUT_DAY, this._boardDays]];
-        // console.log(this._boardDays);
 
         break;
       default:
         this._boardDays = this._defaultSortedDays;
-        // console.log(this._boardDays);
 
         break;
     }

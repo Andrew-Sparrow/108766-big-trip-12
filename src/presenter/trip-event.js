@@ -82,12 +82,7 @@ export default class TripEvent {
 
   _handleFavoriteClick() {
     this._tripEvent = Object.assign({}, this._tripEvent, {isFavorite: !this._tripEvent.isFavorite});
-    // const updatedTripEvent = Object.assign({}, this._tripEvent, {isFavorite: !this._tripEvent.isFavorite});
-    // console.log(this._tripEvent.isFavorite);
-    // console.log(this._tripEvent.isFavorite);
-    // console.log(updatedTripEvent);
     this._changeData(this._tripEvent);
-    // this._changeData(updatedTripEvent);
   }
 
   _handleFormSubmit(tripEvent) {
