@@ -19,7 +19,6 @@ const createTripEventForDayTemplate = (travelEvent) => {
     destination,
     routPointType,
     price,
-    isFavorite
   } = travelEvent;
 
   const offersTemplates = routPointType.offers
@@ -43,7 +42,6 @@ const createTripEventForDayTemplate = (travelEvent) => {
                     —
                     <time class="event__end-time" datetime="${dateEnd.toISOString()}">${dateEnd.getHours()}:${dateEnd.getMinutes()}</time>
                   </p>
-<!--                  <p class="event__duration">30M</p>-->
                   <p class="event__duration">${getFormattedDate(dateStart, dateEnd)}</p>
                 </div>
 

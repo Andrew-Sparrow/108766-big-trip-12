@@ -175,6 +175,7 @@ const createEventPhotoTemplate = (photoSrc) => {
 };
 
 export const getEventItemDestinationInEditFormTemplate = (travelEvent) => {
+
   const {destination} = travelEvent;
   const {photos, description} = destination;
 
@@ -182,7 +183,7 @@ export const getEventItemDestinationInEditFormTemplate = (travelEvent) => {
     .map((photo) => createEventPhotoTemplate(photo))
     .join(``);
 
-  return (`<section class="event__section  event__section--destination">
+  return (`${!description ? `` : `<section class="event__section  event__section--destination">
               <h3 class="event__section-title  event__section-title--destination">Destination</h3>
               <p class="event__destination-description">${description}</p>
 
@@ -191,7 +192,7 @@ export const getEventItemDestinationInEditFormTemplate = (travelEvent) => {
                 ${photosBlockTemplate}
                 </div>
               </div>
-            </section>`);
+            </section>`}`);
 };
 
 export const createTripEventItemEditTemplate = (travelEvent, destinationPoints) => {
@@ -240,5 +241,31 @@ export default class TripEventEdit extends AbstractView {
   setFormSubmitHandler(callback) {
     this._callback.formSubmit = callback;
     this.getElement(`.event__save-btn`).addEventListener(`submit`, this._formSubmitHandler);
+  }
+
+  static parseTripEventToData(tripEvent) {
+    return Object.assign(
+        {},
+        tripEvent, {
+          isOffersExist: tripEvent.routPointType.offers.length !== 0,
+          isDescriptionOfDestinationExist: !tripEvent.destination
+        });
+  }
+
+  static parseDataToTripEvent(data) {
+    const tripEvent = Object.assign({}, data);
+
+    if (!tripEvent.isOffersExist) {
+      tripEvent.routPointType.offers = [];
+    }
+
+    if (!data.isDescriptionOfDestinationExist) {
+      tripEvent.description = ``;
+    }
+
+    delete tripEvent.isOffersExist;
+    delete tripEvent.isDescriptionOfDestinationExist;
+
+    return tripEvent;
   }
 }
