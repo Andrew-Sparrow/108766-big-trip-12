@@ -195,17 +195,18 @@ export const getEventItemDestinationInEditFormTemplate = (travelEvent) => {
             </section>`}`);
 };
 
-export const createTripEventItemEditTemplate = (travelEvent, destinationPoints) => {
+export const createTripEventItemEditTemplate = (data, destinationPoints) => {
   const {
-    destination,
-    routPointType
-  } = travelEvent;
+    routPointType,
+    isOffersExist,
+    isDescriptionOfDestinationExist
+  } = data;
 
   return (`<form class="trip-events__item  event  event--edit" action="#" method="post">
-            ${getTripEventItemHeaderEditTemplate(travelEvent, destinationPoints)}
+            ${getTripEventItemHeaderEditTemplate(data, destinationPoints)}
             <section class="event__details">
-              ${routPointType.offers.length !== 0 ? createEventOffersInEditFormTemplate(routPointType.offers) : ``}
-              ${destination.description === null ? `` : getEventItemDestinationInEditFormTemplate(travelEvent)}
+              ${isOffersExist ? createEventOffersInEditFormTemplate(routPointType.offers) : ``}
+              ${isDescriptionOfDestinationExist ? `` : getEventItemDestinationInEditFormTemplate(data)}
             </section>
           </form>`);
 };
@@ -213,7 +214,7 @@ export const createTripEventItemEditTemplate = (travelEvent, destinationPoints) 
 export default class TripEventEdit extends AbstractView {
   constructor(travelEvent = Object.assign({}, BLANK_TRIP_EVENT), destinationPoints) {
     super();
-    this._travelEvent = travelEvent;
+    this._data = TripEventEdit.parseTripEventToData(travelEvent);
     this._destinationPoints = destinationPoints;
 
     this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
@@ -221,7 +222,7 @@ export default class TripEventEdit extends AbstractView {
   }
 
   getTemplate() {
-    return createTripEventItemEditTemplate(this._travelEvent, this._destinationPoints);
+    return createTripEventItemEditTemplate(this._data, this._destinationPoints);
   }
 
   _favoriteClickHandler() {
@@ -230,7 +231,7 @@ export default class TripEventEdit extends AbstractView {
 
   _formSubmitHandler(evt) {
     evt.preventDefault();
-    this._callback.formSubmit(this._travelEvent);
+    this._callback.formSubmit(TripEventEdit.parseDataToTripEvent(this._data));
   }
 
   setFavoriteClickHandler(callback) {
@@ -246,7 +247,8 @@ export default class TripEventEdit extends AbstractView {
   static parseTripEventToData(tripEvent) {
     return Object.assign(
         {},
-        tripEvent, {
+        tripEvent,
+        {
           isOffersExist: tripEvent.routPointType.offers.length !== 0,
           isDescriptionOfDestinationExist: !tripEvent.destination
         });
