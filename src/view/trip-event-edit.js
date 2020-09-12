@@ -225,6 +225,9 @@ export default class TripEventEdit extends AbstractView {
     return createTripEventItemEditTemplate(this._data, this._destinationPoints);
   }
 
+  // "Фокус" в том, что при генерации нового элемента
+  // будет снова зачитано свойство _data.
+  // И если мы сперва обновим его, а потом шаблон, то в итоге получим элемент с новыми данными
   updateElement() {
     let prevElement = this.getElement();
     const parent = prevElement.parentElement;
@@ -233,7 +236,23 @@ export default class TripEventEdit extends AbstractView {
     const newElement = this.getElement();
 
     parent.replaceChild(newElement, prevElement);
-    prevElement = null; // Чтобы окончательно "убить" ссылку на prevElement
+
+    // Чтобы окончательно "убить" ссылку на prevElement
+    prevElement = null;
+  }
+
+  updateData(update) {
+    if (!update) {
+      return;
+    }
+
+    this._data = Object.assign(
+        {},
+        this._data,
+        update
+    );
+
+    this.updateElement();
   }
 
   _favoriteClickHandler() {
