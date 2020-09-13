@@ -44,7 +44,6 @@ export default class Board {
   }
 
   init(boardEvents) {
-    // console.log(boardEvents);
     this._sourcedBoardEvents = boardEvents.slice();
     this._changeableBoardEvents = boardEvents.slice();
 

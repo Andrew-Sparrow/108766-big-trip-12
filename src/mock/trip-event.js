@@ -12,15 +12,8 @@ import {
 
 import {
   getRandomCities,
-  getRandomPropertyOfObject,
-  generateOffersInRoutPoints,
-  generateDescriptionsInCities,
-  generatePhotosInCities,
+  getRandomPropertyOfObject
 } from "../view/util/utils.js";
-
-// generateOffersInRoutPoints();
-// generateDescriptionsInCities();
-// generatePhotosInCities();
 
 // it's better to use more reliable for production,
 // for example like that - https://github.com/ai/nanoid
