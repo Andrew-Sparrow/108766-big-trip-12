@@ -1,4 +1,8 @@
 import SmartView from "./smart.js";
+import flatpickr from "flatpickr";
+
+import "../../node_modules/flatpickr/dist/flatpickr.min.css";
+
 import {
   ROUTE_POINT_TYPES,
   CITIES
@@ -19,7 +23,6 @@ const createDestinationPointsTemplate = (city) => {
 
 export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoints) => {
   const {
-    destination: {city},
     routPointType,
     routPointTypeGroupName,
     dateStart,
@@ -268,8 +271,6 @@ export default class TripEventEdit extends SmartView {
   _destinationToggleHandler(evt) {
     evt.preventDefault();
 
-    console.log(evt.target.value);
-    console.log(this._data);
     const inputValue = evt.target.value;
     let destinationDescription = ``;
     let destinationPhotos = [];
