@@ -38,6 +38,7 @@ export default class Board {
 
     this._handleTripEventChange = this._handleTripEventChange.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
+    this._handleModeChange = this._handleModeChange.bind(this);
 
     this._addTripEventPresenterToCollection = this._addTripEventPresenterToCollection.bind(this);
   }
@@ -55,6 +56,12 @@ export default class Board {
     renderDOMElement(this._boardContainer, this._boardComponent, RenderPosition.BEFOREEND);
 
     this._renderBoard();
+  }
+
+  _handleModeChange() {
+    Object
+      .values(this._tripEventsPresenterCollector)
+      .forEach((presenter) => presenter.resetView());
   }
 
   /**
@@ -142,7 +149,7 @@ export default class Board {
   * @param {Number} index - index of dayProperties in list of days.
   */
   _renderDay(containerForRendering, dayProperties, index) {
-    const dayPresenter = new TripDayPresenter(containerForRendering, this._handleTripEventChange, this._addTripEventPresenterToCollection);
+    const dayPresenter = new TripDayPresenter(containerForRendering, this._handleTripEventChange, this._addTripEventPresenterToCollection, this._handleModeChange);
     dayPresenter.init(dayProperties, index);
     this._tripDaysPresenterCollector[index] = dayPresenter;
   }

@@ -11,10 +11,11 @@ import {
 } from "../view/util/render.js";
 
 export default class TripDay {
-  constructor(containerForRendering, changeData, addToCollection) {
+  constructor(containerForRendering, changeData, addToCollection, changeMode) {
     this._tripDaysContainer = containerForRendering;
     this._changeData = changeData;
     this._addToCollection = addToCollection;
+    this._changeMode = changeMode;
   }
 
   init(dayProperties, index) {
@@ -51,7 +52,7 @@ export default class TripDay {
    * @param {Object} tripEvent - tripEvent.
    */
   _renderTripEventInDay(containerForRendering, tripEvent) {
-    const tripEventPresenter = new TripEventPresenter(containerForRendering, this._changeData);
+    const tripEventPresenter = new TripEventPresenter(containerForRendering, this._changeData, this._changeMode);
     tripEventPresenter.init(tripEvent);
     this._addToCollection(tripEvent, tripEventPresenter);
   }
