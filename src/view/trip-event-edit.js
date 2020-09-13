@@ -1,5 +1,8 @@
 import SmartView from "./smart.js";
-import {ROUTE_POINT_TYPES} from "../const.js";
+import {
+  ROUTE_POINT_TYPES,
+  CITIES
+} from "../const.js";
 
 const BLANK_TRIP_EVENT = {
   destination: null,
@@ -74,10 +77,19 @@ export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoin
               </div>
 
               <div class="event__field-group  event__field-group--destination">
-                <label class="event__label  event__type-output" for="event-destination-1">
+                <label
+                  class="event__label  event__type-output"
+                  for="event-destination-1">
                   ${routPointType.name} ${routPointTypeGroupName === `transfer` ? ` to` : ` in`}
                 </label>
-                <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" list="destination-list-1" value="${city}" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+                <input
+                  class="event__input  event__input--destination"
+                  id="event-destination-1"
+                  type="text"
+                  name="event-destination"
+                  list="destination-list-1"
+                  value=""
+                  style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
                 <datalist id="destination-list-1">
                   ${destinationPointsValues}
                 </datalist>
@@ -121,8 +133,8 @@ const createEventOffersItemInEditFormTemplate = (offer) => {
   const {title, price} = offer;
 
   return `<div class="event__offer-selector">
-            <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-${offer.name}" checked="">
-            <label class="event__offer-label" for="event-offer-luggage-1">
+            <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.name}-1" type="checkbox" name="event-offer-${offer.name}" checked="">
+            <label class="event__offer-label" for="event-offer-${offer.name}-1">
               <span class="event__offer-title">${title}</span>
               +
               €&nbsp;<span class="event__offer-price">${price}</span>
@@ -161,7 +173,7 @@ export const getEventItemDestinationInEditFormTemplate = (travelEvent) => {
     .map((photo) => createEventPhotoTemplate(photo))
     .join(``);
 
-  return (`${!description ? `` : `<section class="event__section  event__section--destination">
+  return (`${!description || !photos ? `` : `<section class="event__section  event__section--destination">
               <h3 class="event__section-title  event__section-title--destination">Destination</h3>
               <p class="event__destination-description">${description}</p>
 
@@ -197,7 +209,9 @@ export default class TripEventEdit extends SmartView {
 
     this._eventTypeToggleTransferHandler = this._eventTypeToggleTransferHandler.bind(this);
     this._eventTypeToggleActivityHandler = this._eventTypeToggleActivityHandler.bind(this);
+    this._destinationToggleHandler = this._destinationToggleHandler.bind(this);
     this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
+    this._priceInputHandler = this._priceInputHandler.bind(this);
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
 
     this._setInnerHandlers();
@@ -230,15 +244,44 @@ export default class TripEventEdit extends SmartView {
   _eventTypeToggleActivityHandler(evt) {
     evt.preventDefault();
 
-    let value = evt.target.value;
+    let dropDownValue = evt.target.value;
 
-    if (value === `check-in`) {
-      value = `checkin`;
+    if (dropDownValue === `check-in`) {
+      dropDownValue = `checkin`;
     }
+
     this.updateData({
       routPointTypeGroupName: `activity`,
-      routPointType: ROUTE_POINT_TYPES.activity[value],
-      isOffersExist: ROUTE_POINT_TYPES.activity[value].offers.length !== 0
+      routPointType: ROUTE_POINT_TYPES.activity[dropDownValue],
+      isOffersExist: ROUTE_POINT_TYPES.activity[dropDownValue].offers.length !== 0
+    });
+
+    // console.log(this._data);
+  }
+
+  _destinationToggleHandler(evt) {
+    evt.preventDefault();
+
+    console.log(evt.target.value);
+    console.log(this._data);
+    const inputValue = evt.target.value;
+    let destinationDescription = ``;
+    let destinationPhotos = [];
+
+    CITIES.forEach((destinationItem) => {
+      if (destinationItem.city === inputValue) {
+        destinationDescription = destinationItem.description;
+        destinationPhotos = destinationItem.photos;
+      }
+    });
+
+    this.updateData({
+      destination: Object.assign(
+          {},
+          this._data.destination,
+          {city: evt.target.value},
+          {description: destinationDescription},
+          {photos: destinationPhotos})
     });
   }
 
@@ -247,12 +290,24 @@ export default class TripEventEdit extends SmartView {
       .addEventListener(`change`, this._eventTypeToggleTransferHandler);
     this.getElement(`.event__type-group-activity`)
       .addEventListener(`change`, this._eventTypeToggleActivityHandler);
+    this.getElement(`.event__input--destination`)
+      .addEventListener(`change`, this._destinationToggleHandler);
+    this.getElement()
+      .querySelector(`.event__input--price`)
+      .addEventListener(`input`, this._priceInputHandler);
   }
 
   restoreHandlers() {
     this._setInnerHandlers();
     this.setFavoriteClickHandler(this._callback.favoriteClick);
     this.setFormSubmitHandler(this._callback.formSubmit);
+  }
+
+  _priceInputHandler(evt) {
+    evt.preventDefault();
+    this.updateData({
+      price: evt.target.value
+    }, true);
   }
 
   _favoriteClickHandler() {

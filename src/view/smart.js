@@ -22,7 +22,7 @@ export default class Smart extends Abstract {
     prevElement = null;
   }
 
-  updateData(update) {
+  updateData(update, justDataUpdating) {
     if (!update) {
       return;
     }
@@ -32,7 +32,11 @@ export default class Smart extends Abstract {
         this._data,
         update
     );
-    console.log(this._data);
+
+    if (justDataUpdating) {
+      return;
+    }
+
     this.updateElement();
 
     this.restoreHandlers();

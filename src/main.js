@@ -1,6 +1,7 @@
 import {
   generateDescriptionsInCities,
-  generateOffersInRoutPoints, generatePhotosInCities,
+  generateOffersInRoutPoints,
+  generatePhotosInCities,
   groupArrayOfObjects,
 } from "./view/util/utils.js";
 
