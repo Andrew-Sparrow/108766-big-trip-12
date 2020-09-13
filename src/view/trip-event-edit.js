@@ -1,4 +1,4 @@
-import AbstractView from "./abstract.js";
+import SmartView from "./smart.js";
 import {ROUTE_POINT_TYPES} from "../const.js";
 
 const BLANK_TRIP_EVENT = {
@@ -36,7 +36,7 @@ export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoin
                 <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
                 <div class="event__type-list">
-                  <fieldset class="event__type-group">
+                  <fieldset class="event__type-group event__type-group-transfer">
                     <legend class="visually-hidden">Transfer</legend>
                     ${Object.values(ROUTE_POINT_TYPES.transfer)
                       .map((value) =>`<div class="event__type-item">
@@ -53,7 +53,7 @@ export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoin
                     </div>`).join(``)}
                   </fieldset>
 
-                  <fieldset class="event__type-group">
+                  <fieldset class="event__type-group event__type-group-activity">
                     <legend class="visually-hidden">Activity</legend>
 
                     ${Object.values(ROUTE_POINT_TYPES.activity)
@@ -189,57 +189,22 @@ export const createTripEventItemEditTemplate = (data, destinationPoints) => {
           </form>`);
 };
 
-export default class TripEventEdit extends AbstractView {
+export default class TripEventEdit extends SmartView {
   constructor(travelEvent = Object.assign({}, BLANK_TRIP_EVENT), destinationPoints) {
     super();
     this._data = TripEventEdit.parseTripEventToData(travelEvent);
     this._destinationPoints = destinationPoints;
 
+    this._eventTypeToggleTransferHandler = this._eventTypeToggleTransferHandler.bind(this);
+    this._eventTypeToggleActivityHandler = this._eventTypeToggleActivityHandler.bind(this);
     this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
+
+    this._setInnerHandlers();
   }
 
   getTemplate() {
     return createTripEventItemEditTemplate(this._data, this._destinationPoints);
-  }
-
-  // "Фокус" в том, что при генерации нового элемента
-  // будет снова зачитано свойство _data.
-  // И если мы сперва обновим его, а потом шаблон, то в итоге получим элемент с новыми данными
-  updateElement() {
-    let prevElement = this.getElement();
-    const parent = prevElement.parentElement;
-    this.removeElement();
-
-    const newElement = this.getElement();
-
-    parent.replaceChild(newElement, prevElement);
-
-    // Чтобы окончательно "убить" ссылку на prevElement
-    prevElement = null;
-  }
-
-  updateData(update) {
-    if (!update) {
-      return;
-    }
-
-    this._data = Object.assign(
-        {},
-        this._data,
-        update
-    );
-
-    this.updateElement();
-  }
-
-  _favoriteClickHandler() {
-    this._callback.favoriteClick();
-  }
-
-  _formSubmitHandler(evt) {
-    evt.preventDefault();
-    this._callback.formSubmit(TripEventEdit.parseDataToTripEvent(this._data));
   }
 
   setFavoriteClickHandler(callback) {
@@ -250,6 +215,53 @@ export default class TripEventEdit extends AbstractView {
   setFormSubmitHandler(callback) {
     this._callback.formSubmit = callback;
     this.getElement(`.event__save-btn`).addEventListener(`submit`, this._formSubmitHandler);
+  }
+
+  _eventTypeToggleTransferHandler(evt) {
+    evt.preventDefault();
+    const value = evt.target.value;
+    this.updateData({
+      routPointTypeGroupName: `transfer`,
+      routPointType: ROUTE_POINT_TYPES.transfer[value],
+      isOffersExist: ROUTE_POINT_TYPES.transfer[value].offers.length !== 0
+    });
+  }
+
+  _eventTypeToggleActivityHandler(evt) {
+    evt.preventDefault();
+
+    let value = evt.target.value;
+
+    if (value === `check-in`) {
+      value = `checkin`;
+    }
+    this.updateData({
+      routPointTypeGroupName: `activity`,
+      routPointType: ROUTE_POINT_TYPES.activity[value],
+      isOffersExist: ROUTE_POINT_TYPES.activity[value].offers.length !== 0
+    });
+  }
+
+  _setInnerHandlers() {
+    this.getElement(`.event__type-group-transfer`)
+      .addEventListener(`change`, this._eventTypeToggleTransferHandler);
+    this.getElement(`.event__type-group-activity`)
+      .addEventListener(`change`, this._eventTypeToggleActivityHandler);
+  }
+
+  restoreHandlers() {
+    this._setInnerHandlers();
+    this.setFavoriteClickHandler(this._callback.favoriteClick);
+    this.setFormSubmitHandler(this._callback.formSubmit);
+  }
+
+  _favoriteClickHandler() {
+    this._callback.favoriteClick();
+  }
+
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit(TripEventEdit.parseDataToTripEvent(this._data));
   }
 
   static parseTripEventToData(tripEvent) {
