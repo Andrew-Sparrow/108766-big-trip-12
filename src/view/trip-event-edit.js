@@ -221,6 +221,12 @@ export default class TripEventEdit extends SmartView {
     return createTripEventItemEditTemplate(this._data, this._destinationPoints);
   }
 
+  reset(tripEvent) {
+    this.updateData(
+        TripEventEdit.parseTripEventToData(tripEvent)
+    );
+  }
+
   setFavoriteClickHandler(callback) {
     this._callback.favoriteClick = callback;
     this.getElement().querySelector(`.event__favorite-btn`).addEventListener(`click`, this._favoriteClickHandler);
