@@ -209,9 +209,11 @@ export default class TripEventEdit extends SmartView {
     super();
     this._data = TripEventEdit.parseTripEventToData(travelEvent);
     this._destinationPoints = destinationPoints;
+    this._datepicker = null;
 
     this._eventTypeToggleTransferHandler = this._eventTypeToggleTransferHandler.bind(this);
     this._eventTypeToggleActivityHandler = this._eventTypeToggleActivityHandler.bind(this);
+    this._startDateChangeHandler = this._startDateChangeHandler.bind(this);
     this._destinationToggleHandler = this._destinationToggleHandler.bind(this);
     this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
     this._priceInputHandler = this._priceInputHandler.bind(this);
@@ -240,6 +242,30 @@ export default class TripEventEdit extends SmartView {
     this.getElement(`.event__save-btn`).addEventListener(`submit`, this._formSubmitHandler);
   }
 
+  restoreHandlers() {
+    this._setInnerHandlers();
+    this.setFavoriteClickHandler(this._callback.favoriteClick);
+    this.setFormSubmitHandler(this._callback.formSubmit);
+  }
+
+  _setDatepicker() {
+    if (this._datepicker) {
+      // В случае обновления компонента удаляем вспомогательные DOM-элементы,
+      // которые создает flatpickr при инициализации
+      this._datepicker.destroy();
+      this._datepicker = null;
+    }
+
+    this._datepicker = flatpickr(
+        this.getElement(`#event-start-time-1`),
+        {
+          dateFormat: `j F`,
+          defaultDate: this._data.dateStart,
+          onChange: this._startDateChangeHandler // На событие flatpickr передаём наш колбэк
+        }
+    );
+  }
+
   _eventTypeToggleTransferHandler(evt) {
     evt.preventDefault();
     const value = evt.target.value;
@@ -264,8 +290,6 @@ export default class TripEventEdit extends SmartView {
       routPointType: ROUTE_POINT_TYPES.activity[dropDownValue],
       isOffersExist: ROUTE_POINT_TYPES.activity[dropDownValue].offers.length !== 0
     });
-
-    // console.log(this._data);
   }
 
   _destinationToggleHandler(evt) {
@@ -304,10 +328,12 @@ export default class TripEventEdit extends SmartView {
       .addEventListener(`input`, this._priceInputHandler);
   }
 
-  restoreHandlers() {
-    this._setInnerHandlers();
-    this.setFavoriteClickHandler(this._callback.favoriteClick);
-    this.setFormSubmitHandler(this._callback.formSubmit);
+  _startDateChangeHandler([userDate]) {
+    userDate.setHours(23, 59, 59, 999);
+
+    this.updateData({
+      dateStart: userDate
+    });
   }
 
   _priceInputHandler(evt) {
