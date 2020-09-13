@@ -1,6 +1,7 @@
 import SmartView from "./smart.js";
 import flatpickr from "flatpickr";
 
+// import "../../node_modules/flatpickr/dist/flatpickr.css/flatpickr.min.css";
 import "../../node_modules/flatpickr/dist/flatpickr.min.css";
 
 import {
@@ -102,7 +103,7 @@ export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoin
                 <label class="visually-hidden" for="event-start-time-1">
                   From
                 </label>
-                <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${dateStart.getDate()}/${dateStart.getMonth()}/${dateStart.getFullYear()} ${dateStart.getHours()}:${dateStart.getMinutes()}">
+                <input class="event__input  event__input-start  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${dateStart.getDate()}/${dateStart.getMonth()}/${dateStart.getFullYear()} ${dateStart.getHours()}:${dateStart.getMinutes()}">
                 —
                 <label class="visually-hidden" for="event-end-time-1">
                   To                </label>
@@ -219,6 +220,8 @@ export default class TripEventEdit extends SmartView {
     this._priceInputHandler = this._priceInputHandler.bind(this);
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
 
+    this._setDatepicker();
+
     this._setInnerHandlers();
   }
 
@@ -244,6 +247,7 @@ export default class TripEventEdit extends SmartView {
 
   restoreHandlers() {
     this._setInnerHandlers();
+    this._setDatepicker();
     this.setFavoriteClickHandler(this._callback.favoriteClick);
     this.setFormSubmitHandler(this._callback.formSubmit);
   }
@@ -257,6 +261,7 @@ export default class TripEventEdit extends SmartView {
     }
 
     this._datepicker = flatpickr(
+        // this.getElement(`.event__input-start`),
         this.getElement(`#event-start-time-1`),
         {
           dateFormat: `j F`,
