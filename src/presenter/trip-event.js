@@ -64,6 +64,7 @@ export default class TripEvent {
   destroy() {
     remove(this._tripEventComponent);
     remove(this._tripEventEditComponent);
+    remove(this._escKeyDownHandler);
   }
 
   resetView() {

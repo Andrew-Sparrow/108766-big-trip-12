@@ -57,26 +57,6 @@ export default class Board {
     this._renderBoard();
   }
 
-  _handleModeChange() {
-    Object
-      .values(this._tripEventsPresenterCollector)
-      .forEach((presenter) => presenter.resetView());
-  }
-
-  /**
-   * Handler for changing trip event.
-   * @param {Object} updatedTripEvent - tripEvent with updated property.
-   * @param {Boolean} isRerenderNeeded - shows is card of trip event needed to be rerendered.
-   */
-  _handleTripEventChange(updatedTripEvent, isRerenderNeeded) {
-    this._changeableBoardEvents = updateItems(this._changeableBoardEvents, updatedTripEvent);
-    this._sourcedBoardEvents = updateItems(this._sourcedBoardEvents, updatedTripEvent);
-
-    if (isRerenderNeeded) {
-      this._tripEventsPresenterCollector[updatedTripEvent.id].init(updatedTripEvent);
-    }
-  }
-
   _addTripEventPresenterToCollection(tripEvent, tripEventPresenter) {
     this._tripEventsPresenterCollector[tripEvent.id] = tripEventPresenter;
   }
@@ -166,5 +146,25 @@ export default class Board {
 
     this._renderSortBlock();
     this._renderDaysList();
+  }
+
+  _handleModeChange() {
+    Object
+      .values(this._tripEventsPresenterCollector)
+      .forEach((presenter) => presenter.resetView());
+  }
+
+  /**
+   * Handler for changing trip event.
+   * @param {Object} updatedTripEvent - tripEvent with updated property.
+   * @param {Boolean} isRerenderNeeded - shows is card of trip event needed to be rerendered.
+   */
+  _handleTripEventChange(updatedTripEvent, isRerenderNeeded) {
+    this._changeableBoardEvents = updateItems(this._changeableBoardEvents, updatedTripEvent);
+    this._sourcedBoardEvents = updateItems(this._sourcedBoardEvents, updatedTripEvent);
+
+    if (isRerenderNeeded) {
+      this._tripEventsPresenterCollector[updatedTripEvent.id].init(updatedTripEvent);
+    }
   }
 }
