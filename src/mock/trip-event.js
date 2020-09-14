@@ -6,20 +6,19 @@ import {
 import {
   getRandomDate,
   getRandomAmountOfItems,
-  getRandomInteger
+  getRandomInteger,
+  getRandomBoolean
 } from "../view/util/common.js";
 
 import {
   getRandomCities,
-  getRandomPropertyOfObject,
-  generateOffersInRoutPoints,
-  generateDescriptionsInCities,
-  generatePhotosInCities,
+  getRandomPropertyOfObject
 } from "../view/util/utils.js";
 
-generateOffersInRoutPoints();
-generateDescriptionsInCities();
-generatePhotosInCities();
+// it's better to use more reliable for production,
+// for example like that - https://github.com/ai/nanoid
+// but here, i will use next one:
+const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
 
 export const generateEvent = () => {
   const randomDestination = getRandomCities(CITIES);
@@ -31,12 +30,14 @@ export const generateEvent = () => {
   routPointTypeOfEvent.offers = getRandomAmountOfItems(routPointTypeOfEvent.offers);
 
   const travelEvent = {
+    id: generateId(),
     destination: randomDestination,
     routPointTypeGroupName,
     routPointType: routPointTypeOfEvent,
     dateStart,
     dateEnd,
-    price: getRandomInteger(10, 500)
+    price: getRandomInteger(10, 500),
+    isFavorite: getRandomBoolean()
   };
   travelEvent.dateEnd.setMonth(dateStart.getMonth());
   travelEvent.dateEnd.setDate(dateStart.getDate() + getRandomInteger(0, 3));

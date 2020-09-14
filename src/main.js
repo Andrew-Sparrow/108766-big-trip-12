@@ -1,5 +1,8 @@
 import {
-  groupArrayOfObjects
+  generateDescriptionsInCities,
+  generateOffersInRoutPoints,
+  generatePhotosInCities,
+  groupArrayOfObjects,
 } from "./view/util/utils.js";
 
 import {
@@ -26,6 +29,10 @@ const tripView = tripControls.querySelector(`.trip-view`);
 
 const pageMainElement = document.querySelector(`.page-main`);
 const pageBodyContainer = pageMainElement.querySelector(`.page-body__container`);
+
+generateOffersInRoutPoints();
+generateDescriptionsInCities();
+generatePhotosInCities();
 
 const tripEvents = new Array(10).fill().map(generateEvent);
 

@@ -1,4 +1,5 @@
 import AbstractView from "./abstract.js";
+import {WITHOUT_DAY} from "../const.js";
 
 const FIRST_EVENT = 0;
 const MONTH_OF_EVENT = 1;
@@ -10,7 +11,7 @@ const createEventDayTemplate = (day, index) => {
     tripEventsInDay
   ] = day;
 
-  if (date !== `withoutDay`) {
+  if (date !== WITHOUT_DAY) {
     // template for day
     return (`<li class="trip-days__item  day">
              <div class="day__info">
@@ -28,7 +29,7 @@ const createEventDayTemplate = (day, index) => {
 };
 
 export default class TripDay extends AbstractView {
-  constructor(day = `withoutDay`, index = `withoutIndex`) {
+  constructor(day = WITHOUT_DAY, index) {
     super();
     this._day = day;
     this._index = index;

@@ -18,7 +18,8 @@ const createTripEventForDayTemplate = (travelEvent) => {
     dateEnd,
     destination,
     routPointType,
-    price} = travelEvent;
+    price,
+  } = travelEvent;
 
   const offersTemplates = routPointType.offers
     .map((offer) => createEventOfferInTripDayTemplate(offer));
@@ -41,7 +42,6 @@ const createTripEventForDayTemplate = (travelEvent) => {
                     —
                     <time class="event__end-time" datetime="${dateEnd.toISOString()}">${dateEnd.getHours()}:${dateEnd.getMinutes()}</time>
                   </p>
-<!--                  <p class="event__duration">30M</p>-->
                   <p class="event__duration">${getFormattedDate(dateStart, dateEnd)}</p>
                 </div>
 
@@ -62,7 +62,7 @@ const createTripEventForDayTemplate = (travelEvent) => {
             </li>`);
 };
 
-export default class TripEventItemInDay extends AbstractView {
+export default class TripEvent extends AbstractView {
   constructor(tripEvent) {
     super();
     this._tripEvent = tripEvent;

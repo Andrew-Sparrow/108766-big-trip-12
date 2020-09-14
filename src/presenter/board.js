@@ -2,8 +2,7 @@ import BoardView from "../view/board.js";
 import SortTripView from "../view/sort-trip.js";
 import TripDaysListView from "../view/trip-days-list.js";
 import NoEventsView from "../view/no-events.js";
-import TripDayView from "../view/trip-day.js";
-import TripEventEditItemView from "../view/trip-event-edit-item.js";
+import TripDayPresenter from "./trip-day.js";
 
 import {
   sortPriceDown,
@@ -13,19 +12,15 @@ import {
 import {
   renderDOMElement,
   RenderPosition,
-  replace
 } from "../view/util/render.js";
-
-import TripEventItemInDayView from "../view/trip-event-item-in-trip-days.js";
-import TripEventsInDayView from "../view/trip-events-in-day.js";
 
 import {
   SortType,
-  CITIES,
-  EVENTS_OF_DAY,
   WITHOUT_DAY
 } from "../const.js";
 import {groupArrayOfObjects} from "../view/util/utils.js";
+
+import {updateItems} from "../view/util/common.js";
 
 export default class Board {
   constructor(boardContainer) {
@@ -36,77 +31,59 @@ export default class Board {
     this._tripDaysListComponent = new TripDaysListView();
     this._noEventComponent = new NoEventsView();
 
+    this._tripDaysPresenterCollector = {};
+    this._tripEventsPresenterCollector = {};
+
     this._currentSortType = SortType.DEFAULT;
 
+    this._handleTripEventChange = this._handleTripEventChange.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
+    this._handleModeChange = this._handleModeChange.bind(this);
+
+    this._addTripEventPresenterToCollection = this._addTripEventPresenterToCollection.bind(this);
   }
 
   init(boardEvents) {
     this._sourcedBoardEvents = boardEvents.slice();
+    this._changeableBoardEvents = boardEvents.slice();
 
-    this._groupsEventsByDay = groupArrayOfObjects(boardEvents, `dateStart`);
+    this._groupsEventsByDay = groupArrayOfObjects(this._changeableBoardEvents, `dateStart`);
     this._defaultSortedDays = defaultSortEventsByGroupDays(this._groupsEventsByDay);
 
-    this._boardEvents = this._defaultSortedDays;
+    this._boardDays = this._defaultSortedDays;
 
     renderDOMElement(this._boardContainer, this._boardComponent, RenderPosition.BEFOREEND);
 
     this._renderBoard();
   }
 
-  _renderSort() {
+  _handleModeChange() {
+    Object
+      .values(this._tripEventsPresenterCollector)
+      .forEach((presenter) => presenter.resetView());
+  }
+
+  /**
+   * Handler for changing trip event.
+   * @param {Object} updatedTripEvent - tripEvent with updated property.
+   * @param {Boolean} isRerenderNeeded - shows is card of trip event needed to be rerendered.
+   */
+  _handleTripEventChange(updatedTripEvent, isRerenderNeeded) {
+    this._changeableBoardEvents = updateItems(this._changeableBoardEvents, updatedTripEvent);
+    this._sourcedBoardEvents = updateItems(this._sourcedBoardEvents, updatedTripEvent);
+
+    if (isRerenderNeeded) {
+      this._tripEventsPresenterCollector[updatedTripEvent.id].init(updatedTripEvent);
+    }
+  }
+
+  _addTripEventPresenterToCollection(tripEvent, tripEventPresenter) {
+    this._tripEventsPresenterCollector[tripEvent.id] = tripEventPresenter;
+  }
+
+  _renderSortBlock() {
     renderDOMElement(this._boardComponent, this._sortComponent, RenderPosition.BEFOREEND);
     this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
-  }
-
-  /**
-   * Renders event in list events in day.
-   * @param {Object} containerForRendering - containerForRendering.
-   * @param {Object} event - event.
-   */
-  _renderEventInDay(containerForRendering, event) {
-    const tripEventInDayComponent = new TripEventItemInDayView(event);
-
-    const tripEditComponent = new TripEventEditItemView(event, CITIES);
-
-    const replaceCardToForm = () => {
-      replace(tripEditComponent, tripEventInDayComponent);
-    };
-
-    const replaceFormToCard = () => {
-      replace(tripEventInDayComponent, tripEditComponent);
-    };
-
-    const onEscKeyDown = (evt) => {
-      if (evt.key === `Escape` || evt.key === `Esc`) {
-        evt.preventDefault();
-        replaceFormToCard();
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      }
-    };
-
-    tripEventInDayComponent.setRollupClickHandler(() => {
-      replaceCardToForm();
-      document.addEventListener(`keydown`, onEscKeyDown);
-    });
-
-    tripEditComponent.setFormSubmitHandler(() => {
-      replaceFormToCard();
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    });
-
-    renderDOMElement(containerForRendering, tripEventInDayComponent, RenderPosition.BEFOREEND);
-  }
-
-  /**
-   * Renders EventsInDay.
-   * @param {Object[]} events - list of events.
-   * @param {Object} tripEventsContainer - container for tripEvents items.
-   */
-  _renderEventsInDay(events, tripEventsContainer) {
-    events.forEach((tripEvent) => {
-      return this._renderEventInDay(tripEventsContainer, tripEvent);
-    });
   }
 
   _sortEvents(sortType) {
@@ -116,31 +93,41 @@ export default class Board {
 
     switch (sortType) {
       case SortType.PRICE_DOWN:
-        this._boardEvents = this._sourcedBoardEvents.slice();
-        this._boardEvents.sort(sortPriceDown);
-        this._boardEvents = [[WITHOUT_DAY, this._boardEvents]];
+        this._boardDays = this._sourcedBoardEvents.slice();
+        this._boardDays.sort(sortPriceDown);
+        this._boardDays = [[WITHOUT_DAY, this._boardDays]];
+
         break;
       case SortType.DATE_DOWN:
-        this._boardEvents = this._sourcedBoardEvents.slice();
-        this._boardEvents.sort(sortDateDown);
-        this._boardEvents = [[WITHOUT_DAY, this._boardEvents]];
+        this._boardDays = this._sourcedBoardEvents.slice();
+        this._boardDays.sort(sortDateDown);
+        this._boardDays = [[WITHOUT_DAY, this._boardDays]];
+
         break;
       default:
-        this._boardEvents = this._defaultSortedDays;
+        this._boardDays = this._defaultSortedDays;
+
+        break;
     }
 
     this._currentSortType = sortType;
   }
 
-  _cleanElement() {
-    this._tripDaysListComponent.getElement().innerHTML = ``;
+  _clearTripDaysList() {
+    Object
+      .values(this._tripDaysPresenterCollector)
+      .forEach((tripDayPresenter) => {
+        tripDayPresenter.destroy();
+      });
+    this._tripDaysPresenterCollector = {};
   }
 
   // Renders days in board of day.
   _renderDaysList() {
     renderDOMElement(this._boardComponent, this._tripDaysListComponent, RenderPosition.BEFOREEND);
+
     // groupDaysEvents
-    this._boardEvents.forEach((dayInListOfEvents, index) => this._renderDay(this._tripDaysListComponent, dayInListOfEvents, index));
+    this._boardDays.forEach((dayInListOfEvents, index) => this._renderDay(this._tripDaysListComponent, dayInListOfEvents, index));
   }
 
   _handleSortTypeChange(sortType) {
@@ -148,7 +135,7 @@ export default class Board {
     this._sortEvents(sortType);
 
     // - Очищаем список
-    this._cleanElement();
+    this._clearTripDaysList();
 
     // - Рендерим список заново
     this._renderDaysList();
@@ -161,16 +148,9 @@ export default class Board {
   * @param {Number} index - index of dayProperties in list of days.
   */
   _renderDay(containerForRendering, dayProperties, index) {
-    const events = dayProperties[EVENTS_OF_DAY];
-
-    const tripEventsInDayComponent = new TripEventsInDayView();
-    const tripDay = new TripDayView(dayProperties, index);
-
-    this._renderEventsInDay(events, tripEventsInDayComponent);
-
-    renderDOMElement(tripDay, tripEventsInDayComponent, RenderPosition.BEFOREEND);
-
-    renderDOMElement(containerForRendering, tripDay, RenderPosition.BEFOREEND);
+    const dayPresenter = new TripDayPresenter(containerForRendering, this._handleTripEventChange, this._addTripEventPresenterToCollection, this._handleModeChange);
+    dayPresenter.init(dayProperties, index);
+    this._tripDaysPresenterCollector[index] = dayPresenter;
   }
 
   _renderNoEvents() {
@@ -179,12 +159,12 @@ export default class Board {
 
   // groupDaysEvents
   _renderBoard() {
-    if (this._boardEvents.length === 0) {
+    if (this._boardDays.length === 0) {
       this._renderNoEvents();
       return;
     }
 
-    this._renderSort();
+    this._renderSortBlock();
     this._renderDaysList();
   }
 }
