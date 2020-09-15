@@ -89,3 +89,13 @@ export const getFormattedDate = (dateStart, dateEnd) => {
 
   return getDigitFormat(daysInTime, `D`) + ` ` + getDigitFormat(remainderOfHoursInTime, `H`) + ` ` + getDigitFormat(remainderOfMinutesInTime, `M`);
 };
+
+export const updateTripEventRoutPointTypeName = (routPointTypeName) => {
+  let tripEventRoutPointTypeName = routPointTypeName.toLowerCase();
+
+  if (routPointTypeName === `Check-in`) {
+    tripEventRoutPointTypeName = `checkin`;
+  }
+
+  return tripEventRoutPointTypeName;
+};

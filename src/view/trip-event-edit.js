@@ -1,7 +1,7 @@
 import SmartView from "./smart.js";
 import flatpickr from "flatpickr";
+import {updateTripEventRoutPointTypeName} from "./util/trip-event.js";
 
-// import "../../node_modules/flatpickr/dist/flatpickr.css/flatpickr.min.css";
 import "../../node_modules/flatpickr/dist/flatpickr.min.css";
 
 import {
@@ -134,11 +134,23 @@ export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoin
             </header>`);
 };
 
+/**
+ * Returns a markup list of offers.
+ * @param {Object} offer - The offer in the trip event.
+ * @return {String} Returns markup of offer
+ */
 const createEventOffersItemInEditFormTemplate = (offer) => {
-  const {title, price} = offer;
+  const {
+    title,
+    price
+  } = offer;
 
   return `<div class="event__offer-selector">
-            <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.name}-1" type="checkbox" name="event-offer-${offer.name}" checked="">
+            <input
+              class="event__offer-checkbox  visually-hidden"
+              id="event-offer-${offer.name}-1"
+              type="checkbox"
+              name="event-offer-${offer.name}">
             <label class="event__offer-label" for="event-offer-${offer.name}-1">
               <span class="event__offer-title">${title}</span>
               +
@@ -148,13 +160,13 @@ const createEventOffersItemInEditFormTemplate = (offer) => {
 };
 
 /**
- * Returns a markup list of offers.
- * @param {Object[]} offers - The offers in the trip event.
- * @return {String} Returns markup block of offers
+ * Returns a markup list of offersFromRoutPointTypes.
+ * @param {Object[]} offersFromRoutPointTypes - The offersFromRoutPointTypes in the trip event.
+ * @return {String} Returns markup block of offersFromRoutPointTypes
  */
-export const createEventOffersInEditFormTemplate = (offers) => {
+export const createEventOffersInEditFormTemplate = (offersFromRoutPointTypes) => {
 
-  const offersBlockInEditForm = offers.map((offer) => createEventOffersItemInEditFormTemplate(offer)).join(``);
+  const offersBlockInEditForm = offersFromRoutPointTypes.map((offer) => createEventOffersItemInEditFormTemplate(offer)).join(``);
 
   return (`<section class="event__section  event__section--offers">
               <h3 class="event__section-title  event__section-title--offers">Offers</h3>
@@ -192,16 +204,18 @@ export const getEventItemDestinationInEditFormTemplate = (travelEvent) => {
 
 export const createTripEventItemEditTemplate = (data, destinationPoints) => {
   const {
+    routPointTypeGroupName,
     routPointType,
     isOffersExist,
     isDescriptionOfDestinationExist
   } = data;
-  console.log(data);
+
+  let tripEventRoutPointTypeName = updateTripEventRoutPointTypeName(routPointType.name);
 
   return (`<form class="trip-events__item  event  event--edit" action="#" method="post">
             ${getTripEventItemHeaderEditTemplate(data, destinationPoints)}
             <section class="event__details">
-              ${isOffersExist ? createEventOffersInEditFormTemplate(routPointType.offers) : ``}
+               ${isOffersExist ? createEventOffersInEditFormTemplate(ROUTE_POINT_TYPES[routPointTypeGroupName][tripEventRoutPointTypeName].offers) : ``}
               ${isDescriptionOfDestinationExist ? `` : getEventItemDestinationInEditFormTemplate(data)}
             </section>
           </form>`);
@@ -360,11 +374,18 @@ export default class TripEventEdit extends SmartView {
   }
 
   static parseTripEventToData(tripEvent) {
+    const {
+      routPointTypeGroupName,
+      routPointType
+    } = tripEvent;
+
+    let tripEventRoutPointTypeName = updateTripEventRoutPointTypeName(routPointType.name);
+
     return Object.assign(
         {},
         tripEvent,
         {
-          isOffersExist: tripEvent.routPointType.offers.length !== 0,
+          isOffersExist: ROUTE_POINT_TYPES[routPointTypeGroupName][tripEventRoutPointTypeName].offers.length !== 0,
           isDescriptionOfDestinationExist: !tripEvent.destination
         });
   }
