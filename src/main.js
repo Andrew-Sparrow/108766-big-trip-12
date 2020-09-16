@@ -34,7 +34,7 @@ generateOffersInRoutPoints();
 generateDescriptionsInCities();
 generatePhotosInCities();
 
-const tripEvents = new Array(10).fill().map(generateEvent);
+const tripEvents = new Array(1).fill().map(generateEvent);
 
 const groupsEventsByDay = groupArrayOfObjects(tripEvents, `dateStart`);
 
