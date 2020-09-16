@@ -9,6 +9,8 @@ import {
   CITIES
 } from "../const.js";
 
+const FIRST_ELEMENT = 0;
+
 const BLANK_TRIP_EVENT = {
   destination: null,
   routPointTypeGroupName: null,
@@ -346,9 +348,19 @@ export default class TripEventEdit extends SmartView {
 
   _offerToggleHandler(evt) {
     evt.preventDefault();
-    // console.log(this._data);
-    // console.log(evt.target);
-    this.updateData({routPointType: this._data.routPointType});
+    let offersOfData = this._data.routPointType.offers;
+
+    const offerTargetName = evt.target.name.split(`-`)[evt.target.name.split(`-`).length - 1];
+
+    const offerToToggle = ROUTE_POINT_TYPES[this._data.routPointTypeGroupName][this._data.routPointType.name.toLowerCase()]
+      .offers.filter((offer) => offer.name === offerTargetName)[FIRST_ELEMENT];
+
+    if (evt.target.checked) {
+      offersOfData.push(offerToToggle);
+    } else {
+      offersOfData = offersOfData.filter((offer) => offer.name !== offerTargetName);
+    }
+    this.updateData({routPointType: Object.assign({}, this._data.routPointType, {offers: offersOfData})});
   }
 
   _setInnerHandlers() {
