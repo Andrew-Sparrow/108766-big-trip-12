@@ -231,7 +231,7 @@ export default class TripEventEdit extends SmartView {
     this._data = TripEventEdit.parseTripEventToData(travelEvent);
     this._destinationPoints = destinationPoints;
     this._datepicker = null;
-    console.log(this._data);
+    // console.log(this._data);
 
     this._eventTypeToggleTransferHandler = this._eventTypeToggleTransferHandler.bind(this);
     this._eventTypeToggleActivityHandler = this._eventTypeToggleActivityHandler.bind(this);
@@ -347,7 +347,7 @@ export default class TripEventEdit extends SmartView {
   _offerToggleHandler(evt) {
     evt.preventDefault();
     // console.log(this._data);
-    console.log(evt.target);
+    // console.log(evt.target);
     this.updateData({routPointType: this._data.routPointType});
   }
 
