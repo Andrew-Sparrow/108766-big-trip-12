@@ -86,7 +86,8 @@ export const getFormattedDate = (dateStart, dateEnd) => {
   const diffTime = dateEnd - dateStart; // difference in milliseconds
   moment(diffTime);
 
-  return moment.duration().humanize();
+  return moment.duration();
+  // return moment.duration().humanize();
 };
 
 

@@ -106,5 +106,6 @@ export default class TripEvent {
   _handleFormSubmit(tripEvent) {
     this._changeData(tripEvent, false);
     this._replaceFormToCard();
+    this.init(tripEvent);
   }
 }
