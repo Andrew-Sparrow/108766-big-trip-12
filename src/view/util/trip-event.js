@@ -1,4 +1,5 @@
 import moment from "moment";
+import "moment-duration-format";
 
 import {
   FIRST_DAY,
@@ -6,6 +7,8 @@ import {
   DESTINATIONS_IN_DAY,
   FIRST_DESTINATION_IN_DAY
 } from "../../const.js";
+
+moment.duration(28800, `seconds`).format(`h:mm a`);
 
 const getShortTitleMonth = (date) => {
   const options = {
@@ -68,28 +71,14 @@ export const sortDateDown = (eventA, eventB) => {
   return differenceTimeA - differenceTimeB;
 };
 
-// export const getFormattedDate = (dateStart, dateEnd) => {
-//   const diffTime = dateEnd - dateStart; // difference in milliseconds
-//
-//   const secondsInDay = 24 * 60 * 60 * 1000;
-//   const hoursInDay = 60 * 60 * 1000;
-//   const minutesInDay = 60 * 1000;
-//
-//   const daysInTime = Math.floor(diffTime / secondsInDay); // days
-//   const remainderOfHoursInTime = Math.floor((diffTime - (daysInTime * secondsInDay)) / hoursInDay);
-//   const remainderOfMinutesInTime = Math.floor((diffTime - (daysInTime * secondsInDay) - (remainderOfHoursInTime * hoursInDay)) / minutesInDay);
-//
-//   return getDigitFormat(daysInTime, `D`) + ` ` + getDigitFormat(remainderOfHoursInTime, `H`) + ` ` + getDigitFormat(remainderOfMinutesInTime, `M`);
-// };
-
 export const getFormattedDate = (dateStart, dateEnd) => {
-  const diffTime = dateEnd - dateStart; // difference in milliseconds
-  moment(diffTime);
 
-  return moment.duration();
-  // return moment.duration().humanize();
+  const momentStart = moment(dateStart).clone().second(0).millisecond(0);
+  const momentEnd = moment(dateEnd).clone().second(0).millisecond(0);
+  const momentDuration = moment.duration(momentEnd.diff(momentStart));
+
+  return momentDuration.format(`dd[D] hh[H] mm[M]`);
 };
-
 
 export const updateTripEventRoutPointTypeName = (routPointTypeName) => {
   let tripEventRoutPointTypeName = routPointTypeName.toLowerCase();
