@@ -25,7 +25,7 @@ export const generateEvent = () => {
   const dateStart = getRandomDate();
   const routPointTypeGroupName = getRandomPropertyOfObject(ROUTE_POINT_TYPES);
   const routPointTypeKey = getRandomPropertyOfObject(ROUTE_POINT_TYPES[routPointTypeGroupName]);
-  const dateEnd = new Date();
+  let dateEnd = new Date();
   const routPointTypeOfEvent = Object.assign({}, ROUTE_POINT_TYPES[routPointTypeGroupName][routPointTypeKey]);
   routPointTypeOfEvent.offers = getRandomAmountOfItems(routPointTypeOfEvent.offers);
 
@@ -41,8 +41,8 @@ export const generateEvent = () => {
   };
   travelEvent.dateEnd.setMonth(dateStart.getMonth());
   travelEvent.dateEnd.setDate(dateStart.getDate() + getRandomInteger(0, 3));
-  travelEvent.dateEnd.setHours(dateStart.getHours() + getRandomInteger(1, 10));
-  travelEvent.dateEnd.setMinutes(dateStart.getMinutes() + getRandomInteger(1, 60));
+  // travelEvent.dateEnd.setHours(dateStart.getHours() + getRandomInteger(1, 10));
+  // travelEvent.dateEnd.setMinutes(dateStart.getMinutes() + getRandomInteger(1, 60));
 
   return travelEvent;
 };

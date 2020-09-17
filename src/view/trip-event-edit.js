@@ -234,19 +234,20 @@ export default class TripEventEdit extends SmartView {
     this._destinationPoints = destinationPoints;
     this._datepickerStart = null;
     this._datepickerEnd = null;
-    // console.log(this._data);
 
     this._eventTypeToggleTransferHandler = this._eventTypeToggleTransferHandler.bind(this);
     this._eventTypeToggleActivityHandler = this._eventTypeToggleActivityHandler.bind(this);
-    this._startDateChangeHandler = this._startDateChangeHandler.bind(this);
+
+    this._dateStartChangeHandler = this._dateStartChangeHandler.bind(this);
+    this._dateEndChangeHandler = this._dateEndChangeHandler.bind(this);
+
     this._destinationToggleHandler = this._destinationToggleHandler.bind(this);
     this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
     this._priceInputHandler = this._priceInputHandler.bind(this);
     this._offerToggleHandler = this._offerToggleHandler.bind(this);
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
 
-    this._setDatepickerStart();
-    this._setDatepickerEnd();
+    this._setDatepicker();
 
     this._setInnerHandlers();
   }
@@ -273,12 +274,12 @@ export default class TripEventEdit extends SmartView {
 
   restoreHandlers() {
     this._setInnerHandlers();
-    this._setDatepickerStart();
+    this._setDatepicker();
     this.setFavoriteClickHandler(this._callback.favoriteClick);
     this.setFormSubmitHandler(this._callback.formSubmit);
   }
 
-  _setDatepickerStart() {
+  _setDatepicker() {
     if (this._datepickerStart) {
       // В случае обновления компонента удаляем вспомогательные DOM-элементы,
       // которые создает flatpickr при инициализации
@@ -286,17 +287,6 @@ export default class TripEventEdit extends SmartView {
       this._datepickerStart = null;
     }
 
-    this._datepickerStart = flatpickr(
-        this.getElement(`#event-start-time-1`),
-        {
-          dateFormat: `d/m/Y H:i`,
-          defaultDate: this._data.dateStart,
-          onChange: this._startDateChangeHandler // На событие flatpickr передаём наш колбэк
-        }
-    );
-  }
-
-  _setDatepickerEnd() {
     if (this._datepickerEnd) {
       // В случае обновления компонента удаляем вспомогательные DOM-элементы,
       // которые создает flatpickr при инициализации
@@ -304,13 +294,22 @@ export default class TripEventEdit extends SmartView {
       this._datepickerEnd = null;
     }
 
+    this._datepickerStart = flatpickr(
+        this.getElement(`#event-start-time-1`),
+        {
+          dateFormat: `d/m/y H:i`,
+          defaultDate: this._data.dateStart,
+          onChange: this._dateStartChangeHandler
+        }
+    );
+
     this._datepickerEnd = flatpickr(
         this.getElement(`#event-end-time-1`),
         {
-          dateFormat: `d/m/Y H:i`,
+          dateFormat: `d/m/y H:i`,
           defaultDate: this._data.dateEnd,
           minDate: this._data.dateStart,
-          onChange: this._endDateChangeHandler // На событие flatpickr передаём наш колбэк
+          onChange: this._dateEndChangeHandler
         }
     );
   }
@@ -399,19 +398,19 @@ export default class TripEventEdit extends SmartView {
     }
   }
 
-  _startDateChangeHandler([userDate]) {
-    userDate.setHours(23, 59, 59, 999);
+  _dateStartChangeHandler([userDateStart]) {
+    userDateStart.setHours(23, 59, 59, 999);
 
     this.updateData({
-      dateStart: userDate
+      dateStart: userDateStart
     });
   }
 
-  _endDateChangeHandler([userDate]) {
-    userDate.setHours(23, 59, 59, 999);
+  _dateEndChangeHandler([userDateEnd]) {
+    userDateEnd.setHours(23, 59, 59, 999);
 
     this.updateData({
-      dateEnd: userDate
+      dateEnd: userDateEnd
     });
   }
 
