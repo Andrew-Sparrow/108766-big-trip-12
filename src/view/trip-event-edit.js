@@ -9,8 +9,6 @@ import {
   CITIES
 } from "../const.js";
 
-const FIRST_ELEMENT = 0;
-
 const BLANK_TRIP_EVENT = {
   destination: null,
   routPointTypeGroupName: null,
@@ -371,8 +369,13 @@ export default class TripEventEdit extends SmartView {
 
     const offerTargetName = evt.target.name.split(`-`)[evt.target.name.split(`-`).length - 1];
 
-    const offerToToggle = ROUTE_POINT_TYPES[this._data.routPointTypeGroupName][this._data.routPointType.name.toLowerCase()]
-      .offers.filter((offer) => offer.name === offerTargetName)[FIRST_ELEMENT];
+    let tripEventRoutPointTypeName = updateTripEventRoutPointTypeName(this._data.routPointType.name);
+
+    // const offerToToggle = ROUTE_POINT_TYPES[this._data.routPointTypeGroupName][tripEventRoutPointTypeName]
+    //   .offers.filter((offer) => offer.name === offerTargetName)[FIRST_ELEMENT];
+
+    const offerToToggle = ROUTE_POINT_TYPES[this._data.routPointTypeGroupName][tripEventRoutPointTypeName]
+      .offers.find((offer) => offer.name === offerTargetName);
 
     if (evt.target.checked) {
       offersOfData.push(offerToToggle);
@@ -400,6 +403,12 @@ export default class TripEventEdit extends SmartView {
 
   _dateStartChangeHandler([userDateStart]) {
     userDateStart.setHours(23, 59, 59, 999);
+
+    if (userDateStart > this._data.dateEnd) {
+      this.updateData({
+        dateEnd: userDateStart
+      });
+    }
 
     this.updateData({
       dateStart: userDateStart
@@ -436,7 +445,7 @@ export default class TripEventEdit extends SmartView {
       routPointType
     } = tripEvent;
 
-    let tripEventRoutPointTypeName = updateTripEventRoutPointTypeName(routPointType.name);
+    const tripEventRoutPointTypeName = updateTripEventRoutPointTypeName(routPointType.name);
 
     return Object.assign(
         {},

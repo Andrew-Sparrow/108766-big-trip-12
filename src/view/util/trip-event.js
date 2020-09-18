@@ -8,7 +8,8 @@ import {
   FIRST_DESTINATION_IN_DAY
 } from "../../const.js";
 
-moment.duration(28800, `seconds`).format(`h:mm a`);
+const CHECK_IN = `check-in`;
+const CHECKIN = `checkin`;
 
 const getShortTitleMonth = (date) => {
   const options = {
@@ -83,8 +84,8 @@ export const getFormattedDate = (dateStart, dateEnd) => {
 export const updateTripEventRoutPointTypeName = (routPointTypeName) => {
   let tripEventRoutPointTypeName = routPointTypeName.toLowerCase();
 
-  if (routPointTypeName === `Check-in`) {
-    tripEventRoutPointTypeName = `checkin`;
+  if (tripEventRoutPointTypeName === CHECK_IN) {
+    tripEventRoutPointTypeName = CHECKIN;
   }
 
   return tripEventRoutPointTypeName;
