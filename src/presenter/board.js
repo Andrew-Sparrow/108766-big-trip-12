@@ -7,6 +7,7 @@ import TripDayPresenter from "./trip-day.js";
 import {
   sortPriceDown,
   sortDateDown, defaultSortEventsByGroupDays,
+  calculateTotalPrice
 } from "../view/util/trip-event.js";
 
 import {
@@ -169,6 +170,8 @@ export default class Board {
 
       this._groupsEventsByDay = groupArrayOfObjects(this._changeableBoardEvents, `dateStart`);
       this._defaultSortedDays = defaultSortEventsByGroupDays(this._groupsEventsByDay);
+
+      document.querySelector(`.trip-info__cost-value`).textContent = calculateTotalPrice(this._defaultSortedDays);
 
       this._boardDays = this._defaultSortedDays;
 
