@@ -1,5 +1,9 @@
+import moment from "moment";
+import "moment-duration-format";
+
 import AbstractView from "./abstract.js";
 import {getFormattedDate} from "./util/trip-event.js";
+
 
 const THREE_OFFERS = 3;
 
@@ -38,9 +42,9 @@ const createTripEventForDayTemplate = (travelEvent) => {
 
                 <div class="event__schedule">
                   <p class="event__time">
-                    <time class="event__start-time" datetime="${dateStart.toISOString()}">${dateStart.getHours()}:${dateStart.getMinutes()}</time>
+                    <time class="event__start-time" datetime="${dateStart.toISOString()}">${moment(dateStart).format(`HH:mm`)}</time>
                     —
-                    <time class="event__end-time" datetime="${dateEnd.toISOString()}">${dateEnd.getHours()}:${dateEnd.getMinutes()}</time>
+                    <time class="event__end-time" datetime="${dateEnd.toISOString()}">${moment(dateEnd).format(`HH:mm`)}</time>
                   </p>
                   <p class="event__duration">${getFormattedDate(dateStart, dateEnd)}</p>
                 </div>

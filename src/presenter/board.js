@@ -7,6 +7,7 @@ import TripDayPresenter from "./trip-day.js";
 import {
   sortPriceDown,
   sortDateDown, defaultSortEventsByGroupDays,
+  calculateTotalPrice
 } from "../view/util/trip-event.js";
 
 import {
@@ -45,8 +46,8 @@ export default class Board {
 
   init(boardEvents) {
     this._sourcedBoardEvents = boardEvents.slice();
-    this._changeableBoardEvents = boardEvents.slice();
 
+    this._changeableBoardEvents = boardEvents.slice();
     this._groupsEventsByDay = groupArrayOfObjects(this._changeableBoardEvents, `dateStart`);
     this._defaultSortedDays = defaultSortEventsByGroupDays(this._groupsEventsByDay);
 
@@ -55,26 +56,6 @@ export default class Board {
     renderDOMElement(this._boardContainer, this._boardComponent, RenderPosition.BEFOREEND);
 
     this._renderBoard();
-  }
-
-  _handleModeChange() {
-    Object
-      .values(this._tripEventsPresenterCollector)
-      .forEach((presenter) => presenter.resetView());
-  }
-
-  /**
-   * Handler for changing trip event.
-   * @param {Object} updatedTripEvent - tripEvent with updated property.
-   * @param {Boolean} isRerenderNeeded - shows is card of trip event needed to be rerendered.
-   */
-  _handleTripEventChange(updatedTripEvent, isRerenderNeeded) {
-    this._changeableBoardEvents = updateItems(this._changeableBoardEvents, updatedTripEvent);
-    this._sourcedBoardEvents = updateItems(this._sourcedBoardEvents, updatedTripEvent);
-
-    if (isRerenderNeeded) {
-      this._tripEventsPresenterCollector[updatedTripEvent.id].init(updatedTripEvent);
-    }
   }
 
   _addTripEventPresenterToCollection(tripEvent, tripEventPresenter) {
@@ -87,26 +68,21 @@ export default class Board {
   }
 
   _sortEvents(sortType) {
-    if (this._currentSortType === sortType) {
-      return;
-    }
-
     switch (sortType) {
       case SortType.PRICE_DOWN:
         this._boardDays = this._sourcedBoardEvents.slice();
         this._boardDays.sort(sortPriceDown);
         this._boardDays = [[WITHOUT_DAY, this._boardDays]];
-
         break;
+
       case SortType.DATE_DOWN:
         this._boardDays = this._sourcedBoardEvents.slice();
         this._boardDays.sort(sortDateDown);
         this._boardDays = [[WITHOUT_DAY, this._boardDays]];
-
         break;
+
       default:
         this._boardDays = this._defaultSortedDays;
-
         break;
     }
 
@@ -166,5 +142,40 @@ export default class Board {
 
     this._renderSortBlock();
     this._renderDaysList();
+  }
+
+  _handleModeChange() {
+    Object
+      .values(this._tripEventsPresenterCollector)
+      .forEach((presenter) => presenter.resetView());
+  }
+
+  /**
+   * Handler for changing trip event.
+   * @param {Object} updatedTripEvent - tripEvent with updated property.
+   * @param {Boolean} isCardRerenderNeeded - shows is card of trip event needed to be rerendered.
+   * @param {Boolean} isRerenderTripEventsListNeeded - shows is list of trip events needed to be rerendered.
+   */
+  _handleTripEventChange(updatedTripEvent, isCardRerenderNeeded, isRerenderTripEventsListNeeded) {
+
+    this._changeableBoardEvents = updateItems(this._changeableBoardEvents, updatedTripEvent);
+    this._sourcedBoardEvents = updateItems(this._sourcedBoardEvents, updatedTripEvent);
+
+    // this is for favorite
+    if (isCardRerenderNeeded) {
+      this._tripEventsPresenterCollector[updatedTripEvent.id].init(updatedTripEvent);
+    }
+
+    if (isRerenderTripEventsListNeeded) {
+
+      this._groupsEventsByDay = groupArrayOfObjects(this._changeableBoardEvents, `dateStart`);
+      this._defaultSortedDays = defaultSortEventsByGroupDays(this._groupsEventsByDay);
+
+      document.querySelector(`.trip-info__cost-value`).textContent = calculateTotalPrice(this._defaultSortedDays);
+
+      this._boardDays = this._defaultSortedDays;
+
+      this._handleSortTypeChange(this._currentSortType);
+    }
   }
 }

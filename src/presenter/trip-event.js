@@ -64,6 +64,7 @@ export default class TripEvent {
   destroy() {
     remove(this._tripEventComponent);
     remove(this._tripEventEditComponent);
+    remove(this._escKeyDownHandler);
   }
 
   resetView() {
@@ -99,11 +100,11 @@ export default class TripEvent {
 
   _handleFavoriteClick() {
     this._tripEvent = Object.assign({}, this._tripEvent, {isFavorite: !this._tripEvent.isFavorite});
-    this._changeData(this._tripEvent, false);
+    this._changeData(this._tripEvent, false, false);
   }
 
   _handleFormSubmit(tripEvent) {
-    this._changeData(tripEvent, false);
+    this._changeData(tripEvent, false, true);
     this._replaceFormToCard();
   }
 }

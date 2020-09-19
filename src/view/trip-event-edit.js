@@ -1,7 +1,7 @@
 import SmartView from "./smart.js";
 import flatpickr from "flatpickr";
+import {updateTripEventRoutPointTypeName} from "./util/trip-event.js";
 
-// import "../../node_modules/flatpickr/dist/flatpickr.css/flatpickr.min.css";
 import "../../node_modules/flatpickr/dist/flatpickr.min.css";
 
 import {
@@ -24,10 +24,11 @@ const createDestinationPointsTemplate = (city) => {
 
 export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoints) => {
   const {
-    routPointType,
-    routPointTypeGroupName,
     dateStart,
     dateEnd,
+    destination: {city},
+    routPointType,
+    routPointTypeGroupName,
     price,
     isFavorite
   } = travelEvent;
@@ -92,7 +93,7 @@ export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoin
                   type="text"
                   name="event-destination"
                   list="destination-list-1"
-                  value=""
+                  value="${city}"
                   style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
                 <datalist id="destination-list-1">
                   ${destinationPointsValues}
@@ -133,11 +134,24 @@ export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoin
             </header>`);
 };
 
-const createEventOffersItemInEditFormTemplate = (offer) => {
-  const {title, price} = offer;
+/**
+ * Returns a markup list of offers.
+ * @param {Object} offer - The offer in the trip event.
+ * @param {Object[]} offersFromTripEvent - offersFromTripEvent.
+ * @return {String} Returns markup of offer
+ */
+const createEventOffersItemInEditFormTemplate = (offer, offersFromTripEvent) => {
+  const {
+    title,
+    price
+  } = offer;
 
   return `<div class="event__offer-selector">
-            <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.name}-1" type="checkbox" name="event-offer-${offer.name}" checked="">
+            <input
+              class="event__offer-checkbox  visually-hidden"
+              id="event-offer-${offer.name}-1"
+              type="checkbox"
+              name="event-offer-${offer.name}" ${offersFromTripEvent.includes(offer) ? `checked` : ``}>
             <label class="event__offer-label" for="event-offer-${offer.name}-1">
               <span class="event__offer-title">${title}</span>
               +
@@ -147,13 +161,14 @@ const createEventOffersItemInEditFormTemplate = (offer) => {
 };
 
 /**
- * Returns a markup list of offers.
- * @param {Object[]} offers - The offers in the trip event.
- * @return {String} Returns markup block of offers
+ * Returns a markup list of offersFromRoutPointTypes.
+ * @param {Object[]} offersFromRoutPointTypes - The offersFromRoutPointTypes in the trip event.
+ * @param {Object[]} offersFromTripEvent - offersFromTripEvent.
+ * @return {String} Returns markup block of offersFromRoutPointTypes
  */
-export const createEventOffersInEditFormTemplate = (offers) => {
+export const createEventOffersInEditFormTemplate = (offersFromRoutPointTypes, offersFromTripEvent) => {
 
-  const offersBlockInEditForm = offers.map((offer) => createEventOffersItemInEditFormTemplate(offer)).join(``);
+  const offersBlockInEditForm = offersFromRoutPointTypes.map((offer) => createEventOffersItemInEditFormTemplate(offer, offersFromTripEvent)).join(``);
 
   return (`<section class="event__section  event__section--offers">
               <h3 class="event__section-title  event__section-title--offers">Offers</h3>
@@ -191,15 +206,20 @@ export const getEventItemDestinationInEditFormTemplate = (travelEvent) => {
 
 export const createTripEventItemEditTemplate = (data, destinationPoints) => {
   const {
+    routPointTypeGroupName,
     routPointType,
     isOffersExist,
     isDescriptionOfDestinationExist
   } = data;
 
+  let tripEventRoutPointTypeName = updateTripEventRoutPointTypeName(routPointType.name);
+  const offersFromRoutPointTypes = ROUTE_POINT_TYPES[routPointTypeGroupName][tripEventRoutPointTypeName].offers;
+  const offersFromTripEvent = routPointType.offers;
+
   return (`<form class="trip-events__item  event  event--edit" action="#" method="post">
             ${getTripEventItemHeaderEditTemplate(data, destinationPoints)}
             <section class="event__details">
-              ${isOffersExist ? createEventOffersInEditFormTemplate(routPointType.offers) : ``}
+               ${isOffersExist ? createEventOffersInEditFormTemplate(offersFromRoutPointTypes, offersFromTripEvent) : ``}
               ${isDescriptionOfDestinationExist ? `` : getEventItemDestinationInEditFormTemplate(data)}
             </section>
           </form>`);
@@ -210,14 +230,19 @@ export default class TripEventEdit extends SmartView {
     super();
     this._data = TripEventEdit.parseTripEventToData(travelEvent);
     this._destinationPoints = destinationPoints;
-    this._datepicker = null;
+    this._datepickerStart = null;
+    this._datepickerEnd = null;
 
     this._eventTypeToggleTransferHandler = this._eventTypeToggleTransferHandler.bind(this);
     this._eventTypeToggleActivityHandler = this._eventTypeToggleActivityHandler.bind(this);
-    this._startDateChangeHandler = this._startDateChangeHandler.bind(this);
+
+    this._dateStartChangeHandler = this._dateStartChangeHandler.bind(this);
+    this._dateEndChangeHandler = this._dateEndChangeHandler.bind(this);
+
     this._destinationToggleHandler = this._destinationToggleHandler.bind(this);
     this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
     this._priceInputHandler = this._priceInputHandler.bind(this);
+    this._offerToggleHandler = this._offerToggleHandler.bind(this);
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
 
     this._setDatepicker();
@@ -242,7 +267,7 @@ export default class TripEventEdit extends SmartView {
 
   setFormSubmitHandler(callback) {
     this._callback.formSubmit = callback;
-    this.getElement(`.event__save-btn`).addEventListener(`submit`, this._formSubmitHandler);
+    this.getElement().addEventListener(`submit`, this._formSubmitHandler);
   }
 
   restoreHandlers() {
@@ -253,20 +278,36 @@ export default class TripEventEdit extends SmartView {
   }
 
   _setDatepicker() {
-    if (this._datepicker) {
+    if (this._datepickerStart) {
       // В случае обновления компонента удаляем вспомогательные DOM-элементы,
       // которые создает flatpickr при инициализации
-      this._datepicker.destroy();
-      this._datepicker = null;
+      this._datepickerStart.destroy();
+      this._datepickerStart = null;
     }
 
-    this._datepicker = flatpickr(
-        // this.getElement(`.event__input-start`),
+    if (this._datepickerEnd) {
+      // В случае обновления компонента удаляем вспомогательные DOM-элементы,
+      // которые создает flatpickr при инициализации
+      this._datepickerEnd.destroy();
+      this._datepickerEnd = null;
+    }
+
+    this._datepickerStart = flatpickr(
         this.getElement(`#event-start-time-1`),
         {
-          dateFormat: `j F`,
+          dateFormat: `d/m/y H:i`,
           defaultDate: this._data.dateStart,
-          onChange: this._startDateChangeHandler // На событие flatpickr передаём наш колбэк
+          onChange: this._dateStartChangeHandler
+        }
+    );
+
+    this._datepickerEnd = flatpickr(
+        this.getElement(`#event-end-time-1`),
+        {
+          dateFormat: `d/m/y H:i`,
+          defaultDate: this._data.dateEnd,
+          minDate: this._data.dateStart,
+          onChange: this._dateEndChangeHandler
         }
     );
   }
@@ -297,6 +338,7 @@ export default class TripEventEdit extends SmartView {
     });
   }
 
+
   _destinationToggleHandler(evt) {
     evt.preventDefault();
 
@@ -304,12 +346,12 @@ export default class TripEventEdit extends SmartView {
     let destinationDescription = ``;
     let destinationPhotos = [];
 
-    CITIES.forEach((destinationItem) => {
-      if (destinationItem.city === inputValue) {
-        destinationDescription = destinationItem.description;
-        destinationPhotos = destinationItem.photos;
-      }
-    });
+    const cityItem = CITIES.find((destinationItem) => destinationItem.city === inputValue);
+
+    if (cityItem !== undefined) {
+      destinationDescription = cityItem.description;
+      destinationPhotos = cityItem.photos;
+    }
 
     this.updateData({
       destination: Object.assign(
@@ -319,6 +361,28 @@ export default class TripEventEdit extends SmartView {
           {description: destinationDescription},
           {photos: destinationPhotos})
     });
+  }
+
+  _offerToggleHandler(evt) {
+    evt.preventDefault();
+    let offersOfData = this._data.routPointType.offers;
+
+    const offerTargetName = evt.target.name.split(`-`)[evt.target.name.split(`-`).length - 1];
+
+    let tripEventRoutPointTypeName = updateTripEventRoutPointTypeName(this._data.routPointType.name);
+
+    // const offerToToggle = ROUTE_POINT_TYPES[this._data.routPointTypeGroupName][tripEventRoutPointTypeName]
+    //   .offers.filter((offer) => offer.name === offerTargetName)[FIRST_ELEMENT];
+
+    const offerToToggle = ROUTE_POINT_TYPES[this._data.routPointTypeGroupName][tripEventRoutPointTypeName]
+      .offers.find((offer) => offer.name === offerTargetName);
+
+    if (evt.target.checked) {
+      offersOfData.push(offerToToggle);
+    } else {
+      offersOfData = offersOfData.filter((offer) => offer.name !== offerTargetName);
+    }
+    this.updateData({routPointType: Object.assign({}, this._data.routPointType, {offers: offersOfData})});
   }
 
   _setInnerHandlers() {
@@ -331,13 +395,31 @@ export default class TripEventEdit extends SmartView {
     this.getElement()
       .querySelector(`.event__input--price`)
       .addEventListener(`input`, this._priceInputHandler);
+
+    if (this._data.isOffersExist) {
+      this.getElement(`.event__available-offers`).addEventListener(`change`, this._offerToggleHandler);
+    }
   }
 
-  _startDateChangeHandler([userDate]) {
-    userDate.setHours(23, 59, 59, 999);
+  _dateStartChangeHandler([userDateStart]) {
+    userDateStart.setHours(23, 59, 59, 999);
+
+    if (userDateStart > this._data.dateEnd) {
+      this.updateData({
+        dateEnd: userDateStart
+      });
+    }
 
     this.updateData({
-      dateStart: userDate
+      dateStart: userDateStart
+    });
+  }
+
+  _dateEndChangeHandler([userDateEnd]) {
+    userDateEnd.setHours(23, 59, 59, 999);
+
+    this.updateData({
+      dateEnd: userDateEnd
     });
   }
 
@@ -358,11 +440,18 @@ export default class TripEventEdit extends SmartView {
   }
 
   static parseTripEventToData(tripEvent) {
+    const {
+      routPointTypeGroupName,
+      routPointType
+    } = tripEvent;
+
+    const tripEventRoutPointTypeName = updateTripEventRoutPointTypeName(routPointType.name);
+
     return Object.assign(
         {},
         tripEvent,
         {
-          isOffersExist: tripEvent.routPointType.offers.length !== 0,
+          isOffersExist: ROUTE_POINT_TYPES[routPointTypeGroupName][tripEventRoutPointTypeName].offers.length !== 0,
           isDescriptionOfDestinationExist: !tripEvent.destination
         });
   }

@@ -1,9 +1,15 @@
+import moment from "moment";
+import "moment-duration-format";
+
 import {
   FIRST_DAY,
   DATE_OF_GROUP_EVENTS,
   DESTINATIONS_IN_DAY,
   FIRST_DESTINATION_IN_DAY
 } from "../../const.js";
+
+const CHECK_IN = `check-in`;
+const CHECKIN = `checkin`;
 
 const getShortTitleMonth = (date) => {
   const options = {
@@ -66,26 +72,21 @@ export const sortDateDown = (eventA, eventB) => {
   return differenceTimeA - differenceTimeB;
 };
 
-const getDigitFormat = (digit, letter) => {
-  if (digit === 0) {
-    digit = ``;
-    return digit;
-  } else if (digit < 10) {
-    digit = `0` + digit;
-  }
-  return digit + letter;
+export const getFormattedDate = (dateStart, dateEnd) => {
+
+  const momentStart = moment(dateStart).clone().second(0).millisecond(0);
+  const momentEnd = moment(dateEnd).clone().second(0).millisecond(0);
+  const momentDuration = moment.duration(momentEnd.diff(momentStart));
+
+  return momentDuration.format(`dd[D] hh[H] mm[M]`);
 };
 
-export const getFormattedDate = (dateStart, dateEnd) => {
-  const diffTime = dateEnd - dateStart; // difference in milliseconds
+export const updateTripEventRoutPointTypeName = (routPointTypeName) => {
+  let tripEventRoutPointTypeName = routPointTypeName.toLowerCase();
 
-  const secondsInDay = 24 * 60 * 60 * 1000;
-  const hoursInDay = 60 * 60 * 1000;
-  const minutesInDay = 60 * 1000;
+  if (tripEventRoutPointTypeName === CHECK_IN) {
+    tripEventRoutPointTypeName = CHECKIN;
+  }
 
-  const daysInTime = Math.floor(diffTime / secondsInDay); // days
-  const remainderOfHoursInTime = Math.floor((diffTime - (daysInTime * secondsInDay)) / hoursInDay);
-  const remainderOfMinutesInTime = Math.floor((diffTime - (daysInTime * secondsInDay) - (remainderOfHoursInTime * hoursInDay)) / minutesInDay);
-
-  return getDigitFormat(daysInTime, `D`) + ` ` + getDigitFormat(remainderOfHoursInTime, `H`) + ` ` + getDigitFormat(remainderOfMinutesInTime, `M`);
+  return tripEventRoutPointTypeName;
 };
