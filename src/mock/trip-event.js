@@ -8,12 +8,12 @@ import {
   getRandomAmountOfItems,
   getRandomInteger,
   getRandomBoolean
-} from "../view/util/common.js";
+} from "../utils/common.js";
 
 import {
   getRandomCities,
   getRandomPropertyOfObject
-} from "../view/util/utils.js";
+} from "../utils/utils.js";
 
 // it's better to use more reliable for production,
 // for example like that - https://github.com/ai/nanoid

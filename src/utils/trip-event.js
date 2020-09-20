@@ -6,7 +6,7 @@ import {
   DATE_OF_GROUP_EVENTS,
   DESTINATIONS_IN_DAY,
   FIRST_DESTINATION_IN_DAY
-} from "../../const.js";
+} from "../const.js";
 
 const CHECK_IN = `check-in`;
 const CHECKIN = `checkin`;

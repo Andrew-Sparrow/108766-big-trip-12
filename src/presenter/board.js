@@ -8,20 +8,20 @@ import {
   sortPriceDown,
   sortDateDown, defaultSortEventsByGroupDays,
   calculateTotalPrice
-} from "../view/util/trip-event.js";
+} from "../utils/trip-event.js";
 
 import {
   renderDOMElement,
   RenderPosition,
-} from "../view/util/render.js";
+} from "../utils/render.js";
 
 import {
   SortType,
   WITHOUT_DAY
 } from "../const.js";
-import {groupArrayOfObjects} from "../view/util/utils.js";
+import {groupArrayOfObjects} from "../utils/utils.js";
 
-import {updateItems} from "../view/util/common.js";
+import {updateItems} from "../utils/common.js";
 
 export default class Board {
   constructor(boardContainer) {

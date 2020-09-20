@@ -1,4 +1,4 @@
-import {createDOMElement} from "./util/render.js";
+import {createDOMElement} from "../utils/render.js";
 import {WITHOUT_SELECTOR} from "../const.js";
 
 export default class Abstract {

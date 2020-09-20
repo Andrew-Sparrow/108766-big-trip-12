@@ -8,7 +8,7 @@ import {
   remove,
   renderDOMElement,
   RenderPosition
-} from "../view/util/render.js";
+} from "../utils/render.js";
 
 export default class TripDay {
   constructor(containerForRendering, changeData, addToCollection, changeMode) {

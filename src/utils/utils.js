@@ -3,7 +3,7 @@ import {
   DESCRIPTIONS,
   ADDITIONAL_OFFERS,
   ROUTE_POINT_TYPES
-} from "../../const.js";
+} from "../const.js";
 
 import {
   getRandomInteger,

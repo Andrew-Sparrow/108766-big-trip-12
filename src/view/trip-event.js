@@ -2,7 +2,7 @@ import moment from "moment";
 import "moment-duration-format";
 
 import AbstractView from "./abstract.js";
-import {getFormattedDate} from "./util/trip-event.js";
+import {getFormattedDate} from "../utils/trip-event.js";
 
 
 const THREE_OFFERS = 3;

@@ -1,6 +1,6 @@
 import SmartView from "./smart.js";
 import flatpickr from "flatpickr";
-import {updateTripEventRoutPointTypeName} from "./util/trip-event.js";
+import {updateTripEventRoutPointTypeName} from "../utils/trip-event.js";
 
 import "../../node_modules/flatpickr/dist/flatpickr.min.css";
 

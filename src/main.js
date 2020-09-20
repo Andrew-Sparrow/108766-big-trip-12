@@ -3,17 +3,17 @@ import {
   generateOffersInRoutPoints,
   generatePhotosInCities,
   groupArrayOfObjects,
-} from "./view/util/utils.js";
+} from "./utils/utils.js";
 
 import {
   defaultSortEventsByGroupDays,
   defaultSortEventsItems
-} from "./view/util/trip-event.js";
+} from "./utils/trip-event.js";
 
 import {
   renderDOMElement,
   RenderPosition,
-} from "./view/util/render.js";
+} from "./utils/render.js";
 
 import HeaderElementTripInfoView from "./view/header-info.js";
 import HeaderElementTripTabsView from "./view/header-trip-tabs.js";

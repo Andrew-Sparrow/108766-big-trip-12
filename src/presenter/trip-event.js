@@ -6,7 +6,7 @@ import {
   RenderPosition,
   replace,
   remove
-} from "../view/util/render.js";
+} from "../utils/render.js";
 
 import {CITIES} from "../const.js";
 
