@@ -24,9 +24,9 @@ import {groupArrayOfObjects} from "../utils/utils.js";
 import {updateItems} from "../utils/common.js";
 
 export default class Board {
-  constructor(boardContainer, tasksModel) {
+  constructor(boardContainer, tripEventModel) {
     this._boardContainer = boardContainer;
-    this._tasksModel = tasksModel;
+    this._tripEventModel = tripEventModel;
 
     this._boardComponent = new BoardView();
     this._sortComponent = new SortTripView();
@@ -43,24 +43,38 @@ export default class Board {
     this._handleModeChange = this._handleModeChange.bind(this);
 
     this._addTripEventPresenterToCollection = this._addTripEventPresenterToCollection.bind(this);
-  }
 
-  init(boardEvents) {
-    this._sourcedBoardEvents = boardEvents.slice();
-
-    this._changeableBoardEvents = boardEvents.slice();
+    this._changeableBoardEvents = this._tripEventModel.getTripEvents().slice();
     this._groupsEventsByDay = groupArrayOfObjects(this._changeableBoardEvents, `dateStart`);
     this._defaultSortedDays = defaultSortEventsByGroupDays(this._groupsEventsByDay);
 
     this._boardDays = this._defaultSortedDays;
+  }
 
+  init() {
     renderDOMElement(this._boardContainer, this._boardComponent, RenderPosition.BEFOREEND);
 
     this._renderBoard();
   }
 
-  _getTasks() {
-    return this._tasksModel.getTasks();
+  _getTripDays() {
+    switch (this._currentSortType) {
+      case (SortType.PRICE_DOWN):
+        this._boardDays = this._tripEventModel.getTripEvents().slice();
+        this._boardDays.sort(sortPriceDown);
+        this._boardDays = [[WITHOUT_DAY, this._boardDays]];
+        break;
+      case (SortType.DATE_DOWN):
+        this._boardDays = this._tripEventModel.getTripEvents().slice();
+        this._boardDays.sort(sortDateDown);
+        this._boardDays = [[WITHOUT_DAY, this._boardDays]];
+        break;
+      default:
+        this._boardDays = this._defaultSortedDays;
+        break;
+
+    }
+    return this._boardDays;
   }
 
   _addTripEventPresenterToCollection(tripEvent, tripEventPresenter) {
@@ -70,28 +84,6 @@ export default class Board {
   _renderSortBlock() {
     renderDOMElement(this._boardComponent, this._sortComponent, RenderPosition.BEFOREEND);
     this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
-  }
-
-  _sortEvents(sortType) {
-    switch (sortType) {
-      case SortType.PRICE_DOWN:
-        this._boardDays = this._sourcedBoardEvents.slice();
-        this._boardDays.sort(sortPriceDown);
-        this._boardDays = [[WITHOUT_DAY, this._boardDays]];
-        break;
-
-      case SortType.DATE_DOWN:
-        this._boardDays = this._sourcedBoardEvents.slice();
-        this._boardDays.sort(sortDateDown);
-        this._boardDays = [[WITHOUT_DAY, this._boardDays]];
-        break;
-
-      default:
-        this._boardDays = this._defaultSortedDays;
-        break;
-    }
-
-    this._currentSortType = sortType;
   }
 
   _clearTripDaysList() {
@@ -108,12 +100,12 @@ export default class Board {
     renderDOMElement(this._boardComponent, this._tripDaysListComponent, RenderPosition.BEFOREEND);
 
     // groupDaysEvents
-    this._boardDays.forEach((dayInListOfEvents, index) => this._renderDay(this._tripDaysListComponent, dayInListOfEvents, index));
+    this._getTripDays().forEach((dayInListOfEvents, index) => this._renderDay(this._tripDaysListComponent, dayInListOfEvents, index));
   }
 
   _handleSortTypeChange(sortType) {
-    // - Сортируем события путешествия
-    this._sortEvents(sortType);
+
+    this._currentSortType = sortType;
 
     // - Очищаем список
     this._clearTripDaysList();
@@ -140,7 +132,7 @@ export default class Board {
 
   // groupDaysEvents
   _renderBoard() {
-    if (this._boardDays.length === 0) {
+    if (this._getTripDays().length === 0) {
       this._renderNoEvents();
       return;
     }
@@ -163,8 +155,8 @@ export default class Board {
    */
   _handleTripEventChange(updatedTripEvent, isCardRerenderNeeded, isRerenderTripEventsListNeeded) {
 
-    this._changeableBoardEvents = updateItems(this._changeableBoardEvents, updatedTripEvent);
-    this._sourcedBoardEvents = updateItems(this._sourcedBoardEvents, updatedTripEvent);
+    // this._changeableBoardEvents = updateItems(this._changeableBoardEvents, updatedTripEvent);
+    // this._sourcedBoardEvents = updateItems(this._sourcedBoardEvents, updatedTripEvent);
 
     // this is for favorite
     if (isCardRerenderNeeded) {
