@@ -100,12 +100,12 @@ export default class TripEvent {
 
   _handleFavoriteClick() {
     this._tripEvent = Object.assign({}, this._tripEvent, {isFavorite: !this._tripEvent.isFavorite});
-    this._changeData(UserActionForModel.UPDATE_TASK, UpdateTypeForRerender.PATCH, this._tripEvent);
+    this._changeData(UserActionForModel.UPDATE_TRIP_EVENT, UpdateTypeForRerender.PATCH, this._tripEvent);
     // this._changeData(this._tripEvent, false, false);
   }
 
   _handleFormSubmit(tripEvent) {
-    this._changeData(UserActionForModel.UPDATE_TASK, UpdateTypeForRerender.MAJOR, tripEvent);
+    this._changeData(UserActionForModel.UPDATE_TRIP_EVENT, UpdateTypeForRerender.MAJOR, tripEvent);
     // this._changeData(tripEvent, false, true);
     this._replaceFormToCard();
   }

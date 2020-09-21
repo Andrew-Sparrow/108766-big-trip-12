@@ -148,9 +148,9 @@ export const CITIES = [
 ];
 
 export const UserActionForModel = {
-  UPDATE_TASK: `UPDATE_TASK`,
-  ADD_TASK: `ADD_TASK`,
-  DELETE_TASK: `DELETE_TASK`
+  UPDATE_TRIP_EVENT: `UPDATE_TRIP_EVENT`,
+  ADD_TRIP_EVENT: `ADD_TRIP_EVENT`,
+  DELETE_TRIP_EVENT: `DELETE_TRIP_EVENT`
 };
 
 export const UpdateTypeForRerender = {

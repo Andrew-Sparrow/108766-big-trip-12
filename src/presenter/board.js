@@ -6,7 +6,8 @@ import TripDayPresenter from "./trip-day.js";
 
 import {
   sortPriceDown,
-  sortDateDown, defaultSortEventsByGroupDays,
+  sortDateDown,
+  defaultSortEventsByGroupDays,
   calculateTotalPrice
 } from "../utils/trip-event.js";
 
@@ -17,8 +18,11 @@ import {
 
 import {
   SortType,
-  WITHOUT_DAY
+  WITHOUT_DAY,
+  UpdateTypeForRerender,
+  UserActionForModel
 } from "../const.js";
+
 import {groupArrayOfObjects} from "../utils/utils.js";
 
 // import {updateItems} from "../utils/common.js";
@@ -188,6 +192,16 @@ export default class Board {
     // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
     // updateType - тип изменений, нужно чтобы понять, что после нужно обновить
     // update - обновленные данные
+    switch (actionTypeForModel) {
+      case UserActionForModel.UPDATE_TRIP_EVENT:
+        this._tripEventModel.updateTripEventPoint(updateTypeForRerender, updatedItem);
+        break;
+      case UserActionForModel.ADD_TRIP_EVENT:
+        this._tripEventModel.addTripEvent(updateTypeForRerender, updatedItem);
+        break;
+      case UserActionForModel.DELETE_TRIP_EVENT:
+        this._tripEventModel.deleteTripEvent(updateTypeForRerender, updatedItem);
+    }
   }
 
   _handleModelEvent(updateTypeForRerender, data) {
@@ -196,5 +210,16 @@ export default class Board {
     // - обновить часть списка (например, когда поменялось описание)
     // - обновить список (например, когда задача ушла в архив)
     // - обновить всю доску (например, при переключении фильтра)
+    switch (updateTypeForRerender) {
+      case UpdateTypeForRerender.PATCH:
+        this._tripEventsPresenterCollector[data.id].init(data);
+        break;
+      case UpdateTypeForRerender.MINOR:
+        // - обновить список
+        break;
+      case UpdateTypeForRerender.MAJOR:
+        // - обновить всю доску
+        break;
+    }
   }
 }
