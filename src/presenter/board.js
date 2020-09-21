@@ -24,8 +24,9 @@ import {groupArrayOfObjects} from "../utils/utils.js";
 import {updateItems} from "../utils/common.js";
 
 export default class Board {
-  constructor(boardContainer) {
+  constructor(boardContainer, tasksModel) {
     this._boardContainer = boardContainer;
+    this._tasksModel = tasksModel;
 
     this._boardComponent = new BoardView();
     this._sortComponent = new SortTripView();
@@ -56,6 +57,10 @@ export default class Board {
     renderDOMElement(this._boardContainer, this._boardComponent, RenderPosition.BEFOREEND);
 
     this._renderBoard();
+  }
+
+  _getTasks() {
+    return this._tasksModel.getTasks();
   }
 
   _addTripEventPresenterToCollection(tripEvent, tripEventPresenter) {

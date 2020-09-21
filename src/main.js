@@ -21,6 +21,7 @@ import HeaderFiltersView from "./view/header-filters.js";
 
 import {generateEvent} from "./mock/trip-event";
 import BoardPresenter from "./presenter/board.js";
+import TasksModel from "./model/tasks-model.js";
 
 const headerElement = document.querySelector(`.page-header`);
 const tripMainElementInHeader = headerElement.querySelector(`.trip-main`);
@@ -36,12 +37,15 @@ generatePhotosInCities();
 
 const tripEvents = new Array(3).fill().map(generateEvent);
 
+const tasksModel = new TasksModel();
+tasksModel.setTasks(tripEvents);
+
 const groupsEventsByDay = groupArrayOfObjects(tripEvents, `dateStart`);
 
 const defaultSortedDays = defaultSortEventsByGroupDays(groupsEventsByDay);
 const defaultSortedEvents = defaultSortEventsItems(tripEvents);
 
-const boardPresenter = new BoardPresenter(pageBodyContainer);
+const boardPresenter = new BoardPresenter(pageBodyContainer, tasksModel);
 
 renderDOMElement(tripMainElementInHeader, new HeaderElementTripInfoView(defaultSortedDays, defaultSortedEvents), RenderPosition.AFTERBEGIN);
 
