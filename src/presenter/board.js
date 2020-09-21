@@ -21,7 +21,7 @@ import {
 } from "../const.js";
 import {groupArrayOfObjects} from "../utils/utils.js";
 
-import {updateItems} from "../utils/common.js";
+// import {updateItems} from "../utils/common.js";
 
 export default class Board {
   constructor(boardContainer, tripEventModel) {
@@ -38,7 +38,11 @@ export default class Board {
 
     this._currentSortType = SortType.DEFAULT;
 
-    this._handleTripEventChange = this._handleTripEventChange.bind(this);
+    // this._handleTripEventChange = this._handleTripEventChange.bind(this);
+    this._handleViewAction = this._handleViewAction.bind(this);
+    this._handleModelEvent = this._handleModelEvent.bind(this);
+
+
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
 
@@ -49,6 +53,8 @@ export default class Board {
     this._defaultSortedDays = defaultSortEventsByGroupDays(this._groupsEventsByDay);
 
     this._boardDays = this._defaultSortedDays;
+
+    this._tripEventModel.addObserver(this._handleModelEvent);
   }
 
   init() {
@@ -121,7 +127,7 @@ export default class Board {
   * @param {Number} index - index of dayProperties in list of days.
   */
   _renderDay(containerForRendering, dayProperties, index) {
-    const dayPresenter = new TripDayPresenter(containerForRendering, this._handleTripEventChange, this._addTripEventPresenterToCollection, this._handleModeChange);
+    const dayPresenter = new TripDayPresenter(containerForRendering, this._handleViewAction, this._addTripEventPresenterToCollection, this._handleModeChange);
     dayPresenter.init(dayProperties, index);
     this._tripDaysPresenterCollector[index] = dayPresenter;
   }
@@ -153,26 +159,42 @@ export default class Board {
    * @param {Boolean} isCardRerenderNeeded - shows is card of trip event needed to be rerendered.
    * @param {Boolean} isRerenderTripEventsListNeeded - shows is list of trip events needed to be rerendered.
    */
-  _handleTripEventChange(updatedTripEvent, isCardRerenderNeeded, isRerenderTripEventsListNeeded) {
+  // _handleTripEventChange(updatedTripEvent, isCardRerenderNeeded, isRerenderTripEventsListNeeded) {
+  //
+  //   // this._changeableBoardEvents = updateItems(this._changeableBoardEvents, updatedTripEvent);
+  //   // this._sourcedBoardEvents = updateItems(this._sourcedBoardEvents, updatedTripEvent);
+  //
+  //   // this is for favorite
+  //   if (isCardRerenderNeeded) {
+  //     this._tripEventsPresenterCollector[updatedTripEvent.id].init(updatedTripEvent);
+  //   }
+  //
+  //   if (isRerenderTripEventsListNeeded) {
+  //
+  //     this._groupsEventsByDay = groupArrayOfObjects(this._changeableBoardEvents, `dateStart`);
+  //     this._defaultSortedDays = defaultSortEventsByGroupDays(this._groupsEventsByDay);
+  //
+  //     document.querySelector(`.trip-info__cost-value`).textContent = calculateTotalPrice(this._defaultSortedDays);
+  //
+  //     this._boardDays = this._defaultSortedDays;
+  //
+  //     this._handleSortTypeChange(this._currentSortType);
+  //   }
+  // }
 
-    // this._changeableBoardEvents = updateItems(this._changeableBoardEvents, updatedTripEvent);
-    // this._sourcedBoardEvents = updateItems(this._sourcedBoardEvents, updatedTripEvent);
+  _handleViewAction(actionTypeForModel, updateTypeForRerender, updatedItem) {
+    console.log(actionTypeForModel, updateTypeForRerender, updatedItem);
+    // Здесь будем вызывать обновление модели.
+    // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
+    // updateType - тип изменений, нужно чтобы понять, что после нужно обновить
+    // update - обновленные данные
+  }
 
-    // this is for favorite
-    if (isCardRerenderNeeded) {
-      this._tripEventsPresenterCollector[updatedTripEvent.id].init(updatedTripEvent);
-    }
-
-    if (isRerenderTripEventsListNeeded) {
-
-      this._groupsEventsByDay = groupArrayOfObjects(this._changeableBoardEvents, `dateStart`);
-      this._defaultSortedDays = defaultSortEventsByGroupDays(this._groupsEventsByDay);
-
-      document.querySelector(`.trip-info__cost-value`).textContent = calculateTotalPrice(this._defaultSortedDays);
-
-      this._boardDays = this._defaultSortedDays;
-
-      this._handleSortTypeChange(this._currentSortType);
-    }
+  _handleModelEvent(updateTypeForRerender, data) {
+    console.log(updateTypeForRerender, data);
+    // В зависимости от типа изменений решаем, что делать:
+    // - обновить часть списка (например, когда поменялось описание)
+    // - обновить список (например, когда задача ушла в архив)
+    // - обновить всю доску (например, при переключении фильтра)
   }
 }

@@ -8,7 +8,7 @@ import {
   remove
 } from "../utils/render.js";
 
-import {CITIES} from "../const.js";
+import {CITIES, UpdateTypeForRerender, UserActionForModel} from "../const.js";
 
 const Mode = {
   DEFAULT: `DEFAULT`,
@@ -100,11 +100,13 @@ export default class TripEvent {
 
   _handleFavoriteClick() {
     this._tripEvent = Object.assign({}, this._tripEvent, {isFavorite: !this._tripEvent.isFavorite});
-    this._changeData(this._tripEvent, false, false);
+    this._changeData(UserActionForModel.UPDATE_TASK, UpdateTypeForRerender.PATCH, this._tripEvent);
+    // this._changeData(this._tripEvent, false, false);
   }
 
   _handleFormSubmit(tripEvent) {
-    this._changeData(tripEvent, false, true);
+    this._changeData(UserActionForModel.UPDATE_TASK, UpdateTypeForRerender.MAJOR, tripEvent);
+    // this._changeData(tripEvent, false, true);
     this._replaceFormToCard();
   }
 }

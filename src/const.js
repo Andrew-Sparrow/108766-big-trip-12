@@ -146,3 +146,15 @@ export const CITIES = [
     photos: null
   },
 ];
+
+export const UserActionForModel = {
+  UPDATE_TASK: `UPDATE_TASK`,
+  ADD_TASK: `ADD_TASK`,
+  DELETE_TASK: `DELETE_TASK`
+};
+
+export const UpdateTypeForRerender = {
+  PATCH: `PATCH`,
+  MINOR: `MINOR`,
+  MAJOR: `MAJOR`
+};
