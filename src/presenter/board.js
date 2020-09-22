@@ -196,11 +196,6 @@ export default class Board {
   // }
 
   _handleViewAction(actionTypeForModel, updateTypeForRerender, updatedItem) {
-    console.log(actionTypeForModel, updateTypeForRerender, updatedItem);
-    // Здесь будем вызывать обновление модели.
-    // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
-    // updateType - тип изменений, нужно чтобы понять, что после нужно обновить
-    // update - обновленные данные
     switch (actionTypeForModel) {
       case UserActionForModel.UPDATE_TRIP_EVENT:
         this._tripEventModel.updateTripEventPoint(updateTypeForRerender, updatedItem);
@@ -214,11 +209,6 @@ export default class Board {
   }
 
   _handleModelEvent(updateTypeForRerender, data) {
-    console.log(updateTypeForRerender, data);
-    // В зависимости от типа изменений решаем, что делать:
-    // - обновить часть списка (например, когда поменялось описание)
-    // - обновить список (например, когда задача ушла в архив)
-    // - обновить всю доску (например, при переключении фильтра)
     switch (updateTypeForRerender) {
       case UpdateTypeForRerender.PATCH:
         this._tripEventsPresenterCollector[data.id].init(data);

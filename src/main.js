@@ -21,7 +21,9 @@ import HeaderFiltersView from "./view/header-filters.js";
 
 import {generateEvent} from "./mock/trip-event";
 import BoardPresenter from "./presenter/board.js";
+
 import TripEventPointsModel from "./model/trip-event-points-model.js";
+import FilterModel from "./model/trip-event-filter-model.js";
 
 const headerElement = document.querySelector(`.page-header`);
 const tripMainElementInHeader = headerElement.querySelector(`.trip-main`);
@@ -35,10 +37,12 @@ generateOffersInRoutPoints();
 generateDescriptionsInCities();
 generatePhotosInCities();
 
-const tripEvents = new Array(1).fill().map(generateEvent);
+const tripEvents = new Array(3).fill().map(generateEvent);
 
 const tasksModel = new TripEventPointsModel();
 tasksModel.setTripEvents(tripEvents);
+
+const filterModel = new FilterModel();
 
 const groupsEventsByDay = groupArrayOfObjects(tripEvents, `dateStart`);
 
