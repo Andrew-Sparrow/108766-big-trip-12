@@ -80,9 +80,12 @@ export default class Board {
         this._boardDays = [[WITHOUT_DAY, this._boardDays]];
         break;
       default:
+        this._changeableBoardEvents = this._tripEventModel.getTripEvents().slice();
+        this._groupsEventsByDay = groupArrayOfObjects(this._changeableBoardEvents, `dateStart`);
+        this._defaultSortedDays = defaultSortEventsByGroupDays(this._groupsEventsByDay);
+
         this._boardDays = this._defaultSortedDays;
         break;
-
     }
     return this._boardDays;
   }
@@ -107,6 +110,11 @@ export default class Board {
 
   // Renders days in board of day.
   _renderDaysList() {
+    if (this._getTripDays().length === 0) {
+      this._renderNoEvents();
+      return;
+    }
+
     renderDOMElement(this._boardComponent, this._tripDaysListComponent, RenderPosition.BEFOREEND);
 
     // groupDaysEvents
@@ -123,6 +131,7 @@ export default class Board {
 
     // - Рендерим список заново
     this._renderDaysList();
+    // this._renderBoard();
   }
 
   _clearBoard() {
@@ -147,11 +156,6 @@ export default class Board {
 
   // groupDaysEvents
   _renderBoard() {
-    if (this._getTripDays().length === 0) {
-      this._renderNoEvents();
-      return;
-    }
-
     this._renderSortBlock();
     this._renderDaysList();
   }
@@ -221,12 +225,12 @@ export default class Board {
         break;
       case UpdateTypeForRerender.MINOR:
         // - обновить список
-        this._clearBoard();
+        this._clearTripDaysList();
         this._renderBoard();
         break;
       case UpdateTypeForRerender.MAJOR:
         // - обновить всю доску
-        this._clearBoard({resetSortType: true});
+        this._clearTripDaysList();
         this._renderBoard();
         break;
     }

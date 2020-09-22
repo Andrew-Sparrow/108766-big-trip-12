@@ -35,7 +35,7 @@ generateOffersInRoutPoints();
 generateDescriptionsInCities();
 generatePhotosInCities();
 
-const tripEvents = new Array(3).fill().map(generateEvent);
+const tripEvents = new Array(1).fill().map(generateEvent);
 
 const tasksModel = new TripEventPointsModel();
 tasksModel.setTripEvents(tripEvents);

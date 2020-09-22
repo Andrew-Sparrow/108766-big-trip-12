@@ -48,11 +48,11 @@ export default class TripEventPointsModel extends Observer {
       throw new Error(`Can't update nonexistent trip event item`);
     }
 
-    this._tasks = [
-      ...this._tasks.slice(0, index),
-      ...this._tasks.slice(index + 1)
+    this._tripEvents = [
+      ...this._tripEvents.slice(0, index),
+      ...this._tripEvents.slice(index + 1)
     ];
-
+    console.log(this._tripEvents);
     this._notify(updateTypeForRerender);
   }
 }

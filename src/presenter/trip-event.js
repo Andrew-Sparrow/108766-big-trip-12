@@ -45,6 +45,7 @@ export default class TripEvent {
     this._tripEventComponent.setRollupClickHandler(this._handleEditClick);
     this._tripEventEditComponent.setFavoriteClickHandler(this._handleFavoriteClick);
     this._tripEventEditComponent.setFormSubmitHandler(this._handleFormSubmit);
+
     this._tripEventEditComponent.setDeleteClickHandler(this._handleDeleteClick);
 
     if (prevTripEventComponent === null || prevTripEventEditComponent === null) {
