@@ -90,3 +90,11 @@ export const updateTripEventRoutPointTypeName = (routPointTypeName) => {
 
   return tripEventRoutPointTypeName;
 };
+
+export const isDateEqual = (dateA, dateB) => {
+  if (dateA === null && dateB === null) {
+    return true;
+  }
+
+  return moment(dateA).isSame(dateB, `day`);
+};

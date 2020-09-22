@@ -28,6 +28,8 @@ export default class TripEvent {
     this._handleEditClick = this._handleEditClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
+    this._handleDeleteClick = this._handleDeleteClick.bind(this);
+
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
@@ -43,6 +45,7 @@ export default class TripEvent {
     this._tripEventComponent.setRollupClickHandler(this._handleEditClick);
     this._tripEventEditComponent.setFavoriteClickHandler(this._handleFavoriteClick);
     this._tripEventEditComponent.setFormSubmitHandler(this._handleFormSubmit);
+    this._tripEventEditComponent.setDeleteClickHandler(this._handleDeleteClick);
 
     if (prevTripEventComponent === null || prevTripEventEditComponent === null) {
       renderDOMElement(this._tripEventsListContainer, this._tripEventComponent, RenderPosition.BEFOREEND);
@@ -102,6 +105,14 @@ export default class TripEvent {
     this._tripEvent = Object.assign({}, this._tripEvent, {isFavorite: !this._tripEvent.isFavorite});
     this._changeData(UserActionForModel.UPDATE_TRIP_EVENT, UpdateTypeForRerender.PATCH, this._tripEvent);
     // this._changeData(this._tripEvent, false, false);
+  }
+
+  _handleDeleteClick(tripEvent) {
+    this._changeData(
+        UserActionForModel.DELETE_TRIP_EVENT,
+        UpdateTypeForRerender.MAJOR,
+        tripEvent
+    );
   }
 
   _handleFormSubmit(tripEvent) {

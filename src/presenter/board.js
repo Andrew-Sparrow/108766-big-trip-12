@@ -92,8 +92,8 @@ export default class Board {
   }
 
   _renderSortBlock() {
-    renderDOMElement(this._boardComponent, this._sortComponent, RenderPosition.BEFOREEND);
     this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
+    renderDOMElement(this._boardComponent, this._sortComponent, RenderPosition.BEFOREEND);
   }
 
   _clearTripDaysList() {
@@ -119,9 +119,14 @@ export default class Board {
 
     // - Очищаем список
     this._clearTripDaysList();
+    // this._clearBoard();
 
     // - Рендерим список заново
     this._renderDaysList();
+  }
+
+  _clearBoard() {
+
   }
 
   /**
@@ -216,9 +221,13 @@ export default class Board {
         break;
       case UpdateTypeForRerender.MINOR:
         // - обновить список
+        this._clearBoard();
+        this._renderBoard();
         break;
       case UpdateTypeForRerender.MAJOR:
         // - обновить всю доску
+        this._clearBoard({resetSortType: true});
+        this._renderBoard();
         break;
     }
   }
