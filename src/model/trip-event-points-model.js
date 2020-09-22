@@ -52,7 +52,6 @@ export default class TripEventPointsModel extends Observer {
       ...this._tripEvents.slice(0, index),
       ...this._tripEvents.slice(index + 1)
     ];
-    console.log(this._tripEvents);
     this._notify(updateTypeForRerender);
   }
 }

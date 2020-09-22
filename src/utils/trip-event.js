@@ -98,3 +98,30 @@ export const isDateEqual = (dateA, dateB) => {
 
   return moment(dateA).isSame(dateB, `day`);
 };
+
+const getCurrentDate = () => {
+  const currentDate = new Date();
+  currentDate.setHours(23, 59, 59, 999);
+
+  return new Date(currentDate);
+};
+
+export const isTripEventPassed = (dateEndOfTripEvent) => {
+  if (dateEndOfTripEvent === null) {
+    throw new Error(`Sorry man, but there is not date end`);
+  }
+
+  const currentDate = getCurrentDate();
+
+  return moment(currentDate).isAfter(dateEndOfTripEvent, `day`);
+};
+
+export const isTripEventFuture = (dateStartOfTripEvent) => {
+  if (dateStartOfTripEvent === null) {
+    throw new Error(`Sorry man, but there is not date start`);
+  }
+
+  const currentDate = getCurrentDate();
+
+  return moment(currentDate).isBefore(dateStartOfTripEvent, `day`);
+};

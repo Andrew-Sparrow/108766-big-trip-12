@@ -42,6 +42,14 @@ const tripEvents = new Array(3).fill().map(generateEvent);
 const tasksModel = new TripEventPointsModel();
 tasksModel.setTripEvents(tripEvents);
 
+const filters = [
+  {
+    type: `everything`,
+    name: `Everything`,
+    count: 0
+  }
+];
+
 const filterModel = new FilterModel();
 
 const groupsEventsByDay = groupArrayOfObjects(tripEvents, `dateStart`);
@@ -55,6 +63,6 @@ renderDOMElement(tripMainElementInHeader, new HeaderElementTripInfoView(defaultS
 
 renderDOMElement(tripView, new HeaderElementTripTabsView(), RenderPosition.AFTEREND);
 
-renderDOMElement(tripControls, new HeaderFiltersView(), RenderPosition.BEFOREEND);
+renderDOMElement(tripControls, new HeaderFiltersView(filters, `everything`), RenderPosition.BEFOREEND);
 
 boardPresenter.init(tripEvents);
