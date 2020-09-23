@@ -50,7 +50,7 @@ const groupsEventsByDay = groupArrayOfObjects(tripEvents, `dateStart`);
 const defaultSortedDays = defaultSortEventsByGroupDays(groupsEventsByDay);
 const defaultSortedEvents = defaultSortEventsItems(tripEvents);
 
-const boardPresenter = new BoardPresenter(pageBodyContainer, tripEventModel);
+const boardPresenter = new BoardPresenter(pageBodyContainer, tripEventModel, filterModel);
 const filterPresenter = new FilterPresenter(tripControls, filterModel, tripEventModel);
 
 renderDOMElement(tripMainElementInHeader, new HeaderElementTripInfoView(defaultSortedDays, defaultSortedEvents), RenderPosition.AFTERBEGIN);
