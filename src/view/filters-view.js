@@ -42,7 +42,7 @@ const createHeaderFiltersTemplate = (filterItems, currentFilterType) => {
             </form>`);
 };
 
-export default class HeaderFilters extends AbstractView {
+export default class FiltersView extends AbstractView {
   constructor(filters, currentFilterType) {
     super();
     this._filters = filters;
@@ -55,13 +55,13 @@ export default class HeaderFilters extends AbstractView {
     return createHeaderFiltersTemplate(this._filters, this._currentFilterType);
   }
 
+  setFilterTypeChangeHandler(callback) {
+    this._callback.filterTypeChange = callback;
+    this.getElement().addEventListener(`change`, this._filterTypeChangeHandler);
+  }
+
   _filterTypeChangeHandler(evt) {
     evt.preventDefault();
     this._callback.filterTypeChange(evt.target.value);
-  }
-
-  setFilterTypeChange(callback) {
-    this._callback.filterTypeChange = callback;
-    this.getElement().addEventListener(`change`, this._filterTypeChangeHandler);
   }
 }

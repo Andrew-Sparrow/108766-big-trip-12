@@ -17,10 +17,11 @@ import {
 
 import HeaderElementTripInfoView from "./view/header-info.js";
 import HeaderElementTripTabsView from "./view/header-trip-tabs.js";
-import HeaderFiltersView from "./view/header-filters.js";
+import FiltersView from "./view/filters-view.js";
 
 import {generateEvent} from "./mock/trip-event";
 import BoardPresenter from "./presenter/board.js";
+import FilterPresenter from "./presenter/filter-presenter.js";
 
 import TripEventPointsModel from "./model/trip-event-points-model.js";
 import FilterModel from "./model/trip-event-filter-model.js";
@@ -39,16 +40,8 @@ generatePhotosInCities();
 
 const tripEvents = new Array(3).fill().map(generateEvent);
 
-const tasksModel = new TripEventPointsModel();
-tasksModel.setTripEvents(tripEvents);
-
-const filters = [
-  {
-    type: `everything`,
-    name: `Everything`,
-    count: 0
-  }
-];
+const tripEventModel = new TripEventPointsModel();
+tripEventModel.setTripEvents(tripEvents);
 
 const filterModel = new FilterModel();
 
@@ -57,12 +50,14 @@ const groupsEventsByDay = groupArrayOfObjects(tripEvents, `dateStart`);
 const defaultSortedDays = defaultSortEventsByGroupDays(groupsEventsByDay);
 const defaultSortedEvents = defaultSortEventsItems(tripEvents);
 
-const boardPresenter = new BoardPresenter(pageBodyContainer, tasksModel);
+const boardPresenter = new BoardPresenter(pageBodyContainer, tripEventModel);
+const filterPresenter = new FilterPresenter(tripControls, filterModel, tripEventModel);
 
 renderDOMElement(tripMainElementInHeader, new HeaderElementTripInfoView(defaultSortedDays, defaultSortedEvents), RenderPosition.AFTERBEGIN);
 
 renderDOMElement(tripView, new HeaderElementTripTabsView(), RenderPosition.AFTEREND);
 
-renderDOMElement(tripControls, new HeaderFiltersView(filters, `everything`), RenderPosition.BEFOREEND);
+// renderDOMElement(tripControls, new FilterView(filters, `everything`), RenderPosition.BEFOREEND);
 
+filterPresenter.init();
 boardPresenter.init(tripEvents);

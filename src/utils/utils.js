@@ -101,7 +101,7 @@ export const groupArrayOfObjects = (objects, key) => {
   return Object.entries(items);
 };
 
-export const filtersTripEvents = {
+export const filterTripEvents = {
   [FilterType.EVERYTHING]: (tripEvents) => tripEvents,
   [FilterType.FUTURE]: (tripEvents) => tripEvents.filter((tripEvent) => isTripEventFuture(tripEvent.dateStart)),
   [FilterType.PAST]: (tripEvents) => tripEvents.filter((tripEvent) => isTripEventPassed(tripEvent.dateEnd))
