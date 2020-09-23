@@ -8,14 +8,18 @@ import {
   remove
 } from "../utils/render.js";
 
-import {CITIES, UpdateTypeForRerender, UserActionForModel} from "../const.js";
+import {
+  CITIES,
+  UpdateTypeForRerender,
+  UserActionForModel
+} from "../const.js";
 
 const Mode = {
   DEFAULT: `DEFAULT`,
   EDITING: `EDITING`
 };
 
-export default class TripEvent {
+export default class TripEventPresenter {
   constructor(tripEventsListContainer, changeData, changeMode) {
     this._tripEventsListContainer = tripEventsListContainer;
     this._changeData = changeData;

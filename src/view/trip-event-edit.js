@@ -1,5 +1,6 @@
 import SmartView from "./smart.js";
 import flatpickr from "flatpickr";
+import moment from "moment";
 import {updateTripEventRoutPointTypeName} from "../utils/trip-event.js";
 
 import "../../node_modules/flatpickr/dist/flatpickr.min.css";
@@ -10,12 +11,19 @@ import {
 } from "../const.js";
 
 const BLANK_TRIP_EVENT = {
-  destination: null,
-  routPointTypeGroupName: null,
-  routPointType: null,
-  dateStart: null,
-  dateEnd: null,
-  price: null
+  destination: {
+    city: `Amsterdam`,
+    description: ``,
+    photos: []
+  },
+  routPointTypeGroupName: `transfer`,
+  routPointType: {
+    name: `Transport`,
+    offers: []
+  },
+  dateStart: new Date(),
+  dateEnd: new Date(),
+  price: 0
 };
 
 const createDestinationPointsTemplate = (city) => {
@@ -226,8 +234,10 @@ export const createTripEventItemEditTemplate = (data, destinationPoints) => {
 };
 
 export default class TripEventEdit extends SmartView {
-  constructor(travelEvent = Object.assign({}, BLANK_TRIP_EVENT), destinationPoints) {
+  // constructor(travelEvent = Object.assign({}, BLANK_TRIP_EVENT), destinationPoints) {
+  constructor(travelEvent, destinationPoints) {
     super();
+    // console.log(travelEvent);
     this._data = TripEventEdit.parseTripEventToData(travelEvent);
     this._destinationPoints = destinationPoints;
     this._datepickerStart = null;

@@ -20,7 +20,7 @@ import HeaderElementTripTabsView from "./view/header-trip-tabs.js";
 import FiltersView from "./view/filters-view.js";
 
 import {generateEvent} from "./mock/trip-event";
-import BoardPresenter from "./presenter/board.js";
+import BoardPresenter from "./presenter/board-presenter.js";
 import FilterPresenter from "./presenter/filter-presenter.js";
 
 import TripEventPointsModel from "./model/trip-event-points-model.js";
@@ -61,3 +61,8 @@ renderDOMElement(tripView, new HeaderElementTripTabsView(), RenderPosition.AFTER
 
 filterPresenter.init();
 boardPresenter.init(tripEvents);
+
+document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, (evt) => {
+  evt.preventDefault();
+  boardPresenter.createTripEvent();
+});
