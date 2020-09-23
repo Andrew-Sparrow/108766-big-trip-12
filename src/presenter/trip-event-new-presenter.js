@@ -49,7 +49,7 @@ export default class TripEventNewPresenter {
     }
 
     this._tripEventEditComponent = new TripEventEditView(BLANK_TRIP_EVENT, CITIES);
-    console.log(this._tripEventEditComponent);
+    // console.log(this._tripEventEditComponent);
     this._tripEventEditComponent.setFormSubmitHandler(this._handleFormSubmit);
     this._tripEventEditComponent.setDeleteClickHandler(this._handleDeleteClick());
 

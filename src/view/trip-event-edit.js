@@ -1,6 +1,6 @@
 import SmartView from "./smart.js";
 import flatpickr from "flatpickr";
-import moment from "moment";
+// import moment from "moment";
 import {updateTripEventRoutPointTypeName} from "../utils/trip-event.js";
 
 import "../../node_modules/flatpickr/dist/flatpickr.min.css";
@@ -10,21 +10,21 @@ import {
   CITIES
 } from "../const.js";
 
-const BLANK_TRIP_EVENT = {
-  destination: {
-    city: `Amsterdam`,
-    description: ``,
-    photos: []
-  },
-  routPointTypeGroupName: `transfer`,
-  routPointType: {
-    name: `Transport`,
-    offers: []
-  },
-  dateStart: new Date(),
-  dateEnd: new Date(),
-  price: 0
-};
+// const BLANK_TRIP_EVENT = {
+//   destination: {
+//     city: `Amsterdam`,
+//     description: ``,
+//     photos: []
+//   },
+//   routPointTypeGroupName: `transfer`,
+//   routPointType: {
+//     name: `Transport`,
+//     offers: []
+//   },
+//   dateStart: new Date(),
+//   dateEnd: new Date(),
+//   price: 0
+// };
 
 const createDestinationPointsTemplate = (city) => {
   return `<option value="${city}"></option>`;

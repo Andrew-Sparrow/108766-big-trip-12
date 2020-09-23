@@ -17,7 +17,6 @@ import {
 
 import HeaderElementTripInfoView from "./view/header-info.js";
 import HeaderElementTripTabsView from "./view/header-trip-tabs.js";
-import FiltersView from "./view/filters-view.js";
 
 import {generateEvent} from "./mock/trip-event";
 import BoardPresenter from "./presenter/board-presenter.js";
