@@ -44,7 +44,7 @@ export default class TripEventPresenter {
     const prevTripEventEditComponent = this._tripEventEditComponent;
 
     this._tripEventComponent = new TripEventView(this._tripEvent);
-    this._tripEventEditComponent = new TripEventEditView(this._tripEvent, CITIES);
+    this._tripEventEditComponent = new TripEventEditView(CITIES, this._tripEvent);
 
     this._tripEventComponent.setRollupClickHandler(this._handleEditClick);
     this._tripEventEditComponent.setFavoriteClickHandler(this._handleFavoriteClick);

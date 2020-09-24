@@ -1,5 +1,5 @@
 import TripEventEditView from "../view/trip-event-edit.js";
-import {generateId} from "../mock/trip-event.js";
+import {generateEvent} from "../mock/trip-event.js";
 
 import {
   remove,
@@ -13,22 +13,7 @@ import {
   CITIES
 } from "../const.js";
 
-const BLANK_TRIP_EVENT = {
-  id: generateId(),
-  destination: {
-    city: `Amsterdam`,
-    description: ``,
-    photos: []
-  },
-  routPointTypeGroupName: `transfer`,
-  routPointType: {
-    name: `Transport`,
-    offers: []
-  },
-  dateStart: new Date(),
-  dateEnd: new Date(),
-  price: 0
-};
+const BLANK_TRIP_EVENT = generateEvent();
 
 export default class TripEventNewPresenter {
   constructor(tripEventListContainer, changeData) {
@@ -48,10 +33,9 @@ export default class TripEventNewPresenter {
       return;
     }
 
-    this._tripEventEditComponent = new TripEventEditView(BLANK_TRIP_EVENT, CITIES);
-    // console.log(this._tripEventEditComponent);
+    this._tripEventEditComponent = new TripEventEditView(CITIES, BLANK_TRIP_EVENT);
     this._tripEventEditComponent.setFormSubmitHandler(this._handleFormSubmit);
-    this._tripEventEditComponent.setDeleteClickHandler(this._handleDeleteClick());
+    this._tripEventEditComponent.setDeleteClickHandler(this._handleDeleteClick);
 
     renderDOMElement(this._tripEventListContainer, this._tripEventEditComponent, RenderPosition.AFTERBEGIN);
 
