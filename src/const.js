@@ -146,3 +146,21 @@ export const CITIES = [
     photos: null
   },
 ];
+
+export const UserActionForModel = {
+  UPDATE_TRIP_EVENT: `UPDATE_TRIP_EVENT`,
+  ADD_TRIP_EVENT: `ADD_TRIP_EVENT`,
+  DELETE_TRIP_EVENT: `DELETE_TRIP_EVENT`
+};
+
+export const UpdateTypeForRerender = {
+  PATCH: `PATCH`,
+  MINOR: `MINOR`,
+  MAJOR: `MAJOR`
+};
+
+export const FilterType = {
+  EVERYTHING: `everything`,
+  FUTURE: `future`,
+  PAST: `past`
+};

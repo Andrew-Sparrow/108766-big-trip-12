@@ -1,6 +1,6 @@
 import TripEventsInDayView from "../view/trip-events-in-day.js";
 import TripDayView from "../view/trip-day.js";
-import TripEventPresenter from "./trip-event.js";
+import TripEventPresenter from "./trip-event-presenter.js";
 
 import {EVENTS_OF_DAY} from "../const.js";
 
@@ -8,9 +8,9 @@ import {
   remove,
   renderDOMElement,
   RenderPosition
-} from "../view/util/render.js";
+} from "../utils/render.js";
 
-export default class TripDay {
+export default class TripDayPresenter {
   constructor(containerForRendering, changeData, addToCollection, changeMode) {
     this._tripDaysContainer = containerForRendering;
     this._changeData = changeData;

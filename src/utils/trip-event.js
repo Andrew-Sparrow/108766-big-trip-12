@@ -6,7 +6,7 @@ import {
   DATE_OF_GROUP_EVENTS,
   DESTINATIONS_IN_DAY,
   FIRST_DESTINATION_IN_DAY
-} from "../../const.js";
+} from "../const.js";
 
 const CHECK_IN = `check-in`;
 const CHECKIN = `checkin`;
@@ -89,4 +89,31 @@ export const updateTripEventRoutPointTypeName = (routPointTypeName) => {
   }
 
   return tripEventRoutPointTypeName;
+};
+
+const getCurrentDate = () => {
+  const currentDate = new Date();
+  currentDate.setHours(23, 59, 59, 999);
+
+  return new Date(currentDate);
+};
+
+export const isTripEventPassed = (dateEndOfTripEvent) => {
+  if (dateEndOfTripEvent === null) {
+    throw new Error(`Sorry man, but there is not date end`);
+  }
+
+  const currentDate = getCurrentDate();
+
+  return moment(currentDate).isAfter(dateEndOfTripEvent, `day`);
+};
+
+export const isTripEventFuture = (dateStartOfTripEvent) => {
+  if (dateStartOfTripEvent === null) {
+    throw new Error(`Sorry man, but there is not date start`);
+  }
+
+  const currentDate = getCurrentDate();
+
+  return moment(currentDate).isBefore(dateStartOfTripEvent, `day`);
 };

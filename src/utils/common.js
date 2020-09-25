@@ -31,21 +31,21 @@ export const getRandomDate = () => {
   return newDate;
 };
 
-export const updateItems = (items, updatedItem) => {
-  const index = items.findIndex((item) => item.id === updatedItem.id);
-  let newItems;
-  if (index === -1) {
-    return items;
-  }
-
-  newItems = [
-    ...items.slice(0, index),
-    updatedItem,
-    ...items.slice(index + 1)
-  ];
-
-  return newItems;
-};
+// export const updateItems = (items, updatedItem) => {
+//   const index = items.findIndex((item) => item.id === updatedItem.id);
+//   let newItems;
+//   if (index === -1) {
+//     return items;
+//   }
+//
+//   newItems = [
+//     ...items.slice(0, index),
+//     updatedItem,
+//     ...items.slice(index + 1)
+//   ];
+//
+//   return newItems;
+// };
 
 export const getRandomBoolean = () => {
   return Boolean(getRandomInteger(0, 1));

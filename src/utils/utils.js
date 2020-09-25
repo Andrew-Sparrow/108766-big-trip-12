@@ -3,13 +3,20 @@ import {
   DESCRIPTIONS,
   ADDITIONAL_OFFERS,
   ROUTE_POINT_TYPES
-} from "../../const.js";
+} from "../const.js";
 
 import {
   getRandomInteger,
   getRandomIndexOfList,
   getRandomAmountOfItems,
 } from "./common.js";
+
+import {FilterType} from "../const.js";
+
+import {
+  isTripEventPassed,
+  isTripEventFuture
+} from "./trip-event.js";
 
 export const getRandomDescriptions = () => {
   const sumStrings = [];
@@ -92,4 +99,10 @@ export const groupArrayOfObjects = (objects, key) => {
     return receiver;
   }, {});
   return Object.entries(items);
+};
+
+export const filterTripEvents = {
+  [FilterType.EVERYTHING]: (tripEvents) => tripEvents,
+  [FilterType.FUTURE]: (tripEvents) => tripEvents.filter((tripEvent) => isTripEventFuture(tripEvent.dateStart)),
+  [FilterType.PAST]: (tripEvents) => tripEvents.filter((tripEvent) => isTripEventPassed(tripEvent.dateEnd))
 };

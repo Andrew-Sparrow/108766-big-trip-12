@@ -6,16 +6,20 @@ import {
   RenderPosition,
   replace,
   remove
-} from "../view/util/render.js";
+} from "../utils/render.js";
 
-import {CITIES} from "../const.js";
+import {
+  CITIES,
+  UpdateTypeForRerender,
+  UserActionForModel
+} from "../const.js";
 
 const Mode = {
   DEFAULT: `DEFAULT`,
   EDITING: `EDITING`
 };
 
-export default class TripEvent {
+export default class TripEventPresenter {
   constructor(tripEventsListContainer, changeData, changeMode) {
     this._tripEventsListContainer = tripEventsListContainer;
     this._changeData = changeData;
@@ -28,6 +32,8 @@ export default class TripEvent {
     this._handleEditClick = this._handleEditClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
+    this._handleDeleteClick = this._handleDeleteClick.bind(this);
+
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
@@ -38,11 +44,13 @@ export default class TripEvent {
     const prevTripEventEditComponent = this._tripEventEditComponent;
 
     this._tripEventComponent = new TripEventView(this._tripEvent);
-    this._tripEventEditComponent = new TripEventEditView(this._tripEvent, CITIES);
+    this._tripEventEditComponent = new TripEventEditView(CITIES, this._tripEvent);
 
     this._tripEventComponent.setRollupClickHandler(this._handleEditClick);
     this._tripEventEditComponent.setFavoriteClickHandler(this._handleFavoriteClick);
     this._tripEventEditComponent.setFormSubmitHandler(this._handleFormSubmit);
+
+    this._tripEventEditComponent.setDeleteClickHandler(this._handleDeleteClick);
 
     if (prevTripEventComponent === null || prevTripEventEditComponent === null) {
       renderDOMElement(this._tripEventsListContainer, this._tripEventComponent, RenderPosition.BEFOREEND);
@@ -99,12 +107,28 @@ export default class TripEvent {
   }
 
   _handleFavoriteClick() {
-    this._tripEvent = Object.assign({}, this._tripEvent, {isFavorite: !this._tripEvent.isFavorite});
-    this._changeData(this._tripEvent, false, false);
+    this._tripEvent = Object.assign(
+        {},
+        this._tripEvent,
+        {isFavorite: !this._tripEvent.isFavorite}
+    );
+    this._changeData(
+        UserActionForModel.UPDATE_TRIP_EVENT,
+        UpdateTypeForRerender.PATCH,
+        this._tripEvent
+    );
+  }
+
+  _handleDeleteClick(tripEvent) {
+    this._changeData(
+        UserActionForModel.DELETE_TRIP_EVENT,
+        UpdateTypeForRerender.MAJOR,
+        tripEvent
+    );
   }
 
   _handleFormSubmit(tripEvent) {
-    this._changeData(tripEvent, false, true);
+    this._changeData(UserActionForModel.UPDATE_TRIP_EVENT, UpdateTypeForRerender.MAJOR, tripEvent);
     this._replaceFormToCard();
   }
 }

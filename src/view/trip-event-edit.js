@@ -1,6 +1,6 @@
 import SmartView from "./smart.js";
 import flatpickr from "flatpickr";
-import {updateTripEventRoutPointTypeName} from "./util/trip-event.js";
+import {updateTripEventRoutPointTypeName} from "../utils/trip-event.js";
 
 import "../../node_modules/flatpickr/dist/flatpickr.min.css";
 
@@ -9,24 +9,14 @@ import {
   CITIES
 } from "../const.js";
 
-const BLANK_TRIP_EVENT = {
-  destination: null,
-  routPointTypeGroupName: null,
-  routPointType: null,
-  dateStart: null,
-  dateEnd: null,
-  price: null
-};
-
 const createDestinationPointsTemplate = (city) => {
-  return `<option value="${city}"></option>`;
+  return `<option value="${city}">${city}</option>`;
 };
 
 export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoints) => {
   const {
     dateStart,
     dateEnd,
-    destination: {city},
     routPointType,
     routPointTypeGroupName,
     price,
@@ -93,8 +83,10 @@ export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoin
                   type="text"
                   name="event-destination"
                   list="destination-list-1"
-                  value="${city}"
-                  style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
+                  style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;"
+                  value=""
+                  autocomplete="off"
+                  >
                 <datalist id="destination-list-1">
                   ${destinationPointsValues}
                 </datalist>
@@ -116,7 +108,13 @@ export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoin
                   <span class="visually-hidden">Price</span>
                   €
                 </label>
-                <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${price}">
+                <input
+                  class="event__input  event__input--price"
+                  id="event-price-1"
+                  type="number"
+                  name="event-price"
+                  value="${price}"
+                >
               </div>
 
               <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -226,7 +224,7 @@ export const createTripEventItemEditTemplate = (data, destinationPoints) => {
 };
 
 export default class TripEventEdit extends SmartView {
-  constructor(travelEvent = Object.assign({}, BLANK_TRIP_EVENT), destinationPoints) {
+  constructor(destinationPoints, travelEvent) {
     super();
     this._data = TripEventEdit.parseTripEventToData(travelEvent);
     this._destinationPoints = destinationPoints;
@@ -240,9 +238,12 @@ export default class TripEventEdit extends SmartView {
     this._dateEndChangeHandler = this._dateEndChangeHandler.bind(this);
 
     this._destinationToggleHandler = this._destinationToggleHandler.bind(this);
-    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
     this._priceInputHandler = this._priceInputHandler.bind(this);
+
+    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
     this._offerToggleHandler = this._offerToggleHandler.bind(this);
+
+    this._formDeleteClickHandler = this._formDeleteClickHandler.bind(this);
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
 
     this._setDatepicker();
@@ -254,6 +255,21 @@ export default class TripEventEdit extends SmartView {
     return createTripEventItemEditTemplate(this._data, this._destinationPoints);
   }
 
+  removeElement() {
+    super.removeElement();
+
+    if (this._datepickerStart) {
+      this._datepickerStart.destroy();
+      this._datepickerStart = null;
+    }
+
+    if (this._datepickerEnd) {
+      this._datepickerEnd.destroy();
+      this._datepickerEnd = null;
+    }
+
+  }
+
   reset(tripEvent) {
     this.updateData(
         TripEventEdit.parseTripEventToData(tripEvent)
@@ -262,7 +278,7 @@ export default class TripEventEdit extends SmartView {
 
   setFavoriteClickHandler(callback) {
     this._callback.favoriteClick = callback;
-    this.getElement().querySelector(`.event__favorite-btn`).addEventListener(`click`, this._favoriteClickHandler);
+    this.getElement(`.event__favorite-btn`).addEventListener(`click`, this._favoriteClickHandler);
   }
 
   setFormSubmitHandler(callback) {
@@ -275,6 +291,7 @@ export default class TripEventEdit extends SmartView {
     this._setDatepicker();
     this.setFavoriteClickHandler(this._callback.favoriteClick);
     this.setFormSubmitHandler(this._callback.formSubmit);
+    this.setDeleteClickHandler(this._callback.deleteClick);
   }
 
   _setDatepicker() {
@@ -338,7 +355,6 @@ export default class TripEventEdit extends SmartView {
     });
   }
 
-
   _destinationToggleHandler(evt) {
     evt.preventDefault();
 
@@ -349,18 +365,21 @@ export default class TripEventEdit extends SmartView {
     const cityItem = CITIES.find((destinationItem) => destinationItem.city === inputValue);
 
     if (cityItem !== undefined) {
+
       destinationDescription = cityItem.description;
       destinationPhotos = cityItem.photos;
-    }
 
-    this.updateData({
-      destination: Object.assign(
-          {},
-          this._data.destination,
-          {city: evt.target.value},
-          {description: destinationDescription},
-          {photos: destinationPhotos})
-    });
+      this.updateData({
+        destination: Object.assign(
+            {},
+            this._data.destination,
+            {city: evt.target.value},
+            {description: destinationDescription},
+            {photos: destinationPhotos})
+      }, true);
+    } else {
+      evt.target.value = ``;
+    }
   }
 
   _offerToggleHandler(evt) {
@@ -370,9 +389,6 @@ export default class TripEventEdit extends SmartView {
     const offerTargetName = evt.target.name.split(`-`)[evt.target.name.split(`-`).length - 1];
 
     let tripEventRoutPointTypeName = updateTripEventRoutPointTypeName(this._data.routPointType.name);
-
-    // const offerToToggle = ROUTE_POINT_TYPES[this._data.routPointTypeGroupName][tripEventRoutPointTypeName]
-    //   .offers.filter((offer) => offer.name === offerTargetName)[FIRST_ELEMENT];
 
     const offerToToggle = ROUTE_POINT_TYPES[this._data.routPointTypeGroupName][tripEventRoutPointTypeName]
       .offers.find((offer) => offer.name === offerTargetName);
@@ -391,13 +407,13 @@ export default class TripEventEdit extends SmartView {
     this.getElement(`.event__type-group-activity`)
       .addEventListener(`change`, this._eventTypeToggleActivityHandler);
     this.getElement(`.event__input--destination`)
-      .addEventListener(`change`, this._destinationToggleHandler);
-    this.getElement()
-      .querySelector(`.event__input--price`)
+      .addEventListener(`input`, this._destinationToggleHandler);
+    this.getElement(`.event__input--price`)
       .addEventListener(`input`, this._priceInputHandler);
 
     if (this._data.isOffersExist) {
-      this.getElement(`.event__available-offers`).addEventListener(`change`, this._offerToggleHandler);
+      this.getElement(`.event__available-offers`)
+        .addEventListener(`change`, this._offerToggleHandler);
     }
   }
 
@@ -437,6 +453,16 @@ export default class TripEventEdit extends SmartView {
   _formSubmitHandler(evt) {
     evt.preventDefault();
     this._callback.formSubmit(TripEventEdit.parseDataToTripEvent(this._data));
+  }
+
+  _formDeleteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.deleteClick(TripEventEdit.parseDataToTripEvent(this._data));
+  }
+
+  setDeleteClickHandler(callback) {
+    this._callback.deleteClick = callback;
+    this.getElement(`.event__reset-btn`).addEventListener(`click`, this._formDeleteClickHandler);
   }
 
   static parseTripEventToData(tripEvent) {
