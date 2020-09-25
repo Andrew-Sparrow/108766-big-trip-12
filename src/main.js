@@ -56,8 +56,6 @@ renderDOMElement(tripMainElementInHeader, new HeaderElementTripInfoView(defaultS
 
 renderDOMElement(tripView, new HeaderElementTripTabsView(), RenderPosition.AFTEREND);
 
-// renderDOMElement(tripControls, new FilterView(filters, `everything`), RenderPosition.BEFOREEND);
-
 filterPresenter.init();
 boardPresenter.init(tripEvents);
 

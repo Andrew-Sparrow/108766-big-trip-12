@@ -91,14 +91,6 @@ export const updateTripEventRoutPointTypeName = (routPointTypeName) => {
   return tripEventRoutPointTypeName;
 };
 
-export const isDateEqual = (dateA, dateB) => {
-  if (dateA === null && dateB === null) {
-    return true;
-  }
-
-  return moment(dateA).isSame(dateB, `day`);
-};
-
 const getCurrentDate = () => {
   const currentDate = new Date();
   currentDate.setHours(23, 59, 59, 999);

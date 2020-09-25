@@ -17,7 +17,6 @@ export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoin
   const {
     dateStart,
     dateEnd,
-    destination: {city},
     routPointType,
     routPointTypeGroupName,
     price,
@@ -225,7 +224,6 @@ export const createTripEventItemEditTemplate = (data, destinationPoints) => {
 };
 
 export default class TripEventEdit extends SmartView {
-  // constructor(travelEvent = Object.assign({}, BLANK_TRIP_EVENT), destinationPoints) {
   constructor(destinationPoints, travelEvent) {
     super();
     this._data = TripEventEdit.parseTripEventToData(travelEvent);
@@ -240,8 +238,9 @@ export default class TripEventEdit extends SmartView {
     this._dateEndChangeHandler = this._dateEndChangeHandler.bind(this);
 
     this._destinationToggleHandler = this._destinationToggleHandler.bind(this);
-    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
     this._priceInputHandler = this._priceInputHandler.bind(this);
+
+    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
     this._offerToggleHandler = this._offerToggleHandler.bind(this);
 
     this._formDeleteClickHandler = this._formDeleteClickHandler.bind(this);
@@ -279,7 +278,7 @@ export default class TripEventEdit extends SmartView {
 
   setFavoriteClickHandler(callback) {
     this._callback.favoriteClick = callback;
-    this.getElement().querySelector(`.event__favorite-btn`).addEventListener(`click`, this._favoriteClickHandler);
+    this.getElement(`.event__favorite-btn`).addEventListener(`click`, this._favoriteClickHandler);
   }
 
   setFormSubmitHandler(callback) {
@@ -356,7 +355,6 @@ export default class TripEventEdit extends SmartView {
     });
   }
 
-
   _destinationToggleHandler(evt) {
     evt.preventDefault();
 
@@ -367,18 +365,21 @@ export default class TripEventEdit extends SmartView {
     const cityItem = CITIES.find((destinationItem) => destinationItem.city === inputValue);
 
     if (cityItem !== undefined) {
+
       destinationDescription = cityItem.description;
       destinationPhotos = cityItem.photos;
-    }
 
-    this.updateData({
-      destination: Object.assign(
-          {},
-          this._data.destination,
-          {city: evt.target.value},
-          {description: destinationDescription},
-          {photos: destinationPhotos})
-    });
+      this.updateData({
+        destination: Object.assign(
+            {},
+            this._data.destination,
+            {city: evt.target.value},
+            {description: destinationDescription},
+            {photos: destinationPhotos})
+      }, true);
+    } else {
+      evt.target.value = ``;
+    }
   }
 
   _offerToggleHandler(evt) {
@@ -406,13 +407,13 @@ export default class TripEventEdit extends SmartView {
     this.getElement(`.event__type-group-activity`)
       .addEventListener(`change`, this._eventTypeToggleActivityHandler);
     this.getElement(`.event__input--destination`)
-      .addEventListener(`change`, this._destinationToggleHandler);
-    this.getElement()
-      .querySelector(`.event__input--price`)
+      .addEventListener(`input`, this._destinationToggleHandler);
+    this.getElement(`.event__input--price`)
       .addEventListener(`input`, this._priceInputHandler);
 
     if (this._data.isOffersExist) {
-      this.getElement(`.event__available-offers`).addEventListener(`change`, this._offerToggleHandler);
+      this.getElement(`.event__available-offers`)
+        .addEventListener(`change`, this._offerToggleHandler);
     }
   }
 

@@ -107,8 +107,16 @@ export default class TripEventPresenter {
   }
 
   _handleFavoriteClick() {
-    this._tripEvent = Object.assign({}, this._tripEvent, {isFavorite: !this._tripEvent.isFavorite});
-    this._changeData(UserActionForModel.UPDATE_TRIP_EVENT, UpdateTypeForRerender.PATCH, this._tripEvent);
+    this._tripEvent = Object.assign(
+        {},
+        this._tripEvent,
+        {isFavorite: !this._tripEvent.isFavorite}
+    );
+    this._changeData(
+        UserActionForModel.UPDATE_TRIP_EVENT,
+        UpdateTypeForRerender.PATCH,
+        this._tripEvent
+    );
   }
 
   _handleDeleteClick(tripEvent) {
