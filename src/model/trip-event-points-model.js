@@ -45,7 +45,7 @@ export default class TripEventPointsModel extends Observer {
     const index = this._tripEvents.findIndex((tripEvent) => tripEvent.id === updatedItem.id);
 
     if (index === -1) {
-      throw new Error(`Can't update nonexistent trip event item`);
+      throw new Error(`Can't delete nonexistent trip event item`);
     }
 
     this._tripEvents = [

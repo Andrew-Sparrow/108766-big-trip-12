@@ -23,7 +23,7 @@ export default class TripDayPresenter {
     this._index = index;
 
     this._tripEventsInDayComponent = new TripEventsInDayView();
-    this._tripDayComponent = new TripDayView(dayProperties, index);
+    this._tripDayComponent = new TripDayView(dayProperties, this._index);
 
     this._renderEventsInDay(this._events);
 

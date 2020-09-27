@@ -128,7 +128,11 @@ export default class TripEventPresenter {
   }
 
   _handleFormSubmit(tripEvent) {
-    this._changeData(UserActionForModel.UPDATE_TRIP_EVENT, UpdateTypeForRerender.MAJOR, tripEvent);
+    this._changeData(
+        UserActionForModel.UPDATE_TRIP_EVENT,
+        UpdateTypeForRerender.MAJOR,
+        tripEvent
+    );
     this._replaceFormToCard();
   }
 }
