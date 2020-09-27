@@ -8,13 +8,12 @@ import {
   ROUTE_POINT_TYPES,
   CITIES
 } from "../const.js";
-import {groupArrayOfObjects} from "../utils/utils.js";
 
 const createDestinationPointsTemplate = (city) => {
   return `<option value="${city}">${city}</option>`;
 };
 
-export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoints) => {
+export const getTripEventItemHeaderEditTemplate = (travelEvent) => {
   const {
     dateStart,
     dateEnd,
@@ -24,7 +23,7 @@ export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoin
     isFavorite
   } = travelEvent;
 
-  const destinationPointsValues = destinationsPoints.map((point) => createDestinationPointsTemplate(point.city)).join(``);
+  const destinationPointsValues = CITIES.map((point) => createDestinationPointsTemplate(point.city)).join(``);
 
   return (`<header class="event__header">
               <div class="event__type-wrapper">
@@ -185,8 +184,12 @@ const createEventPhotoTemplate = (photoSrc) => {
 
 export const getEventItemDestinationInEditFormTemplate = (travelEvent) => {
 
-  const {destination} = travelEvent;
-  const {photos, description} = destination;
+  const {
+    destination: {
+      photos,
+      description
+    }
+  } = travelEvent;
 
   const photosBlockTemplate = photos
     .map((photo) => createEventPhotoTemplate(photo))
@@ -204,7 +207,7 @@ export const getEventItemDestinationInEditFormTemplate = (travelEvent) => {
             </section>`}`);
 };
 
-export const createTripEventItemEditTemplate = (data, destinationPoints) => {
+export const createTripEventItemEditTemplate = (data) => {
   const {
     routPointTypeGroupName,
     routPointType,
@@ -217,7 +220,7 @@ export const createTripEventItemEditTemplate = (data, destinationPoints) => {
   const offersFromTripEvent = routPointType.offers;
 
   return (`<form class="trip-events__item  event  event--edit" action="#" method="post">
-            ${getTripEventItemHeaderEditTemplate(data, destinationPoints)}
+            ${getTripEventItemHeaderEditTemplate(data)}
             <section class="event__details">
                ${isOffersExist ? createEventOffersInEditFormTemplate(offersFromRoutPointType, offersFromTripEvent) : ``}
               ${isDescriptionOfDestinationExist ? `` : getEventItemDestinationInEditFormTemplate(data)}
@@ -226,10 +229,9 @@ export const createTripEventItemEditTemplate = (data, destinationPoints) => {
 };
 
 export default class TripEventEdit extends SmartView {
-  constructor(destinationPoints, travelEvent) {
+  constructor(travelEvent) {
     super();
     this._data = TripEventEdit.parseTripEventToData(travelEvent);
-    this._destinationPoints = destinationPoints;
     this._datepickerStart = null;
     this._datepickerEnd = null;
 
@@ -254,7 +256,7 @@ export default class TripEventEdit extends SmartView {
   }
 
   getTemplate() {
-    return createTripEventItemEditTemplate(this._data, this._destinationPoints);
+    return createTripEventItemEditTemplate(this._data);
   }
 
   removeElement() {

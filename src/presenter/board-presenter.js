@@ -80,7 +80,6 @@ export default class BoardPresenter {
 
   _getTripDays() {
     const filterType = this._filterModel.getFilter();
-    console.log(filterType);
 
     const tripEvents = this._tripEventModel.getTripEvents();
     const filteredTripEvents = filterTripEvents[filterType](tripEvents);
