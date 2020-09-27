@@ -44,6 +44,11 @@ export default class SortTrip extends AbstractView {
     return createTripSortTemplate();
   }
 
+  setSortTypeChangeHandler(callback) {
+    this._callback.sortTypeChange = callback;
+    this.getElement().addEventListener(`change`, this._sortTypeChangeHandler);
+  }
+
   _sortTypeChangeHandler(evt) {
     if (evt.target.tagName !== `INPUT`) {
       return;
@@ -53,10 +58,5 @@ export default class SortTrip extends AbstractView {
     this.getElement().firstElementChild.innerHTML = ``;
 
     this._callback.sortTypeChange(evt.target.value);
-  }
-
-  setSortTypeChangeHandler(callback) {
-    this._callback.sortTypeChange = callback;
-    this.getElement().addEventListener(`change`, this._sortTypeChangeHandler);
   }
 }

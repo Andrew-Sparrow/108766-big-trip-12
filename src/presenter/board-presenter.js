@@ -49,7 +49,6 @@ export default class BoardPresenter {
     this._handleViewAction = this._handleViewAction.bind(this);
     this._handleModelEvent = this._handleModelEvent.bind(this);
 
-
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
 
@@ -81,6 +80,8 @@ export default class BoardPresenter {
 
   _getTripDays() {
     const filterType = this._filterModel.getFilter();
+    console.log(filterType);
+
     const tripEvents = this._tripEventModel.getTripEvents();
     const filteredTripEvents = filterTripEvents[filterType](tripEvents);
 
@@ -150,6 +151,14 @@ export default class BoardPresenter {
     this._tripDaysPresenterCollector = {};
   }
 
+  _renderHeader() {
+
+  }
+
+  _clearHeader() {
+
+  }
+
   _clearBoard({resetSortType = false} = {}) {
     this._tripEventNewPresenter.destroy();
 
@@ -217,6 +226,7 @@ export default class BoardPresenter {
         break;
       case UpdateTypeForRerender.MAJOR:
         // - обновить всю доску
+        // - TODO добавить header
         this._clearBoard({resetSortType: true});
         this._renderBoard();
         break;

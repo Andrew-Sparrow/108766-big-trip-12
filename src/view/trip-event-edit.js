@@ -8,6 +8,7 @@ import {
   ROUTE_POINT_TYPES,
   CITIES
 } from "../const.js";
+import {groupArrayOfObjects} from "../utils/utils.js";
 
 const createDestinationPointsTemplate = (city) => {
   return `<option value="${city}">${city}</option>`;
@@ -134,23 +135,24 @@ export const getTripEventItemHeaderEditTemplate = (travelEvent, destinationsPoin
 
 /**
  * Returns a markup list of offers.
- * @param {Object} offer - The offer in the trip event.
+ * @param {Object} offerFromRoutPointTypes - The offerFromRoutPointTypes in the trip event.
  * @param {Object[]} offersFromTripEvent - offersFromTripEvent.
- * @return {String} Returns markup of offer
+ * @return {String} Returns markup of offerFromRoutPointTypes
  */
-const createEventOffersItemInEditFormTemplate = (offer, offersFromTripEvent) => {
+const createEventOffersItemInEditFormTemplate = (offerFromRoutPointTypes, offersFromTripEvent) => {
   const {
     title,
     price
-  } = offer;
+  } = offerFromRoutPointTypes;
 
   return `<div class="event__offer-selector">
             <input
               class="event__offer-checkbox  visually-hidden"
-              id="event-offer-${offer.name}-1"
+              id="event-offer-${offerFromRoutPointTypes.name}-1"
               type="checkbox"
-              name="event-offer-${offer.name}" ${offersFromTripEvent.includes(offer) ? `checked` : ``}>
-            <label class="event__offer-label" for="event-offer-${offer.name}-1">
+              name="event-offer-${offerFromRoutPointTypes.name}"
+              ${offersFromTripEvent.includes(offerFromRoutPointTypes) ? ` checked` : ``}>
+            <label class="event__offer-label" for="event-offer-${offerFromRoutPointTypes.name}-1">
               <span class="event__offer-title">${title}</span>
               +
               €&nbsp;<span class="event__offer-price">${price}</span>
@@ -211,13 +213,13 @@ export const createTripEventItemEditTemplate = (data, destinationPoints) => {
   } = data;
 
   let tripEventRoutPointTypeName = updateTripEventRoutPointTypeName(routPointType.name);
-  const offersFromRoutPointTypes = ROUTE_POINT_TYPES[routPointTypeGroupName][tripEventRoutPointTypeName].offers;
+  const offersFromRoutPointType = ROUTE_POINT_TYPES[routPointTypeGroupName][tripEventRoutPointTypeName].offers;
   const offersFromTripEvent = routPointType.offers;
 
   return (`<form class="trip-events__item  event  event--edit" action="#" method="post">
             ${getTripEventItemHeaderEditTemplate(data, destinationPoints)}
             <section class="event__details">
-               ${isOffersExist ? createEventOffersInEditFormTemplate(offersFromRoutPointTypes, offersFromTripEvent) : ``}
+               ${isOffersExist ? createEventOffersInEditFormTemplate(offersFromRoutPointType, offersFromTripEvent) : ``}
               ${isDescriptionOfDestinationExist ? `` : getEventItemDestinationInEditFormTemplate(data)}
             </section>
           </form>`);
@@ -292,6 +294,11 @@ export default class TripEventEdit extends SmartView {
     this.setFavoriteClickHandler(this._callback.favoriteClick);
     this.setFormSubmitHandler(this._callback.formSubmit);
     this.setDeleteClickHandler(this._callback.deleteClick);
+  }
+
+  setDeleteClickHandler(callback) {
+    this._callback.deleteClick = callback;
+    this.getElement(`.event__reset-btn`).addEventListener(`click`, this._formDeleteClickHandler);
   }
 
   _setDatepicker() {
@@ -458,11 +465,6 @@ export default class TripEventEdit extends SmartView {
   _formDeleteClickHandler(evt) {
     evt.preventDefault();
     this._callback.deleteClick(TripEventEdit.parseDataToTripEvent(this._data));
-  }
-
-  setDeleteClickHandler(callback) {
-    this._callback.deleteClick = callback;
-    this.getElement(`.event__reset-btn`).addEventListener(`click`, this._formDeleteClickHandler);
   }
 
   static parseTripEventToData(tripEvent) {
