@@ -149,7 +149,7 @@ export const CITIES = [
 
 export const UserActionForModel = {
   UPDATE_TRIP_EVENT: `UPDATE_TRIP_EVENT`,
-  ADD_TRIP_EVENT: `ADD_TRIP_EVENT`,
+  ADD_NEW_TRIP_EVENT: `ADD_TRIP_EVENT`,
   DELETE_TRIP_EVENT: `DELETE_TRIP_EVENT`
 };
 
@@ -166,7 +166,7 @@ export const FilterType = {
 };
 
 export const MenuItems = {
-  ADD_NEW_TRIP_EVENT: `ADD_NEW_TRIP_EVENT`,
-  TABLE: `TABLE`,
-  STATISTICS: `STATISTICS`
+  ADD_NEW_TRIP_EVENT: `header-new-trip-event-button`,
+  TABLE: `header-table-button`,
+  STATISTICS: `header-stats-button`
 };

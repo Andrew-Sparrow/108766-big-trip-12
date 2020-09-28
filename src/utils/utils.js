@@ -42,10 +42,6 @@ export const getRandomCities = () => {
   return CITIES[getRandomIndexOfList(CITIES)];
 };
 
-// export const getRandomCities = (items) => {
-//   return items[getRandomIndexOfList(items)];
-// };
-
 export const getRandomPropertyOfObject = (obj) => {
   const properties = Object.keys(obj);
   return properties[getRandomIndexOfList(properties)];

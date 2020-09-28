@@ -9,7 +9,6 @@ import {
 } from "../utils/render.js";
 
 import {
-  CITIES,
   UpdateTypeForRerender,
   UserActionForModel
 } from "../const.js";

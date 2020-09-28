@@ -7,8 +7,32 @@ const createHeaderElementTripTabsTemplate = () => {
            </nav>`);
 };
 
-export default class HeaderElementTripTabs extends AbstractView {
+export default class HeaderElementTripTabsView extends AbstractView {
+  constructor() {
+    super();
+
+    this._menuClickHandler = this._menuClickHandler.bind(this);
+  }
+
   getTemplate() {
     return createHeaderElementTripTabsTemplate();
+  }
+
+  _menuClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.menuClick(evt.target.id);
+  }
+
+  setMenuClickHandler(callback) {
+    this._callback.menuClick = callback;
+    this.getElement().addEventListener(`click`, this._menuClickHandler);
+  }
+
+  setMenuItem(menuItem) {
+    const item = this.getElement().querySelector(`#${menuItem}`);
+
+    if (item !== null) {
+      item.classList.add(`trip-tabs__btn--active`);
+    }
   }
 }

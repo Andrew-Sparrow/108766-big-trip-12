@@ -10,7 +10,6 @@ import {
 import {
   UserActionForModel,
   UpdateTypeForRerender,
-  CITIES
 } from "../const.js";
 
 const BLANK_TRIP_EVENT = generateEvent();
@@ -21,19 +20,21 @@ export default class TripEventNewPresenter {
     this._changeData = changeData;
 
     this._tripEventEditComponent = null;
+    this._destroyCallback = null;
 
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
     this._handleDeleteClick = this._handleDeleteClick.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
-  init() {
+  init(callback) {
+    this._destroyingCallback = callback;
 
     if (this._tripEventEditComponent !== null) {
       return;
     }
 
-    this._tripEventEditComponent = new TripEventEditView(CITIES, BLANK_TRIP_EVENT);
+    this._tripEventEditComponent = new TripEventEditView(BLANK_TRIP_EVENT);
     this._tripEventEditComponent.setFormSubmitHandler(this._handleFormSubmit);
     this._tripEventEditComponent.setDeleteClickHandler(this._handleDeleteClick);
 
@@ -48,6 +49,10 @@ export default class TripEventNewPresenter {
       return;
     }
 
+    if (this._destroyingCallback !== null) {
+      this._destroyingCallback();
+    }
+
     remove(this._tripEventEditComponent);
     this._tripEventEditComponent = null;
 
@@ -56,7 +61,7 @@ export default class TripEventNewPresenter {
 
   _handleFormSubmit(tripEvent) {
     this._changeData(
-        UserActionForModel.ADD_TRIP_EVENT,
+        UserActionForModel.ADD_NEW_TRIP_EVENT,
         UpdateTypeForRerender.MAJOR,
         tripEvent
     );

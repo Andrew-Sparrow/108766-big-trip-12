@@ -60,22 +60,32 @@ export default class BoardPresenter {
 
     this._boardDays = this._defaultSortedDays;
 
-    this._tripEventModel.addObserver(this._handleModelEvent);
-    this._filterModel.addObserver(this._handleModelEvent);
-
     this._tripEventNewPresenter = new TripEventNewPresenter(this._tripDaysListComponent, this._handleViewAction);
   }
 
   init() {
     renderDOMElement(this._boardContainer, this._boardComponent, RenderPosition.BEFOREEND);
 
+    this._tripEventModel.addObserver(this._handleModelEvent);
+    this._tripEventModel.addObserver(this._handleModelEvent);
+
     this._renderBoard();
   }
 
-  createTripEvent() {
+  destroy() {
+    this._clearBoard({resetRenderedTaskCount: true, resetSortType: true});
+
+    remove(this._tripDaysListComponent);
+    remove(this._boardComponent);
+
+    this._tripEventModel.removeObserver(this._handleModelEvent);
+    this._filterModel.removeObserver(this._handleModelEvent);
+  }
+
+  createNewTripEvent(callback) {
     this._currentSortType = SortType.DEFAULT;
     this._filterModel.setFilter(UpdateTypeForRerender.MAJOR, FilterType.EVERYTHING);
-    this._tripEventNewPresenter.init();
+    this._tripEventNewPresenter.init(callback);
   }
 
   _getTripDays() {
@@ -205,7 +215,7 @@ export default class BoardPresenter {
       case UserActionForModel.UPDATE_TRIP_EVENT:
         this._tripEventModel.updateTripEventPoint(updateTypeForRerender, updatedItem);
         break;
-      case UserActionForModel.ADD_TRIP_EVENT:
+      case UserActionForModel.ADD_NEW_TRIP_EVENT:
         this._tripEventModel.addTripEvent(updateTypeForRerender, updatedItem);
         break;
       case UserActionForModel.DELETE_TRIP_EVENT:
