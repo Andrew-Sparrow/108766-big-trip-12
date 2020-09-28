@@ -1,4 +1,5 @@
 import AbstractView from "./abstract.js";
+import {MenuItems} from "../const.js";
 
 const createHeaderElementTripTabsTemplate = () => {
   return (`<nav class="trip-controls__trip-tabs  trip-tabs">
@@ -12,15 +13,30 @@ export default class HeaderElementTripTabsView extends AbstractView {
     super();
 
     this._menuClickHandler = this._menuClickHandler.bind(this);
+    this._addNewTrpEventClickHandler = this._addNewTrpEventClickHandler.bind(this);
+    this.handleNewTripEventFormClose = this.handleNewTripEventFormClose.bind(this);
   }
 
   getTemplate() {
     return createHeaderElementTripTabsTemplate();
   }
 
-  _menuClickHandler(evt) {
+  handleNewTripEventFormClose() {
+    this.getElement(`#${MenuItems.TABLE}`).disabled = false;
+    document.querySelector(`.trip-main__event-add-btn`).disabled = false;
+    this.setMenuItem(MenuItems.TABLE);
+  }
+
+  _addNewTrpEventClickHandler(evt) {
     evt.preventDefault();
-    this._callback.menuClick(evt.target.id);
+    this.getElement(`#${MenuItems.TABLE}`).disabled = true;
+    document.querySelector(`.trip-main__event-add-btn`).disabled = true;
+    this._callback.newTripEventClick(evt.target.id);
+  }
+
+  setAddNewTripEventHandler(callback) {
+    this._callback.newTripEventClick = callback;
+    document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, this._addNewTrpEventClickHandler);
   }
 
   setMenuClickHandler(callback) {
@@ -34,5 +50,10 @@ export default class HeaderElementTripTabsView extends AbstractView {
     if (item !== null) {
       item.classList.add(`trip-tabs__btn--active`);
     }
+  }
+
+  _menuClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.menuClick(evt.target.id);
   }
 }

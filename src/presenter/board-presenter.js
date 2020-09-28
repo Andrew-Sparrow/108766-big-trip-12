@@ -23,8 +23,7 @@ import {
   SortType,
   WITHOUT_DAY,
   UpdateTypeForRerender,
-  UserActionForModel,
-  FilterType
+  UserActionForModel
 } from "../const.js";
 
 import {groupArrayOfObjects} from "../utils/utils.js";
@@ -73,7 +72,7 @@ export default class BoardPresenter {
   }
 
   destroy() {
-    this._clearBoard({resetRenderedTaskCount: true, resetSortType: true});
+    this._clearBoard({resetSortType: true});
 
     remove(this._tripDaysListComponent);
     remove(this._boardComponent);
@@ -83,8 +82,6 @@ export default class BoardPresenter {
   }
 
   createNewTripEvent(callback) {
-    this._currentSortType = SortType.DEFAULT;
-    this._filterModel.setFilter(UpdateTypeForRerender.MAJOR, FilterType.EVERYTHING);
     this._tripEventNewPresenter.init(callback);
   }
 

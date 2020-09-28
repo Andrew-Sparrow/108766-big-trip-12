@@ -91,7 +91,7 @@ export const updateTripEventRoutPointTypeName = (routPointTypeName) => {
   return tripEventRoutPointTypeName;
 };
 
-const getCurrentDate = () => {
+export const getCurrentDate = () => {
   const currentDate = new Date();
   currentDate.setHours(23, 59, 59, 999);
 

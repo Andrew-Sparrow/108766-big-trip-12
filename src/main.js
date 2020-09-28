@@ -64,38 +64,29 @@ renderDOMElement(tripMainElementInHeader, new HeaderElementTripInfoView(defaultS
 
 renderDOMElement(tripView, siteMenuComponent, RenderPosition.AFTEREND);
 
-const handleNewTripEventFormClose = () => {
-  siteMenuComponent.getElement().querySelector(`#${MenuItems.TABLE}]`).disabled = false;
-  siteMenuComponent.setMenuItem(MenuItems.TABLE);
+const handleAddNewTripEventClick = () => {
+  // Скрыть статистику
+  boardPresenter.destroy();
+  filterModel.setFilter(UpdateTypeForRerender.MAJOR, FilterType.EVERYTHING);
+  boardPresenter.init();
+  boardPresenter.createNewTripEvent(siteMenuComponent.handleNewTripEventFormClose);
 };
 
 const handleSiteMenuClick = (menuItemId) => {
   switch (menuItemId) {
-    case MenuItems.ADD_NEW_TRIP_EVENT:
-      // Скрыть статистику
-      boardPresenter.destroy();
-      filterModel.setFilter(UpdateTypeForRerender.MAJOR, FilterType.EVERYTHING);
-      boardPresenter.init();
-      boardPresenter.createNewTripEvent(handleNewTripEventFormClose);
-      siteMenuComponent.getElement(`#${MenuItems.TABLE}]`).disabled = true;
-      break;
     case MenuItems.TABLE:
-      // Показать доску
+      boardPresenter.init();
       // Скрыть статистику
       break;
     case MenuItems.STATISTICS:
-      // Скрыть доску
+      boardPresenter.destroy();
       // Показать статистику
       break;
   }
 };
 
 siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
+siteMenuComponent.setAddNewTripEventHandler(handleAddNewTripEventClick);
 
 filterPresenter.init();
 boardPresenter.init(tripEvents);
-
-document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, (evt) => {
-  evt.preventDefault();
-  boardPresenter.createNewTripEvent();
-});
