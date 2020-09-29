@@ -1,19 +1,149 @@
+import Chart from "chart.js";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import SmartView from "./smart.js";
 import {getCurrentDate} from "../utils/trip-event-utils.js";
 
 const DAYS_TO_FULLWEEK = 6;
 
-const renderColorsChart = (colorsCtx, tasks) => {
-  // Функция для отрисовки графика по цветам
+const renderMoneySpentChart = (moneyContext, tripEvents) => {
+  return new Chart(moneyContext, {
+    plugins: [ChartDataLabels],
+    type: `horizontalBar`,
+    data: {
+      labels: [`✈️ FLY`, `???? STAY`, `???? DRIVE`, `????️ LOOK`, `???? EAT`, `???? RIDE`],
+      datasets: [{
+        data: [400, 300, 200, 160, 150, 100],
+        backgroundColor: `#ffffff`,
+        hoverBackgroundColor: `#ffffff`,
+        anchor: `start`
+      }]
+    },
+    options: {
+      plugins: {
+        datalabels: {
+          font: {
+            size: 13
+          },
+          color: `#000000`,
+          anchor: `end`,
+          align: `start`,
+          formatter: (val) => `€ ${val}`
+        }
+      },
+      title: {
+        display: true,
+        text: `MONEY`,
+        fontColor: `#000000`,
+        fontSize: 23,
+        position: `left`
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            fontColor: `#000000`,
+            padding: 5,
+            fontSize: 13,
+          },
+          gridLines: {
+            display: false,
+            drawBorder: false
+          },
+          barThickness: 44,
+        }],
+        xAxes: [{
+          ticks: {
+            display: false,
+            beginAtZero: true,
+          },
+          gridLines: {
+            display: false,
+            drawBorder: false
+          },
+          minBarLength: 50
+        }],
+      },
+      legend: {
+        display: false
+      },
+      tooltips: {
+        enabled: false,
+      }
+    }
+  });
 };
 
-const renderDaysChart = (daysCtx, tasks, dateFrom, dateTo) => {
-  // Функция для отрисовки графика по датам
+const renderTransportChart = (transportContext, tripEvents) => {
+  return new Chart(transportContext, {
+    plugins: [ChartDataLabels],
+    type: `horizontalBar`,
+    data: {
+      labels: [`???? DRIVE`, `???? RIDE`, `✈️ FLY`, `????️ SAIL`],
+      datasets: [{
+        data: [4, 3, 2, 1],
+        backgroundColor: `#ffffff`,
+        hoverBackgroundColor: `#ffffff`,
+        anchor: `start`
+      }]
+    },
+    options: {
+      plugins: {
+        datalabels: {
+          font: {
+            size: 13
+          },
+          color: `#000000`,
+          anchor: `end`,
+          align: `start`,
+          formatter: (val) => `${val}x`
+        }
+      },
+      title: {
+        display: true,
+        text: `TRANSPORT`,
+        fontColor: `#000000`,
+        fontSize: 23,
+        position: `left`
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            fontColor: `#000000`,
+            padding: 5,
+            fontSize: 13,
+          },
+          gridLines: {
+            display: false,
+            drawBorder: false
+          },
+          barThickness: 44,
+        }],
+        xAxes: [{
+          ticks: {
+            display: false,
+            beginAtZero: true,
+          },
+          gridLines: {
+            display: false,
+            drawBorder: false
+          },
+          minBarLength: 50
+        }],
+      },
+      legend: {
+        display: false
+      },
+      tooltips: {
+        enabled: false,
+      }
+    }
+  });
 };
 
-const createStatisticsTemplate = () => {
-  const {tasks, dateFrom, dateTo} = data;
-  const completedTaskCount = countCompletedTaskInDateRange(tasks, dateFrom, dateTo);
+const renderTimeSpentChart = (timeSpentContext, tripEvents) => {
+};
+
+const createStatisticsTemplate = (data) => {
+  const {tripEvents} = data;
 
   return `<section class="statistics">
           <h2 class="visually-hidden">Trip statistics</h2>
@@ -46,10 +176,8 @@ export default class StatisticsView extends SmartView {
       dateTo: getCurrentDate()
     };
 
-    this._colorsCart = null;
-    this._daysChart = null;
-
-    this._dateChangeHandler = this._dateChangeHandler.bind(this);
+    this._moneyCart = null;
+    this._transportChart = null;
 
     this._setCharts();
   }
@@ -57,9 +185,9 @@ export default class StatisticsView extends SmartView {
   removeElement() {
     super.removeElement();
 
-    if (this._colorsCart !== null || this._daysChart !== null) {
-      this._colorsCart = null;
-      this._daysChart = null;
+    if (this._moneyCart !== null || this._transportChart !== null) {
+      this._moneyCart = null;
+      this._transportChart = null;
     }
   }
 
@@ -72,16 +200,25 @@ export default class StatisticsView extends SmartView {
   }
 
   _setCharts() {
-    if (this._colorsCart !== null || this._daysChart !== null) {
-      this._colorsCart = null;
-      this._daysChart = null;
+    if (this._moneyCart !== null || this._transportChart !== null) {
+      this._moneyCart = null;
+      this._transportChart = null;
     }
 
-    const {tasks, dateFrom, dateTo} = this._data;
-    const colorsCtx = this.getElement().querySelector(`.statistic__colors`);
-    const daysCtx = this.getElement().querySelector(`.statistic__days`);
+    const {tripEvents} = this._data;
 
-    this._colorsCart = renderColorsChart(colorsCtx, tasks);
-    this._daysChart = renderDaysChart(daysCtx, tasks, dateFrom, dateTo);
+    const BAR_HEIGHT = 55;
+
+    const moneyCtx = this.getElement(`.statistics__chart--money`);
+    const transportCtx = this.getElement(`.statistics__chart--transport`);
+    // const timeSpendCtx = this.getElement(`.statistics__chart--time-spend`);
+
+    moneyCtx.height = BAR_HEIGHT * 6;
+    transportCtx.height = BAR_HEIGHT * 4;
+    // timeSpendCtx.height = BAR_HEIGHT * 4;
+
+    this._moneyCart = renderMoneySpentChart(moneyCtx, tripEvents);
+    this._transportChart = renderTransportChart(transportCtx, tripEvents);
+    // this._timeSpentChart = renderTimeSpentChart(daysCtx, tasks, dateFrom, dateTo);
   }
 }

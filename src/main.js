@@ -90,4 +90,6 @@ siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
 siteMenuComponent.setAddNewTripEventHandler(handleAddNewTripEventClick);
 
 filterPresenter.init();
-boardPresenter.init(tripEvents);
+// boardPresenter.init(tripEvents);
+
+renderDOMElement(pageBodyContainer, new StatisticsView(tripEventModel.getTripEvents()), RenderPosition.BEFOREEND);
