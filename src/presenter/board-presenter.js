@@ -66,7 +66,7 @@ export default class BoardPresenter {
     renderDOMElement(this._boardContainer, this._boardComponent, RenderPosition.BEFOREEND);
 
     this._tripEventModel.addObserver(this._handleModelEvent);
-    this._tripEventModel.addObserver(this._handleModelEvent);
+    this._filterModel.addObserver(this._handleModelEvent);
 
     this._renderBoard();
   }
@@ -86,7 +86,7 @@ export default class BoardPresenter {
   }
 
   _getTripDays() {
-    const filterType = this._filterModel.getFilter();
+    const filterType = this._filterModel.getActiveFilter();
 
     const tripEvents = this._tripEventModel.getTripEvents();
     const filteredTripEvents = filterTripEvents[filterType](tripEvents);
@@ -226,12 +226,10 @@ export default class BoardPresenter {
         this._tripEventsPresenterCollector[data.id].init(data);
         break;
       case UpdateTypeForRerender.MINOR:
-        // - обновить список
         this._clearBoard();
         this._renderBoard();
         break;
       case UpdateTypeForRerender.MAJOR:
-        // - обновить всю доску
         // - TODO добавить header
         this._clearBoard({resetSortType: true});
         this._renderBoard();

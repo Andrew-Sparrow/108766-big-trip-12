@@ -170,3 +170,29 @@ export const MenuItems = {
   TABLE: `header-table-button`,
   STATISTICS: `header-stats-button`
 };
+
+const TripPointsTypes = {
+  TAXI: `taxi`,
+  BUS: `bus`,
+  TRAIN: `train`,
+  SHIP: `ship`,
+  TRANSPORT: `transport`,
+  DRIVE: `drive`,
+  FLIGHT: `flight`,
+  CHECK: `checkin`,
+  SIGHTSEEING: `sightseeing`,
+  RESTAURANT: `restaurant`
+};
+
+export const LabelStatistics = {
+  [TripPointsTypes.TAXI]: `🚕 TAXI`,
+  [TripPointsTypes.BUS]: `🚌 BUS`,
+  [TripPointsTypes.TRAIN]: `🚂 TRAIN`,
+  [TripPointsTypes.SHIP]: `🚢 SHIP`,
+  [TripPointsTypes.TRANSPORT]: `🚊 TRANSPORT`,
+  [TripPointsTypes.DRIVE]: `🚗 DRIVE`,
+  [TripPointsTypes.FLIGHT]: `✈️ FLY`,
+  [TripPointsTypes.CHECK]: `🏨 CHECK`,
+  [TripPointsTypes.SIGHTSEEING]: `🏛️ SIGHTSEEING`,
+  [TripPointsTypes.RESTAURANT]: `🍴 RESTAURANT`
+};

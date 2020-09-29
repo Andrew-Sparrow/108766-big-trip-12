@@ -13,7 +13,7 @@ export default class FilterModel extends ObserverUtils {
     this._notify(updateType, activeFilter);
   }
 
-  getFilter() {
+  getActiveFilter() {
     return this._activeFilter;
   }
 }

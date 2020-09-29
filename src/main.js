@@ -19,6 +19,7 @@ import {
 import {
   renderDOMElement,
   RenderPosition,
+  remove
 } from "./utils/render-utils.js";
 
 import HeaderElementTripInfoView from "./view/header-info.js";
@@ -44,7 +45,7 @@ generateOffersInRoutPoints();
 generateDescriptionsInCities();
 generatePhotosInCities();
 
-const tripEvents = new Array(3).fill().map(generateEvent);
+const tripEvents = new Array(4).fill().map(generateEvent);
 
 const tripEventModel = new TripEventPointsModel();
 tripEventModel.setTripEvents(tripEvents);
@@ -65,31 +66,35 @@ renderDOMElement(tripMainElementInHeader, new HeaderElementTripInfoView(defaultS
 
 renderDOMElement(tripView, siteMenuComponent, RenderPosition.AFTEREND);
 
-const handleAddNewTripEventClick = () => {
-  // Скрыть статистику
-  boardPresenter.destroy();
-  filterModel.setFilter(UpdateTypeForRerender.MAJOR, FilterType.EVERYTHING);
-  boardPresenter.init();
-  boardPresenter.createNewTripEvent(siteMenuComponent.handleNewTripEventFormClose);
-};
+let statisticsComponent = null;
 
-const handleSiteMenuClick = (menuItemId) => {
-  switch (menuItemId) {
-    case MenuItems.TABLE:
-      boardPresenter.init();
-      // Скрыть статистику
-      break;
-    case MenuItems.STATISTICS:
-      boardPresenter.destroy();
-      // Показать статистику
-      break;
-  }
-};
+// const handleAddNewTripEventClick = () => {
+//   if (statisticsComponent !== null) {
+//     remove(statisticsComponent);
+//   }
+//
+//   boardPresenter.destroy();
+//   filterModel.setFilter(UpdateTypeForRerender.MAJOR, FilterType.EVERYTHING);
+//   boardPresenter.createNewTripEvent(siteMenuComponent.handleNewTripEventFormClose);
+//   boardPresenter.init();
+// };
+//
+// const handleSiteMenuClick = (menuItemId) => {
+//   switch (menuItemId) {
+//     case MenuItems.TABLE:
+//       boardPresenter.init();
+//       remove(statisticsComponent);
+//       break;
+//     case MenuItems.STATISTICS:
+//       boardPresenter.destroy();
+//       statisticsComponent = new StatisticsView(tripEventModel.getTripEvents());
+//       renderDOMElement(pageBodyContainer, statisticsComponent, RenderPosition.BEFOREEND);
+//       break;
+//   }
+// };
 
-siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
-siteMenuComponent.setAddNewTripEventHandler(handleAddNewTripEventClick);
+// siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
+// siteMenuComponent.setAddNewTripEventHandler(handleAddNewTripEventClick);
 
 filterPresenter.init();
-// boardPresenter.init(tripEvents);
-
-renderDOMElement(pageBodyContainer, new StatisticsView(tripEventModel.getTripEvents()), RenderPosition.BEFOREEND);
+boardPresenter.init();

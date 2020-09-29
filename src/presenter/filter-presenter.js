@@ -30,7 +30,7 @@ export default class FilterPresenter {
   }
 
   init() {
-    this._currentFilter = this._filterModel.getFilter();
+    this._currentFilter = this._filterModel.getActiveFilter();
 
     const filters = this._getFilters();
     const prevFilterComponent = this._filterComponent;
