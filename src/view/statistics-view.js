@@ -5,7 +5,7 @@ import {getCurrentDate} from "../utils/trip-event-utils.js";
 
 const DAYS_TO_FULLWEEK = 6;
 
-const renderMoneySpentChart = (moneyContext, tripEvents) => {
+const renderMoneySpentChart = (moneyContext) => {
   return new Chart(moneyContext, {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,
@@ -72,7 +72,7 @@ const renderMoneySpentChart = (moneyContext, tripEvents) => {
   });
 };
 
-const renderTransportChart = (transportContext, tripEvents) => {
+const renderTransportChart = (transportContext) => {
   return new Chart(transportContext, {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,
@@ -139,11 +139,8 @@ const renderTransportChart = (transportContext, tripEvents) => {
   });
 };
 
-const renderTimeSpentChart = (timeSpentContext, tripEvents) => {
-};
-
 const createStatisticsTemplate = (data) => {
-  const {tripEvents} = data;
+  const {} = data;
 
   return `<section class="statistics">
           <h2 class="visually-hidden">Trip statistics</h2>
