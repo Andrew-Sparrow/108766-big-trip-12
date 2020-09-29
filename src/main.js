@@ -30,6 +30,7 @@ import FilterPresenter from "./presenter/filter-presenter.js";
 
 import TripEventPointsModel from "./model/trip-event-points-model.js";
 import FilterModel from "./model/trip-event-filter-model.js";
+import StatisticsView from "./view/statistics-view.js";
 
 const headerElement = document.querySelector(`.page-header`);
 const tripMainElementInHeader = headerElement.querySelector(`.trip-main`);
