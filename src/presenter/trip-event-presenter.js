@@ -6,7 +6,7 @@ import {
   RenderPosition,
   replace,
   remove
-} from "../utils/render.js";
+} from "../utils/render-utils.js";
 
 import {
   UpdateTypeForRerender,

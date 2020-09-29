@@ -8,7 +8,7 @@ import {
   getRandomAmountOfItems,
   getRandomInteger,
   getRandomBoolean
-} from "../utils/common.js";
+} from "../utils/common-utils.js";
 
 import {
   getRandomCities,

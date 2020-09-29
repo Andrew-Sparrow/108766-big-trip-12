@@ -4,7 +4,7 @@ import {
   RenderPosition,
   replace,
   remove, renderDOMElement,
-} from "../utils/render.js";
+} from "../utils/render-utils.js";
 
 import {filterTripEvents} from "../utils/utils.js";
 

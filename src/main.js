@@ -14,12 +14,12 @@ import {
 import {
   defaultSortEventsByGroupDays,
   defaultSortEventsItems
-} from "./utils/trip-event.js";
+} from "./utils/trip-event-utils.js";
 
 import {
   renderDOMElement,
   RenderPosition,
-} from "./utils/render.js";
+} from "./utils/render-utils.js";
 
 import HeaderElementTripInfoView from "./view/header-info.js";
 import HeaderElementTripTabsView from "./view/header-trip-tabs.js";

@@ -11,13 +11,13 @@ import {
   sortPriceDown,
   sortDateDown,
   defaultSortEventsByGroupDays,
-} from "../utils/trip-event.js";
+} from "../utils/trip-event-utils.js";
 
 import {
   renderDOMElement,
   RenderPosition,
   remove
-} from "../utils/render.js";
+} from "../utils/render-utils.js";
 
 import {
   SortType,

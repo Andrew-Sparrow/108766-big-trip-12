@@ -2,9 +2,9 @@ import AbstractView from "./abstract.js";
 
 import {
   calculateTotalPrice,
-} from "../utils/trip-event.js";
+} from "../utils/trip-event-utils.js";
 
-import {getDateStringForHeader} from "../utils/trip-event.js";
+import {getDateStringForHeader} from "../utils/trip-event-utils.js";
 
 const FIRST_CITY = 0;
 const SECOND_CITY = 1;

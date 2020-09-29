@@ -5,7 +5,7 @@ import {
   remove,
   renderDOMElement,
   RenderPosition
-} from "../utils/render.js";
+} from "../utils/render-utils.js";
 
 import {
   UserActionForModel,

@@ -8,7 +8,7 @@ import {
   remove,
   renderDOMElement,
   RenderPosition
-} from "../utils/render.js";
+} from "../utils/render-utils.js";
 
 export default class TripDayPresenter {
   constructor(containerForRendering, changeData, addToCollection, changeMode) {

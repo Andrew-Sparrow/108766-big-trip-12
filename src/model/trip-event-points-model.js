@@ -1,6 +1,6 @@
-import Observer from "../utils/observer.js";
+import ObserverUtils from "../utils/observer-utils.js";
 
-export default class TripEventPointsModel extends Observer {
+export default class TripEventPointsModel extends ObserverUtils {
   constructor() {
     super();
     this._tripEvents = [];

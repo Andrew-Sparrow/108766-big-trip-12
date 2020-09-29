@@ -1,9 +1,19 @@
 import SmartView from "./smart.js";
-import {getCurrentDate} from "../utils/trip-event.js";
+import {getCurrentDate} from "../utils/trip-event-utils.js";
 
 const DAYS_TO_FULLWEEK = 6;
 
+const renderColorsChart = (colorsCtx, tasks) => {
+  // Функция для отрисовки графика по цветам
+};
+
+const renderDaysChart = (daysCtx, tasks, dateFrom, dateTo) => {
+  // Функция для отрисовки графика по датам
+};
+
 const createStatisticsTemplate = () => {
+  const {tasks, dateFrom, dateTo} = data;
+  const completedTaskCount = countCompletedTaskInDateRange(tasks, dateFrom, dateTo);
 
   return `<section class="statistics">
           <h2 class="visually-hidden">Trip statistics</h2>
@@ -62,6 +72,16 @@ export default class StatisticsView extends SmartView {
   }
 
   _setCharts() {
+    if (this._colorsCart !== null || this._daysChart !== null) {
+      this._colorsCart = null;
+      this._daysChart = null;
+    }
 
+    const {tasks, dateFrom, dateTo} = this._data;
+    const colorsCtx = this.getElement().querySelector(`.statistic__colors`);
+    const daysCtx = this.getElement().querySelector(`.statistic__days`);
+
+    this._colorsCart = renderColorsChart(colorsCtx, tasks);
+    this._daysChart = renderDaysChart(daysCtx, tasks, dateFrom, dateTo);
   }
 }

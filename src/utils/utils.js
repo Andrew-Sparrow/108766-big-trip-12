@@ -9,14 +9,14 @@ import {
   getRandomInteger,
   getRandomIndexOfList,
   getRandomAmountOfItems,
-} from "./common.js";
+} from "./common-utils.js";
 
 import {FilterType} from "../const.js";
 
 import {
   isTripEventPassed,
   isTripEventFuture
-} from "./trip-event.js";
+} from "./trip-event-utils.js";
 
 export const getRandomDescriptions = () => {
   const sumStrings = [];
