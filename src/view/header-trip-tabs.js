@@ -13,7 +13,7 @@ export default class HeaderElementTripTabsView extends AbstractView {
     super();
 
     this._menuClickHandler = this._menuClickHandler.bind(this);
-    this._addNewTrpEventClickHandler = this._addNewTrpEventClickHandler.bind(this);
+    this._addNewTripEventClickHandler = this._addNewTripEventClickHandler.bind(this);
     this.handleNewTripEventFormClose = this.handleNewTripEventFormClose.bind(this);
   }
 
@@ -27,7 +27,7 @@ export default class HeaderElementTripTabsView extends AbstractView {
     this.setMenuItem(MenuItems.TABLE);
   }
 
-  _addNewTrpEventClickHandler(evt) {
+  _addNewTripEventClickHandler(evt) {
     evt.preventDefault();
     this.getElement(`#${MenuItems.TABLE}`).disabled = true;
     document.querySelector(`.trip-main__event-add-btn`).disabled = true;
@@ -36,7 +36,7 @@ export default class HeaderElementTripTabsView extends AbstractView {
 
   setAddNewTripEventHandler(callback) {
     this._callback.newTripEventClick = callback;
-    document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, this._addNewTrpEventClickHandler);
+    document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, this._addNewTripEventClickHandler);
   }
 
   setMenuClickHandler(callback) {

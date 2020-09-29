@@ -68,33 +68,35 @@ renderDOMElement(tripView, siteMenuComponent, RenderPosition.AFTEREND);
 
 let statisticsComponent = null;
 
-// const handleAddNewTripEventClick = () => {
-//   if (statisticsComponent !== null) {
-//     remove(statisticsComponent);
-//   }
-//
-//   boardPresenter.destroy();
-//   filterModel.setFilter(UpdateTypeForRerender.MAJOR, FilterType.EVERYTHING);
-//   boardPresenter.createNewTripEvent(siteMenuComponent.handleNewTripEventFormClose);
-//   boardPresenter.init();
-// };
-//
-// const handleSiteMenuClick = (menuItemId) => {
-//   switch (menuItemId) {
-//     case MenuItems.TABLE:
-//       boardPresenter.init();
-//       remove(statisticsComponent);
-//       break;
-//     case MenuItems.STATISTICS:
-//       boardPresenter.destroy();
-//       statisticsComponent = new StatisticsView(tripEventModel.getTripEvents());
-//       renderDOMElement(pageBodyContainer, statisticsComponent, RenderPosition.BEFOREEND);
-//       break;
-//   }
-// };
+const handleAddNewTripEventClick = () => {
+  if (statisticsComponent !== null) {
+    remove(statisticsComponent);
+  }
+  // boardPresenter.destroy();
+  filterModel.setFilter(UpdateTypeForRerender.MAJOR, FilterType.EVERYTHING);
+  boardPresenter.createNewTripEvent(siteMenuComponent.handleNewTripEventFormClose);
+  boardPresenter.init();
+};
 
-// siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
-// siteMenuComponent.setAddNewTripEventHandler(handleAddNewTripEventClick);
+const handleSiteMenuClick = (menuItemId) => {
+  switch (menuItemId) {
+    case MenuItems.TABLE:
+      boardPresenter.init();
+      remove(statisticsComponent);
+      break;
+    case MenuItems.STATISTICS:
+      if (statisticsComponent !== null) {
+        remove(statisticsComponent);
+      }
+      boardPresenter.destroy();
+      statisticsComponent = new StatisticsView(tripEventModel.getTripEvents());
+      renderDOMElement(pageBodyContainer, statisticsComponent, RenderPosition.BEFOREEND);
+      break;
+  }
+};
+
+siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
+siteMenuComponent.setAddNewTripEventHandler(handleAddNewTripEventClick);
 
 filterPresenter.init();
 boardPresenter.init();

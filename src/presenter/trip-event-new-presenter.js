@@ -42,7 +42,6 @@ export default class TripEventNewPresenter {
     renderDOMElement(this._tripEventListContainer, this._tripEventEditComponent, RenderPosition.AFTERBEGIN);
 
     document.addEventListener(`keydown`, this._escKeyDownHandler);
-    // document.querySelector(`.trip-main__event-add-btn`).disabled = true;
   }
 
   destroy() {

@@ -73,7 +73,6 @@ export default class BoardPresenter {
 
   destroy() {
     this._clearBoard({resetSortType: true});
-
     remove(this._tripDaysListComponent);
     remove(this._boardComponent);
 
@@ -155,14 +154,6 @@ export default class BoardPresenter {
         tripDayPresenter.destroy();
       });
     this._tripDaysPresenterCollector = {};
-  }
-
-  _renderHeader() {
-
-  }
-
-  _clearHeader() {
-
   }
 
   _clearBoard({resetSortType = false} = {}) {
