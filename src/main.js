@@ -72,6 +72,7 @@ const handleAddNewTripEventClick = () => {
   if (statisticsComponent !== null) {
     remove(statisticsComponent);
   }
+  filterModel.setFilter(UpdateTypeForRerender.MAJOR, FilterType.EVERYTHING);
   boardPresenter.destroy();
   boardPresenter.createNewTripEvent(siteMenuComponent.handleNewTripEventFormClose);
   boardPresenter.init();
