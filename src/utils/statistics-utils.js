@@ -2,9 +2,7 @@ import moment from "moment";
 import {LabelsStatistics} from "../const.js";
 
 import {
-  getFormattedDate,
   getTimeDuration,
-  getTimeDurationInHours
 } from "./trip-event-utils.js";
 
 export const getTypesForLabels = (types) => {

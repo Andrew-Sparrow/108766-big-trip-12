@@ -1,13 +1,15 @@
-import moment from "moment";
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import SmartView from "./smart.js";
+
 import {
   calculateMoneyForTypes,
   getTypesForLabels,
   getAmountTransferTimes,
   getDurationForTypes
 } from "../utils/statistics-utils.js";
+
+const BAR_HEIGHT = 55;
 
 const renderMoneySpentChart = (moneyContext, tripEvents) => {
   const matchingTripEventsTypesToMoney = calculateMoneyForTypes(tripEvents);
@@ -231,9 +233,7 @@ const renderTimeSpentChart = (transportContext, tripEvents) => {
   });
 };
 
-const createStatisticsTemplate = (data) => {
-  const {} = data;
-
+const createStatisticsTemplate = () => {
   return `<section class="statistics">
           <h2 class="visually-hidden">Trip statistics</h2>
 
@@ -292,8 +292,6 @@ export default class StatisticsView extends SmartView {
     }
 
     const {tripEvents} = this._data;
-
-    const BAR_HEIGHT = 55;
 
     const moneyCtx = this.getElement(`.statistics__chart--money`);
     const transportCtx = this.getElement(`.statistics__chart--transport`);
