@@ -50,7 +50,7 @@ export default class TripEventNewPresenter {
     }
 
     if (this._destroyingCallback !== null) {
-      this._destroyingCallback();
+      this._destroyingCallback(document.querySelector(`.trip-main__event-add-btn`));
     }
 
     remove(this._tripEventEditComponent);

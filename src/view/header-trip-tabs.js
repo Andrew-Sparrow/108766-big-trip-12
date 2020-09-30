@@ -21,9 +21,9 @@ export default class HeaderElementTripTabsView extends AbstractView {
     return createHeaderElementTripTabsTemplate();
   }
 
-  handleNewTripEventFormClose() {
+  handleNewTripEventFormClose(elementDOM) {
     this.getElement(`#${MenuItems.TABLE}`).disabled = false;
-    document.querySelector(`.trip-main__event-add-btn`).disabled = false;
+    elementDOM.disabled = false;
     this.setMenuItem(MenuItems.TABLE);
   }
 
