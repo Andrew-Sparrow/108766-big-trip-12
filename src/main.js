@@ -47,6 +47,8 @@ generatePhotosInCities();
 
 const tripEvents = new Array(4).fill().map(generateEvent);
 
+console.log(tripEvents);
+
 const tripEventModel = new TripEventPointsModel();
 tripEventModel.setTripEvents(tripEvents);
 
@@ -100,3 +102,6 @@ siteMenuComponent.setAddNewTripEventHandler(handleAddNewTripEventClick);
 
 filterPresenter.init();
 boardPresenter.init();
+
+// statisticsComponent = new StatisticsView(tripEventModel.getTripEvents());
+// renderDOMElement(pageBodyContainer, statisticsComponent, RenderPosition.BEFOREEND);

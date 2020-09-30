@@ -117,3 +117,11 @@ export const isTripEventFuture = (dateStartOfTripEvent) => {
 
   return moment(currentDate).isBefore(dateStartOfTripEvent, `day`);
 };
+
+export const getUniqueTypesOfTripEvents = (tripEvents) => {
+  const transferTypes = tripEvents.reduce((collector, tripEvent) => {
+    collector.push(tripEvent.routPointType.type);
+    return collector;
+  }, []);
+  return [...new Set(transferTypes)];
+};

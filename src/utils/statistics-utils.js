@@ -1,21 +1,31 @@
-import moment from "moment";
+import {LabelsStatistics} from "../const.js";
 
-export const countCompletedTaskInDateRange = (tasks, dateFrom, dateTo) => {
-  return tasks.reduce((counter, task) => {
-    if (task.dueDate === null) {
-      return counter;
-    }
+export const getTypesForLabels = (types) => {
+  let result = [];
+  types.forEach((item) => result.push(LabelsStatistics[item]));
+  return result;
+};
 
-    // С помощью moment.js проверям, сколько задач с дедлайном
-    // попадают в диапазон дат
-    if (
-      moment(task.dueDate).isSame(dateFrom) ||
-      moment(task.dueDate).isBetween(dateFrom, dateTo) ||
-      moment(task.dueDate).isSame(dateTo)
-    ) {
-      return counter + 1;
-    }
+export const calculateMoneyForTypes = (tripEvents) => {
+  const mapOfMoney = new Map();
 
-    return counter;
-  }, 0);
+  tripEvents.forEach(
+      (tripEvent) => {
+        return mapOfMoney.get(tripEvent.routPointType.type) === undefined ?
+          mapOfMoney.set(tripEvent.routPointType.type, tripEvent.price) :
+          mapOfMoney.set(tripEvent.routPointType.type, mapOfMoney.get(tripEvent.routPointType.type) + tripEvent.price);
+      }
+  );
+
+  const entriesTypesToMoney = Object.fromEntries(mapOfMoney);
+  const typesOfTripEvents = Object.keys(entriesTypesToMoney);
+  const totalSumsForEachTripEvents = Object.values(entriesTypesToMoney);
+
+  const matchingTypeToTotalSum = {
+    typesOfTripEvents,
+    totalSumsForEachTripEvents
+  };
+  console.log(matchingTypeToTotalSum);
+
+  return matchingTypeToTotalSum;
 };

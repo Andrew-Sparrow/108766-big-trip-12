@@ -28,6 +28,7 @@ export const generateEvent = () => {
   const dateEnd = new Date();
   const routPointTypeOfEvent = Object.assign({}, ROUTE_POINT_TYPES[routPointTypeGroupName][routPointTypeKey]);
   routPointTypeOfEvent.offers = getRandomAmountOfItems(routPointTypeOfEvent.offers);
+  routPointTypeOfEvent.type = routPointTypeKey;
 
   const travelEvent = {
     id: generateId(),

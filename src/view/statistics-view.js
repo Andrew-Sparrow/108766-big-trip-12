@@ -1,18 +1,21 @@
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import SmartView from "./smart.js";
-import {getCurrentDate} from "../utils/trip-event-utils.js";
+import {calculateMoneyForTypes} from "../utils/statistics-utils.js";
 
-const DAYS_TO_FULLWEEK = 6;
+const renderMoneySpentChart = (moneyContext, tripEvents) => {
+  const matchingTripEventsTypesToMoney = calculateMoneyForTypes(tripEvents);
 
-const renderMoneySpentChart = (moneyContext) => {
+  const uniqueTripEventsTypes = matchingTripEventsTypesToMoney.typesOfTripEvents;
+  const amountOfMoneyForEachTypeOfTrip = matchingTripEventsTypesToMoney.totalSumsForEachTripEvents;
+
   return new Chart(moneyContext, {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,
     data: {
-      labels: [`✈️ FLY`, `???? STAY`, `???? DRIVE`, `????️ LOOK`, `???? EAT`, `???? RIDE`],
+      labels: uniqueTripEventsTypes,
       datasets: [{
-        data: [400, 300, 200, 160, 150, 100],
+        data: amountOfMoneyForEachTypeOfTrip,
         backgroundColor: `#ffffff`,
         hoverBackgroundColor: `#ffffff`,
         anchor: `start`
@@ -165,12 +168,6 @@ export default class StatisticsView extends SmartView {
 
     this._data = {
       tripEvents,
-      dateFrom: (() => {
-        const date = getCurrentDate();
-        date.setDate(date.getDate() - DAYS_TO_FULLWEEK);
-        return date;
-      })(),
-      dateTo: getCurrentDate()
     };
 
     this._moneyCart = null;

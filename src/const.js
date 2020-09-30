@@ -184,7 +184,7 @@ const TripPointsTypes = {
   RESTAURANT: `restaurant`
 };
 
-export const LabelStatistics = {
+export const LabelsStatistics = {
   [TripPointsTypes.TAXI]: `🚕 TAXI`,
   [TripPointsTypes.BUS]: `🚌 BUS`,
   [TripPointsTypes.TRAIN]: `🚂 TRAIN`,
