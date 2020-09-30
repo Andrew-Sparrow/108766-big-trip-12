@@ -1,19 +1,23 @@
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import SmartView from "./smart.js";
-import {calculateMoneyForTypes} from "../utils/statistics-utils.js";
+import {
+  calculateMoneyForTypes,
+  getTypesForLabels
+} from "../utils/statistics-utils.js";
 
 const renderMoneySpentChart = (moneyContext, tripEvents) => {
   const matchingTripEventsTypesToMoney = calculateMoneyForTypes(tripEvents);
 
   const uniqueTripEventsTypes = matchingTripEventsTypesToMoney.typesOfTripEvents;
+  const uniqueTypesWithIcons = getTypesForLabels(uniqueTripEventsTypes);
   const amountOfMoneyForEachTypeOfTrip = matchingTripEventsTypesToMoney.totalSumsForEachTripEvents;
 
   return new Chart(moneyContext, {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,
     data: {
-      labels: uniqueTripEventsTypes,
+      labels: uniqueTypesWithIcons,
       datasets: [{
         data: amountOfMoneyForEachTypeOfTrip,
         backgroundColor: `#ffffff`,

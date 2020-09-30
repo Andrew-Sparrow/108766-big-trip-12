@@ -1,9 +1,9 @@
 import {LabelsStatistics} from "../const.js";
 
 export const getTypesForLabels = (types) => {
-  let result = [];
-  types.forEach((item) => result.push(LabelsStatistics[item]));
-  return result;
+  let typesWithIcons = [];
+  types.forEach((item) => typesWithIcons.push(LabelsStatistics[item]));
+  return typesWithIcons;
 };
 
 export const calculateMoneyForTypes = (tripEvents) => {
@@ -25,7 +25,6 @@ export const calculateMoneyForTypes = (tripEvents) => {
     typesOfTripEvents,
     totalSumsForEachTripEvents
   };
-  console.log(matchingTypeToTotalSum);
 
   return matchingTypeToTotalSum;
 };
