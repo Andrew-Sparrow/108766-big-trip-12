@@ -44,7 +44,6 @@ export const calculateTotalPrice = (items) => {
   }, 0);
 };
 
-
 export const getDateStringForHeader = (tripEvents) => {
   const sortedListByEndDate = sortTravelEventsByDateEnd(tripEvents);
   const dateOfFirstEventInSortedList = sortedListByEndDate[FIRST_DAY][DESTINATIONS_IN_DAY][FIRST_DESTINATION_IN_DAY].dateEnd;
@@ -72,13 +71,27 @@ export const sortDateDown = (eventA, eventB) => {
   return differenceTimeA - differenceTimeB;
 };
 
-export const getFormattedDate = (dateStart, dateEnd) => {
-
+export const getTimeDuration = (dateStart, dateEnd) => {
   const momentStart = moment(dateStart).clone().second(0).millisecond(0);
   const momentEnd = moment(dateEnd).clone().second(0).millisecond(0);
   const momentDuration = moment.duration(momentEnd.diff(momentStart));
 
-  return momentDuration.format(`dd[D] hh[H] mm[M]`);
+  return momentDuration;
+};
+
+export const getTimeDurationInHours = (dateStart, dateEnd) => {
+
+  const momentStart = moment(dateStart).clone().second(0).millisecond(0);
+  const momentEnd = moment(dateEnd).clone().second(0).millisecond(0);
+
+  const momentDuration = momentEnd.diff(momentStart, `hours`);
+
+  return momentDuration;
+};
+
+export const getFormattedDate = (dateStart, dateEnd) => {
+
+  return getTimeDuration(dateStart, dateEnd).format(`dd[D] hh[H] mm[M]`);
 };
 
 export const updateTripEventRoutPointTypeName = (routPointTypeName) => {

@@ -1,9 +1,12 @@
+import moment from "moment";
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import SmartView from "./smart.js";
 import {
   calculateMoneyForTypes,
-  getTypesForLabels
+  getTypesForLabels,
+  getAmountTransferTimes,
+  getDurationForTypes
 } from "../utils/statistics-utils.js";
 
 const renderMoneySpentChart = (moneyContext, tripEvents) => {
@@ -11,6 +14,7 @@ const renderMoneySpentChart = (moneyContext, tripEvents) => {
 
   const uniqueTripEventsTypes = matchingTripEventsTypesToMoney.typesOfTripEvents;
   const uniqueTypesWithIcons = getTypesForLabels(uniqueTripEventsTypes);
+
   const amountOfMoneyForEachTypeOfTrip = matchingTripEventsTypesToMoney.totalSumsForEachTripEvents;
 
   return new Chart(moneyContext, {
@@ -79,14 +83,21 @@ const renderMoneySpentChart = (moneyContext, tripEvents) => {
   });
 };
 
-const renderTransportChart = (transportContext) => {
+const renderTransportChart = (transportContext, tripEvents) => {
+  const matchingTypesToTimes = getAmountTransferTimes(tripEvents);
+
+  const uniqueTypes = matchingTypesToTimes.typesOfTransfer;
+  const uniqueTypesWithIcons = getTypesForLabels(uniqueTypes);
+
+  const timesOfTypes = matchingTypesToTimes.timesOfTransfer;
+
   return new Chart(transportContext, {
     plugins: [ChartDataLabels],
     type: `horizontalBar`,
     data: {
-      labels: [`???? DRIVE`, `???? RIDE`, `✈️ FLY`, `????️ SAIL`],
+      labels: uniqueTypesWithIcons,
       datasets: [{
-        data: [4, 3, 2, 1],
+        data: timesOfTypes,
         backgroundColor: `#ffffff`,
         hoverBackgroundColor: `#ffffff`,
         anchor: `start`
@@ -107,6 +118,80 @@ const renderTransportChart = (transportContext) => {
       title: {
         display: true,
         text: `TRANSPORT`,
+        fontColor: `#000000`,
+        fontSize: 23,
+        position: `left`
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            fontColor: `#000000`,
+            padding: 5,
+            fontSize: 13,
+          },
+          gridLines: {
+            display: false,
+            drawBorder: false
+          },
+          barThickness: 44,
+        }],
+        xAxes: [{
+          ticks: {
+            display: false,
+            beginAtZero: true,
+          },
+          gridLines: {
+            display: false,
+            drawBorder: false
+          },
+          minBarLength: 50
+        }],
+      },
+      legend: {
+        display: false
+      },
+      tooltips: {
+        enabled: false,
+      }
+    }
+  });
+};
+
+const renderTimeSpentChart = (transportContext, tripEvents) => {
+  const matchingTypesToDuration = getDurationForTypes(tripEvents);
+
+  const uniqueTypes = matchingTypesToDuration.typesOfTripEvents;
+  const uniqueTypesWithIcons = getTypesForLabels(uniqueTypes);
+
+  const durationOfTypes = matchingTypesToDuration.durationOfTypes;
+
+  return new Chart(transportContext, {
+    plugins: [ChartDataLabels],
+    type: `horizontalBar`,
+    data: {
+      labels: uniqueTypesWithIcons,
+      datasets: [{
+        data: durationOfTypes,
+        backgroundColor: `#ffffff`,
+        hoverBackgroundColor: `#ffffff`,
+        anchor: `start`
+      }]
+    },
+    options: {
+      plugins: {
+        datalabels: {
+          font: {
+            size: 13
+          },
+          color: `#000000`,
+          anchor: `end`,
+          align: `start`,
+          formatter: (val) => `${val}H`
+        }
+      },
+      title: {
+        display: true,
+        text: `TIME SPENT`,
         fontColor: `#000000`,
         fontSize: 23,
         position: `left`
@@ -174,8 +259,9 @@ export default class StatisticsView extends SmartView {
       tripEvents,
     };
 
-    this._moneyCart = null;
-    this._transportChart = null;
+    this._moneyChart = null;
+    this._transferChart = null;
+    this._timeSpentChart = null;
 
     this._setCharts();
   }
@@ -183,9 +269,10 @@ export default class StatisticsView extends SmartView {
   removeElement() {
     super.removeElement();
 
-    if (this._moneyCart !== null || this._transportChart !== null) {
-      this._moneyCart = null;
-      this._transportChart = null;
+    if (this._moneyChart !== null || this._transferChart !== null || this._timeSpentChart !== null) {
+      this._moneyChart = null;
+      this._transferChart = null;
+      this._timeSpentChart = null;
     }
   }
 
@@ -198,9 +285,10 @@ export default class StatisticsView extends SmartView {
   }
 
   _setCharts() {
-    if (this._moneyCart !== null || this._transportChart !== null) {
-      this._moneyCart = null;
-      this._transportChart = null;
+    if (this._moneyChart !== null || this._transferChart !== null || this._timeSpentChart !== null) {
+      this._moneyChart = null;
+      this._transferChart = null;
+      this._timeSpentChart = null;
     }
 
     const {tripEvents} = this._data;
@@ -209,14 +297,14 @@ export default class StatisticsView extends SmartView {
 
     const moneyCtx = this.getElement(`.statistics__chart--money`);
     const transportCtx = this.getElement(`.statistics__chart--transport`);
-    // const timeSpendCtx = this.getElement(`.statistics__chart--time-spend`);
+    const timeSpendCtx = this.getElement(`.statistics__chart--time`);
 
     moneyCtx.height = BAR_HEIGHT * 6;
     transportCtx.height = BAR_HEIGHT * 4;
-    // timeSpendCtx.height = BAR_HEIGHT * 4;
+    timeSpendCtx.height = BAR_HEIGHT * 4;
 
-    this._moneyCart = renderMoneySpentChart(moneyCtx, tripEvents);
-    this._transportChart = renderTransportChart(transportCtx, tripEvents);
-    // this._timeSpentChart = renderTimeSpentChart(daysCtx, tasks, dateFrom, dateTo);
+    this._moneyChart = renderMoneySpentChart(moneyCtx, tripEvents);
+    this._transferChart = renderTransportChart(transportCtx, tripEvents);
+    this._timeSpentChart = renderTimeSpentChart(timeSpendCtx, tripEvents);
   }
 }
