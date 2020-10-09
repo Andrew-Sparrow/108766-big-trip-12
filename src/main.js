@@ -5,6 +5,8 @@ import {
   groupArrayOfObjects,
 } from "./utils/utils.js";
 
+import Api from "./api.js";
+
 import {
   MenuItems,
   UpdateTypeForRerender,
@@ -25,7 +27,7 @@ import {
 import HeaderElementTripInfoView from "./view/header-info.js";
 import HeaderElementTripTabsView from "./view/header-trip-tabs.js";
 
-import {generateEvent} from "./mock/trip-event";
+import {generateEvent} from "./mock/trip-event-mock.js";
 import BoardPresenter from "./presenter/board-presenter.js";
 import FilterPresenter from "./presenter/filter-presenter.js";
 
@@ -41,11 +43,38 @@ const tripView = tripControls.querySelector(`.trip-view`);
 const pageMainElement = document.querySelector(`.page-main`);
 const pageBodyContainer = pageMainElement.querySelector(`.page-body__container`);
 
+const AUTHORIZATION = `Basic ja9sd09243ls9jkf7hw`;
+const END_POINT = `https://12.ecmascript.pages.academy/big-trip`;
+
 generateOffersInRoutPoints();
 generateDescriptionsInCities();
 generatePhotosInCities();
 
-const tripEvents = new Array(4).fill().map(generateEvent);
+const tripEvents = new Array(10).fill().map(generateEvent);
+console.log(tripEvents);
+
+const api = new Api(END_POINT, AUTHORIZATION);
+
+api.getTripEvents()
+  .then((tripEventsFromServer) => {
+    console.log(`--------------------------`);
+    console.log(`adapted TripEvents from server`);
+    console.log(tripEventsFromServer[0]);
+  });
+
+api.getTripEventsDestinations()
+  .then((tripEventsDestinationsFromServer) => {
+    console.log(`--------------------------`);
+    console.log(`Destinations`);
+    console.log(tripEventsDestinationsFromServer[0]);
+  });
+
+api.getTripEventsOffers()
+  .then((tripEventsOffersFromServer) => {
+    console.log(`-------------------------`);
+    console.log(`Offers`);
+    console.log(tripEventsOffersFromServer[0]);
+  });
 
 const tripEventModel = new TripEventPointsModel();
 tripEventModel.setTripEvents(tripEvents);

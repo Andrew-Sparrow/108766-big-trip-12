@@ -178,8 +178,9 @@ export const createEventOffersInEditFormTemplate = (offersFromRoutPointTypes, of
             </section>`);
 };
 
-const createEventPhotoTemplate = (photoSrc) => {
-  return (`<img class="event__photo" src="${photoSrc}" alt="Event photo">`);
+const createEventPhotoTemplate = (photo) => {
+  const {src, description} = photo;
+  return (`<img class="event__photo" src="${src}" alt="Event photo" aria-label="${description}">`);
 };
 
 export const getEventItemDestinationInEditFormTemplate = (travelEvent) => {
@@ -216,7 +217,7 @@ export const createTripEventItemEditTemplate = (data) => {
   } = data;
 
   let tripEventRoutPointTypeName = updateTripEventRoutPointTypeName(routPointType.name);
-  const offersFromRoutPointType = ROUTE_POINT_TYPES[routPointTypeGroupName][tripEventRoutPointTypeName].offers;
+  const offersFromRoutPointType = ROUTE_POINT_TYPES[routPointTypeGroupName][routPointType.type].offers;
   const offersFromTripEvent = routPointType.offers;
 
   return (`<form class="trip-events__item  event  event--edit" action="#" method="post">
@@ -475,13 +476,12 @@ export default class TripEventEdit extends SmartView {
       routPointType
     } = tripEvent;
 
-    const tripEventRoutPointTypeName = updateTripEventRoutPointTypeName(routPointType.name);
-
+    // const tripEventRoutPointTypeName = updateTripEventRoutPointTypeName(routPointType.name);
     return Object.assign(
         {},
         tripEvent,
         {
-          isOffersExist: ROUTE_POINT_TYPES[routPointTypeGroupName][tripEventRoutPointTypeName].offers.length !== 0,
+          isOffersExist: ROUTE_POINT_TYPES[routPointTypeGroupName][routPointType.type].offers.length !== 0,
           isDescriptionOfDestinationExist: !tripEvent.destination
         });
   }

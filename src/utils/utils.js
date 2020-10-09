@@ -32,7 +32,10 @@ export const getRandomPhotosSrc = () => {
   const photos = [];
 
   for (let i = 0; i < getRandomInteger(1, 5); i++) {
-    photos.push(`img/photos/${getRandomInteger(1, 5)}.jpg`);
+    const photo = {};
+    photo.src = `img/photos/${getRandomInteger(1, 5)}.jpg`;
+    photo.description = ``;
+    photos.push(photo);
   }
 
   return photos;
@@ -101,4 +104,8 @@ export const filterTripEvents = {
   [FilterType.EVERYTHING]: (tripEvents) => tripEvents,
   [FilterType.FUTURE]: (tripEvents) => tripEvents.filter((tripEvent) => isTripEventFuture(tripEvent.dateStart)),
   [FilterType.PAST]: (tripEvents) => tripEvents.filter((tripEvent) => isTripEventPassed(tripEvent.dateEnd))
+};
+
+export const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 };

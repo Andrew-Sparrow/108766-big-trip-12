@@ -1,5 +1,5 @@
 import TripEventEditView from "../view/trip-event-edit.js";
-import {generateEvent} from "../mock/trip-event.js";
+import {generateEvent} from "../mock/trip-event-mock.js";
 
 import {
   remove,

@@ -6,6 +6,8 @@ export const FIRST_DESTINATION_IN_DAY = 0;
 export const WITHOUT_DAY = `withoutDay`;
 export const WITHOUT_SELECTOR = `withoutSelector`;
 
+const checkIn = `check-in`;
+
 export const DESCRIPTIONS = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
   `Cras aliquet varius magna, non porta ligula feugiat eget.`,
@@ -109,7 +111,7 @@ export const ROUTE_POINT_TYPES = {
     }
   },
   activity: {
-    checkin: {
+    [checkIn]: {
       name: `Check-in`,
       offers: []
     },

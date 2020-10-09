@@ -1,3 +1,5 @@
+import TripEventPointsModel from "./model/trip-event-points-model.js";
+
 const Method = {
   GET: `GET`,
   PUT: `PUT`
@@ -16,7 +18,8 @@ export default class Api {
 
   getTripEvents() {
     return this._load({url: `points`})
-      .then(Api.toJSON);
+      .then(Api.toJSON)
+      .then((tripEvents) => tripEvents.map(TripEventPointsModel.adaptTripEventToClient));
   }
 
   updateTripEvent(tripEvent) {
@@ -40,9 +43,21 @@ export default class Api {
     return fetch(
         `${this._endPoint}/${url}`,
         {method, body, headers}
+
+
     )
       .then(Api.checkStatus)
       .catch(Api.catchError);
+  }
+
+  getTripEventsDestinations() {
+    return this._load({url: `destinations`})
+      .then(Api.toJSON);
+  }
+
+  getTripEventsOffers() {
+    return this._load({url: `offers`})
+      .then(Api.toJSON);
   }
 
   static checkStatus(response) {

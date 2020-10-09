@@ -138,3 +138,7 @@ export const getUniqueTypesOfTripEvents = (tripEvents) => {
   }, []);
   return [...new Set(transferTypes)];
 };
+
+export const getGroupOfTripEventType = (tripEventType) => {
+  return ;
+};
