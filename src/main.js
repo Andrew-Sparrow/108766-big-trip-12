@@ -50,8 +50,8 @@ generateOffersInRoutPoints();
 generateDescriptionsInCities();
 generatePhotosInCities();
 
-const tripEvents = new Array(10).fill().map(generateEvent);
-console.log(tripEvents);
+const tripEvents = new Array(3).fill().map(generateEvent);
+// console.log(tripEvents);
 
 const api = new Api(END_POINT, AUTHORIZATION);
 
@@ -60,24 +60,25 @@ tripEventModel.setTripEvents(tripEvents);
 
 api.getTripEvents()
   .then((tripEventsFromServer) => {
-    console.log(`--------------------------`);
-    console.log(`adapted TripEvents from server`);
-    console.log(tripEventsFromServer[0]);
+    // console.log(`--------------------------`);
+    // console.log(`adapted TripEvents from server`);
+    // console.log(tripEventsFromServer[0]);
   });
 
-api.getTripEventsDestinations()
-  .then((tripEventsDestinationsFromServer) => {
-    console.log(`--------------------------`);
-    console.log(`Destinations`);
-    console.log(tripEventsDestinationsFromServer[0]);
-  });
+// api.getTripEventsDestinations()
+//   .then((tripEventsDestinationsFromServer) => {
+//     console.log(`--------------------------`);
+//     console.log(`Destinations`);
+//     console.log(tripEventsDestinationsFromServer[0]);
+//   });
 
-api.getTripEventsOffers()
-  .then((tripEventsOffersFromServer) => {
-    console.log(`-------------------------`);
-    console.log(`Offers`);
-    console.log(tripEventsOffersFromServer[0]);
-  });
+// api.getTripEventsOffers()
+//   .then((tripEventsOffersFromServer) => {
+//     console.log(`-------------------------`);
+//     console.log(`Offers`);
+//     console.log(tripEventsOffersFromServer[0]);
+//   });
+
 
 const filterModel = new FilterModel();
 

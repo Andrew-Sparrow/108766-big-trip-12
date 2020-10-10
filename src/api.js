@@ -19,18 +19,18 @@ export default class Api {
   getTripEvents() {
     return this._load({url: `points`})
       .then(Api.toJSON)
-      .then((tripEvents) => tripEvents.map(TripEventPointsModel.adaptTripEventToClient));
+      .then((tripEvents) => tripEvents.map(TripEventPointsModel.adaptTripEventForClient));
   }
 
   updateTripEvent(tripEvent) {
     return this._load({
       url: `points/${tripEvent.id}`,
       method: Method.PUT,
-      body: JSON.stringify(TripEventPointsModel.adaptTripEventToServer(tripEvent)),
+      body: JSON.stringify(TripEventPointsModel.getAdaptedTripEventForServer(tripEvent)),
       headers: new Headers({"Content-Type": `application/json`})
     })
       .then(Api.toJSON())
-      .then(TripEventPointsModel.adaptTripEventToClient);
+      .then(TripEventPointsModel.adaptTripEventForClient);
   }
 
   _load({

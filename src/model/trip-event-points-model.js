@@ -59,7 +59,7 @@ export default class TripEventPointsModel extends ObserverUtils {
     this._notify(updateTypeForRerender);
   }
 
-  static adaptTripEventToClient(tripEventFromServer) {
+  static adaptTripEventForClient(tripEventFromServer) {
     const adaptedDestination = Object.assign(
         {},
         tripEventFromServer.destination,
@@ -115,7 +115,46 @@ export default class TripEventPointsModel extends ObserverUtils {
     return adaptedTripEvent;
   }
 
-  static adaptTripEventToServer(tripEventFromClient) {
+  static getAdaptedTripEventForServer(tripEventFromClient) {
+    const getAdaptedOffersForServer = (offersFromClient) => {
+      return offersFromClient.map((offerFromClient) => {
+        delete offerFromClient.id;
+        delete offerFromClient.name;
+        return offerFromClient;
+      });
+    };
 
+    const adaptedDestination = Object.assign(
+        {},
+        tripEventFromClient.destination,
+        {
+          name: tripEventFromClient.destination.city,
+          pictures: tripEventFromClient.destination.photos,
+        });
+
+    const adaptedTripEventForServer = Object.assign(
+        {},
+        tripEventFromClient,
+        {
+          "base_price": tripEventFromClient.price,
+          "date_from": tripEventFromClient.dateStart.toISOString(),
+          "date_to": tripEventFromClient.dateStart.toISOString(),
+          "is_favorite": tripEventFromClient.isFavorite,
+          "type": tripEventFromClient.routPointType.type,
+          "offers": getAdaptedOffersForServer(tripEventFromClient.routPointType.offers),
+          "destination": adaptedDestination,
+        }
+    );
+
+    delete adaptedTripEventForServer.price;
+    delete adaptedTripEventForServer.dateStart;
+    delete adaptedTripEventForServer.dateEnd;
+    delete adaptedTripEventForServer.isFavorite;
+    delete adaptedTripEventForServer.routPointType;
+    delete adaptedTripEventForServer.routPointTypeGroupName;
+    delete adaptedTripEventForServer.destination.city;
+    delete adaptedTripEventForServer.destination.photos;
+
+    return adaptedTripEventForServer;
   }
 }
