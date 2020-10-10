@@ -1,3 +1,5 @@
+import {generateId} from "./mock/trip-event-mock.js";
+
 export const EVENTS_OF_DAY = 1;
 export const FIRST_DAY = 0;
 export const DATE_OF_GROUP_EVENTS = 0;
@@ -28,51 +30,61 @@ export const SortType = {
 
 export const ADDITIONAL_OFFERS = [
   {
+    id: generateId(),
     name: `luggage`,
     title: `Add luggage`,
     price: 50,
   },
   {
+    id: generateId(),
     name: `coffee`,
     title: `Make coffee`,
     price: 10
   },
   {
+    id: generateId(),
     name: `uber`,
     title: `Order uber`,
     price: 20,
   },
   {
+    id: generateId(),
     name: `comfort`,
     title: `Switch to comfort class`,
     price: 100,
   },
   {
+    id: generateId(),
     name: `breakfast`,
     title: `Add breakfast`,
     price: 50,
   },
   {
+    id: generateId(),
     name: `tickets`,
     title: `Book tickets`,
     price: 40,
   },
   {
+    id: generateId(),
     name: `lunch`,
     title: `Lunch in city`,
     price: 30,
   },
   {
+    id: generateId(),
     name: `meal`,
     title: `Add meal`,
     price: 15
   },
   {
+    id: generateId(),
     name: `seats`,
     title: `Choose seats`,
     price: 5
   },
   {
+    id: generateId(),
     name: `car`,
     title: `Rent a car`,
     price: 200,
@@ -125,6 +137,16 @@ export const ROUTE_POINT_TYPES = {
     },
   }
 };
+
+export const groupOfTripEventsTransfer = [
+  `taxi`,
+  `bus`,
+  `train`,
+  `ship`,
+  `transport`,
+  `drive`,
+  `flight`,
+];
 
 export const CITIES = [
   {

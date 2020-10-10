@@ -26,10 +26,11 @@ export default class Api {
     return this._load({
       url: `points/${tripEvent.id}`,
       method: Method.PUT,
-      body: JSON.stringify(tripEvent),
+      body: JSON.stringify(TripEventPointsModel.adaptTripEventToServer(tripEvent)),
       headers: new Headers({"Content-Type": `application/json`})
     })
-      .then(Api.toJSON());
+      .then(Api.toJSON())
+      .then(TripEventPointsModel.adaptTripEventToClient);
   }
 
   _load({

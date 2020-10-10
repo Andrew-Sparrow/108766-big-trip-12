@@ -1,8 +1,8 @@
 import ObserverUtils from "../utils/observer-utils.js";
 
 import {capitalizeFirstLetter} from "../utils/utils.js";
-
 import {generateId} from "../mock/trip-event-mock.js";
+import {getGroupOfTripEventType} from "../utils/trip-event-utils.js";
 
 export default class TripEventPointsModel extends ObserverUtils {
   constructor() {
@@ -99,7 +99,7 @@ export default class TripEventPointsModel extends ObserverUtils {
           price: tripEventFromServer.base_price,
           isFavorite: tripEventFromServer.is_favorite,
           routPointType: adaptedRoutPointType,
-          routPointTypeGroupName: `activity`,
+          routPointTypeGroupName: getGroupOfTripEventType(tripEventFromServer.type),
         }
     );
 

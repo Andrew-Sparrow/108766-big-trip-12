@@ -1,6 +1,8 @@
 import moment from "moment";
 import "moment-duration-format";
 
+import {groupOfTripEventsTransfer} from "../const.js";
+
 import {
   FIRST_DAY,
   DATE_OF_GROUP_EVENTS,
@@ -140,5 +142,5 @@ export const getUniqueTypesOfTripEvents = (tripEvents) => {
 };
 
 export const getGroupOfTripEventType = (tripEventType) => {
-  return ;
+  return groupOfTripEventsTransfer.includes(tripEventType) ? `transfer` : `activity`;
 };

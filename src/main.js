@@ -55,6 +55,9 @@ console.log(tripEvents);
 
 const api = new Api(END_POINT, AUTHORIZATION);
 
+const tripEventModel = new TripEventPointsModel();
+tripEventModel.setTripEvents(tripEvents);
+
 api.getTripEvents()
   .then((tripEventsFromServer) => {
     console.log(`--------------------------`);
@@ -75,9 +78,6 @@ api.getTripEventsOffers()
     console.log(`Offers`);
     console.log(tripEventsOffersFromServer[0]);
   });
-
-const tripEventModel = new TripEventPointsModel();
-tripEventModel.setTripEvents(tripEvents);
 
 const filterModel = new FilterModel();
 

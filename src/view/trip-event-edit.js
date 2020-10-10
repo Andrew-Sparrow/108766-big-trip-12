@@ -141,17 +141,18 @@ export const getTripEventItemHeaderEditTemplate = (travelEvent) => {
 const createEventOffersItemInEditFormTemplate = (offerFromRoutPointTypes, offersFromTripEvent) => {
   const {
     title,
-    price
+    price,
+    id
   } = offerFromRoutPointTypes;
 
   return `<div class="event__offer-selector">
             <input
               class="event__offer-checkbox  visually-hidden"
-              id="event-offer-${offerFromRoutPointTypes.name}-1"
+              id="event-offer-${id}-1"
               type="checkbox"
-              name="event-offer-${offerFromRoutPointTypes.name}"
+              name="event-offer-${id}"
               ${offersFromTripEvent.includes(offerFromRoutPointTypes) ? ` checked` : ``}>
-            <label class="event__offer-label" for="event-offer-${offerFromRoutPointTypes.name}-1">
+            <label class="event__offer-label" for="event-offer-${id}-1">
               <span class="event__offer-title">${title}</span>
               +
               €&nbsp;<span class="event__offer-price">${price}</span>
@@ -216,7 +217,6 @@ export const createTripEventItemEditTemplate = (data) => {
     isDescriptionOfDestinationExist
   } = data;
 
-  let tripEventRoutPointTypeName = updateTripEventRoutPointTypeName(routPointType.name);
   const offersFromRoutPointType = ROUTE_POINT_TYPES[routPointTypeGroupName][routPointType.type].offers;
   const offersFromTripEvent = routPointType.offers;
 
@@ -476,7 +476,6 @@ export default class TripEventEdit extends SmartView {
       routPointType
     } = tripEvent;
 
-    // const tripEventRoutPointTypeName = updateTripEventRoutPointTypeName(routPointType.name);
     return Object.assign(
         {},
         tripEvent,
