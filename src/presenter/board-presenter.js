@@ -4,6 +4,7 @@ import TripDaysListView from "../view/trip-days-list.js";
 import NoTripEvents from "../view/no-trip-events.js";
 import TripDayPresenter from "./trip-day-presenter.js";
 import TripEventNewPresenter from "./trip-event-new-presenter.js";
+import LoadingView from "../view/loading.js";
 
 import {filterTripEvents} from "../utils/utils.js";
 
@@ -39,9 +40,11 @@ export default class BoardPresenter {
     this._sortComponent = new SortTripView();
     this._tripDaysListComponent = new TripDaysListView();
     this._noTripEventComponent = new NoTripEvents();
+    this._loadingComponent = new LoadingView();
 
     this._tripDaysPresenterCollector = {};
     this._tripEventsPresenterCollector = {};
+    this._isLoading = true;
 
     this._currentSortType = SortType.DEFAULT;
 
@@ -121,6 +124,10 @@ export default class BoardPresenter {
     renderDOMElement(this._boardComponent, this._sortComponent, RenderPosition.BEFOREEND);
   }
 
+  _renderLoading() {
+    renderDOMElement(this._boardComponent, this._loadingComponent, RenderPosition.BEFOREEND);
+  }
+
   // Renders days in board of day.
   _renderDaysList() {
     if (this._getTripDays().length === 0) {
@@ -163,6 +170,7 @@ export default class BoardPresenter {
 
     remove(this._sortComponent);
     remove(this._noTripEventComponent);
+    remove(this._loadingComponent);
 
     if (resetSortType) {
       this._currentSortType = SortType.DEFAULT;
@@ -187,6 +195,11 @@ export default class BoardPresenter {
 
   // groupDaysEvents
   _renderBoard() {
+    if (this._isLoading) {
+      this._renderLoading();
+      return;
+    }
+
     this._renderSortBlock();
     this._renderDaysList();
   }
@@ -223,6 +236,11 @@ export default class BoardPresenter {
       case UpdateTypeForRerender.MAJOR:
         // - TODO добавить header
         this._clearBoard({resetSortType: true});
+        this._renderBoard();
+        break;
+      case UpdateTypeForRerender.INIT:
+        this._isLoading = false;
+        remove(this._loadingComponent);
         this._renderBoard();
         break;
     }

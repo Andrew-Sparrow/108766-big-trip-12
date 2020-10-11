@@ -401,8 +401,8 @@ main {
   font-size: 44px;
   line-height: 60px;
   text-align: center;
-  color: #ffffff;
-  opacity: 0.89; }
+  color: #000000;
+  opacity: 0.3; }
   .trip-events__msg--hidden {
     display: none; }
 
