@@ -10,8 +10,10 @@ export default class TripEventPointsModel extends ObserverUtils {
     this._tripEvents = [];
   }
 
-  setTripEvents(tripEvents) {
+  setTripEvents(updateType, tripEvents) {
     this._tripEvents = tripEvents.slice();
+
+    this._notify(updateType);
   }
 
   getTripEvents() {

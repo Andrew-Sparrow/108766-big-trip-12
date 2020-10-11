@@ -59,10 +59,13 @@ const tripEventModel = new TripEventPointsModel();
 
 api.getTripEvents()
   .then((tripEventsFromServer) => {
-    tripEventModel.setTripEvents(tripEventsFromServer);
+    tripEventModel.setTripEvents(UpdateTypeForRerender.INIT, tripEventsFromServer);
     // console.log(`--------------------------`);
     // console.log(`adapted TripEvents from server`);
     // console.log(tripEventsFromServer[0]);
+  })
+  .catch(() => {
+    tripEventModel.setTripEvents(UpdateTypeForRerender.INIT, []);
   });
 
 // api.getTripEventsDestinations()
