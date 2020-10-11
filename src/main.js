@@ -56,10 +56,10 @@ const tripEvents = new Array(3).fill().map(generateEvent);
 const api = new Api(END_POINT, AUTHORIZATION);
 
 const tripEventModel = new TripEventPointsModel();
-tripEventModel.setTripEvents(tripEvents);
 
 api.getTripEvents()
   .then((tripEventsFromServer) => {
+    tripEventModel.setTripEvents(tripEventsFromServer);
     // console.log(`--------------------------`);
     // console.log(`adapted TripEvents from server`);
     // console.log(tripEventsFromServer[0]);
