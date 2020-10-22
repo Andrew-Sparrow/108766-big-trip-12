@@ -10,7 +10,8 @@ import Api from "./api.js";
 import {
   MenuItems,
   UpdateTypeForRerender,
-  FilterType
+  FilterType,
+  ADDITIONAL_OFFERS,
 } from "./const.js";
 
 import {
@@ -50,19 +51,31 @@ generateOffersInRoutPoints();
 generateDescriptionsInCities();
 generatePhotosInCities();
 
-const tripEvents = new Array(3).fill().map(generateEvent);
+let tripEvents = new Array(3).fill().map(generateEvent);
 // console.log(tripEvents);
 
 const api = new Api(END_POINT, AUTHORIZATION);
 
 const tripEventModel = new TripEventPointsModel();
 
+export let tripEventOffersFromServer = [];
+
+api.getTripEventsOffers()
+  .then((tripEventsOffersFromServer) => {
+    console.log(`-------------------------`);
+    console.log(`tripEventsOffersFromServer`);
+    tripEventOffersFromServer = tripEventsOffersFromServer;
+    console.log(tripEventOffersFromServer[0]);
+    console.log(`-------------------------`);
+  })
+  .catch((err) => {
+    throw new Error(`${err} - cant't get trip event offers from server`);
+  });
+
+
 api.getTripEvents()
   .then((tripEventsFromServer) => {
     tripEventModel.setTripEvents(UpdateTypeForRerender.INIT, tripEventsFromServer);
-    // console.log(`--------------------------`);
-    // console.log(`adapted TripEvents from server`);
-    // console.log(tripEventsFromServer[0]);
   })
   .catch(() => {
     tripEventModel.setTripEvents(UpdateTypeForRerender.INIT, []);
@@ -73,15 +86,8 @@ api.getTripEvents()
 //     console.log(`--------------------------`);
 //     console.log(`Destinations`);
 //     console.log(tripEventsDestinationsFromServer[0]);
+//     console.log(`--------------------------`);
 //   });
-
-// api.getTripEventsOffers()
-//   .then((tripEventsOffersFromServer) => {
-//     console.log(`-------------------------`);
-//     console.log(`Offers`);
-//     console.log(tripEventsOffersFromServer[0]);
-//   });
-
 
 const filterModel = new FilterModel();
 

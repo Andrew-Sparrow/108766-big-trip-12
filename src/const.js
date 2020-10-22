@@ -28,7 +28,7 @@ export const SortType = {
   DATE_DOWN: `sort-time`
 };
 
-export const ADDITIONAL_OFFERS = [
+export let ADDITIONAL_OFFERS = [
   {
     id: generateId(),
     name: `luggage`,

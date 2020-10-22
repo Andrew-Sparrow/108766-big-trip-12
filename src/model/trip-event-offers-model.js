@@ -34,6 +34,7 @@ export default class TripEventOffersModel extends ObserverUtils {
       ...this._tripEvents.slice(0, index),
       ...this._tripEvents.slice(index + 1)
     ];
+
     this._notify(updateTypeForRerender);
   }
 }

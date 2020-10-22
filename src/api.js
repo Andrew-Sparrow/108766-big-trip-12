@@ -19,7 +19,7 @@ export default class Api {
   getTripEvents() {
     return this._load({url: `points`})
       .then(Api.toJSON)
-      .then((tripEvents) => tripEvents.map(TripEventPointsModel.adaptTripEventForClient));
+      .then((tripEvents) => tripEvents.map(TripEventPointsModel.getAdaptedTripEventForClient));
   }
 
   updateTripEvent(tripEvent) {
@@ -30,7 +30,7 @@ export default class Api {
       headers: new Headers({"Content-Type": `application/json`})
     })
       .then(Api.toJSON())
-      .then(TripEventPointsModel.adaptTripEventForClient);
+      .then(TripEventPointsModel.getAdaptedTripEventForClient);
   }
 
   _load({

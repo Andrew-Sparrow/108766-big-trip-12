@@ -61,7 +61,7 @@ export default class TripEventPointsModel extends ObserverUtils {
     this._notify(updateTypeForRerender);
   }
 
-  static adaptTripEventForClient(tripEventFromServer) {
+  static getAdaptedTripEventForClient(tripEventFromServer) {
     const adaptedDestination = Object.assign(
         {},
         tripEventFromServer.destination,

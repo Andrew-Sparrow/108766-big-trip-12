@@ -173,7 +173,6 @@ export const createEventOffersInEditFormTemplate = (offersFromRoutPointTypes, of
   return (`<section class="event__section  event__section--offers">
               <h3 class="event__section-title  event__section-title--offers">Offers</h3>
               <div class="event__available-offers">
-                  <!--container for available offers-->
                   ${offersBlockInEditForm}
               </div>
             </section>`);
@@ -185,7 +184,6 @@ const createEventPhotoTemplate = (photo) => {
 };
 
 export const getEventItemDestinationInEditFormTemplate = (travelEvent) => {
-
   const {
     destination: {
       photos,
@@ -216,6 +214,12 @@ export const createTripEventItemEditTemplate = (data) => {
     isOffersExist,
     isDescriptionOfDestinationExist
   } = data;
+
+  if (data.id === `0`) {
+    console.log(data);
+    // console.log(ROUTE_POINT_TYPES[routPointTypeGroupName][routPointType.type].offers);
+    // console.log(routPointType.offers);
+  }
 
   const offersFromRoutPointType = ROUTE_POINT_TYPES[routPointTypeGroupName][routPointType.type].offers;
   const offersFromTripEvent = routPointType.offers;
